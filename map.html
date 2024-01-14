@@ -64,10 +64,23 @@
 
         #backButton {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
+            bottom: 20px;
+            left: 20px;
             z-index: 9999;
             font-family: Arial, sans-serif; /* Set Arial font for the back button */
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        #backButton:hover {
+            background-color: #45a049;
         }
     </style>
 
@@ -75,7 +88,7 @@
 
 <body>
     <div id="map"></div>
-    
+
     <!-- Back Button -->
     <a id="backButton" href="/index.html">Back</a>
 
@@ -86,7 +99,7 @@
         if (UnminedCustomMarkers && UnminedCustomMarkers.isEnabled && UnminedCustomMarkers.markers) {
             UnminedMapProperties.markers = UnminedMapProperties.markers.concat(UnminedCustomMarkers.markers);
         }
-        
+
         let unmined = new Unmined();
 
         if (UnminedPlayers && UnminedPlayers.length > 0) {
