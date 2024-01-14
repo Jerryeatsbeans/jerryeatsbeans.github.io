@@ -18,9 +18,10 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             background: url('https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676') no-repeat center center fixed;
             background-size: cover;
             color: #FFFFFF;
@@ -30,6 +31,11 @@
 
         h1 {
             text-shadow: -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black, 1px 1px 1px black;
+            font-size: 36px; /* Adjusted font size */
+        }
+
+        p {
+            font-size: 18px; /* Adjusted font size */
         }
 
         #loading-overlay {
@@ -93,8 +99,9 @@
             background-color: #1a1a1a;
             padding: 10px;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
             color: white;
             position: fixed;
             top: 0;
@@ -105,7 +112,7 @@
 
         #navbar img {
             height: 30px;
-            margin-left: 20px;
+            margin: 10px;
         }
 
         #joinDiscord {
@@ -138,7 +145,7 @@
             }
 
             p {
-                font-size: 23px; /* Adjusted font size */
+                font-size: 16px; /* Adjusted font size */
             }
 
             .button {
@@ -148,7 +155,7 @@
             }
 
             #navbar img {
-                margin-left: 10px;
+                margin: 5px;
             }
         }
     </style>
@@ -169,15 +176,17 @@
     </div>
 
     <div id="container">
-        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br>
         <img src="https://media.discordapp.net/attachments/1194331153746907186/1194454993365909544/IMG_2359.png?ex=65b069e6&is=659df4e6&hm=2fb617914339309fb63281feb188c09e15a2fc34650dcd2dfe8c34e45848556f&=&format=webp&quality=lossless"
             alt="Pointing Image" style="max-width: 100%; height: auto; margin-top: 20px;">
         <h1>A Modded Bedrock SMP with a Story</h1>
+        <p>Join us for an immersive experience in Sunset Grotto</p>
         <a href="https://discord.gg/sunsetgrotto" class="button" id="join-now">Join Discord</a>
         <div class="small-links-container">
-            <a href="https://www.youtube.com/watch?v=EbMP03jkX0s" class="small-link">Save as App<br><br><br></a>
+            <a href="https://www.youtube.com/watch?v=EbMP03jkX0s" class="small-link">Save as App</a>
         </div>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/yModCU1OVHY?si=PLArF53GsuG_uru7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <br><br>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/yModCU1OVHY?si=PLArF53GsuG_uru7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
 
     <script>

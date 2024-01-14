@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,9 +18,9 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            height: 100%;
             background: url('https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676') no-repeat center center fixed;
             background-size: cover;
             color: #FFFFFF;
@@ -28,9 +28,40 @@
             transition: background 1s ease-in-out;
         }
 
-        h1 {
-            text-shadow: -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black, 1px 1px 1px black;
-            white-space: pre-line;
+        #navbar {
+            background-color: #1a1a1a;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            border-bottom: 1px solid #006400;
+        }
+
+        .navbar-button {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media only screen and (max-width: 600px) {
+            #navbar {
+                flex-direction: column;
+            }
+
+            .navbar-button {
+                margin-top: 5px;
+            }
         }
 
         #loading-overlay {
@@ -41,6 +72,7 @@
             height: 100%;
             background: black;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
@@ -70,6 +102,13 @@
             transition: background-color 0.3s ease;
         }
 
+        #view-map,
+        #join-now,
+        #copy-invite,
+        .small-link {
+            color: #FFFFFF;
+        }
+
         #view-map {
             background-color: #006400;
             color: #FFFFFF;
@@ -80,87 +119,19 @@
             color: #006400;
         }
 
-        #copy-invite,
-        .small-link {
-            color: #FFFFFF;
-        }
-
         #copy-invite {
             background-color: #FFFFFF;
             color: #006400;
-        }
-
-        #navbar {
-            background-color: #1a1a1a;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            color: white;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 999;
-            border-bottom: 1px solid #006400;
-        }
-
-        #navbar img {
-            height: 30px;
-            margin-left: 20px;
-        }
-
-        #joinDiscord {
-            text-decoration: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        #joinDiscord:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .navbar-button {
-            padding: 10px;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        @media only screen and (max-width: 600px) {
-            h1 {
-                font-size: 26px;
-            }
-
-            p {
-                font-size: 23px;
-            }
-
-            .button {
-                font-size: 16px;
-                padding: 10px 15px;
-                margin: 5px 2.5px;
-            }
-
-            #navbar img {
-                margin-left: 10px;
-            }
         }
 
         #owner-section {
             text-align: center;
             padding: 20px;
             border-radius: 10px;
-            
             background-image: "https://www.pngmart.com/image/268929";
             margin: 20px;
-            width: 50%;
+            width: 80%;
+            max-width: 600px;
         }
 
         #owner-info {
@@ -171,7 +142,6 @@
             text-align: center;
             padding: 20px;
             border-radius: 10px;
-
         }
 
         #owner-gif {
@@ -198,14 +168,11 @@
     <div id="owner-section">
         <br><br><br><br><br><br><br><br>
         <div id="owner-info">
-            <!-- Owner can provide information about themselves here -->
             <h2>LilBrenBurns</h2>
             <p>Realm Owner</p>
-            <p>Hi everyone! I'm your host, LilBrenBurns. I've owned 3 realms in the past, and look at hosting realms as a hobby of mine. One that I care about deeply. As we progress, you'll probably see more large scale builds from me. Don't expect me to play too much in any of the Sunset Grotto seasons! Think of me as a DM, i want to create a story and flesh it out, with all of you experiencing it and challenging me to improvise on the fly with your choices.</p>
-            <!-- Add more details as needed -->
+            <p>Hi everyone! I'm your host, LilBrenBurns. I've owned 3 realms in the past, and look at hosting realms as a hobby of mine. One that I care about deeply. As we progress, you'll probably see more large scale builds from me. Don't expect me to play too much in any of the Sunset Grotto seasons! Think of me as a DM, I want to create a story and flesh it out, with all of you experiencing it and challenging me to improvise on the fly with your choices.</p>
         </div>
         <div>
-            <!-- Add the GIF of the owner's Minecraft skin here -->
             <img id="owner-gif" src="https://media.discordapp.net/attachments/1056993081498554430/1195946057260073050/image.png?ex=65b5d68f&is=65a3618f&hm=0f4bcc01dcff00d101d69148bbba9e2a081d36cdb720f004df00978ed1c7e7f3&=&format=webp&quality=lossless" alt="Owner's Minecraft Skin">
         </div>
     </div>
@@ -233,12 +200,10 @@
             currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
         }
 
-        // Preload images when the script is loaded
         preloadImages();
 
-        setInterval(changeBackground, 10000); // Change background every 30 seconds
+        setInterval(changeBackground, 10000);
 
-        // Hide loading overlay after 10 seconds
         setTimeout(function () {
             document.getElementById("loading-overlay").style.display = "none";
         }, 100);
