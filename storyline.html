@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://media.discordapp.net/attachments/1194331153746907186/1194454993365909544/IMG_2359.png?ex=65b069e6&is=659df4e6&hm=2fb617914339309fb63281feb188c09e15a2fc34650dcd2dfe8c34e45848556f&=&format=webp&quality=lossless" />
+    <link rel="apple-touch-icon" sizes="72x72" href="https://media.discordapp.net/attachments/1194331153746907186/1194454993365909544/IMG_2359.png?ex=65b069e6&is=659df4e6&hm=2fb617914339309fb63281feb188c09e15a2fc34650dcd2dfe8c34e45848556f&=&format=webp&quality=lossless" />
+    <link rel="apple-touch-icon" sizes="114x114" href="https://media.discordapp.net/attachments/1194331153746907186/1194454993365909544/IMG_2359.png?ex=65b069e6&is=659df4e6&hm=2fb617914339309fb63281feb188c09e15a2fc34650dcd2dfe8c34e45848556f&=&format=webp&quality=lossless" />
+    <link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1194331153746907186/1194454993365909544/IMG_2359.png?ex=65b069e6&is=659df4e6&hm=2fb617914339309fb63281feb188c09e15a2fc34650dcd2dfe8c34e45848556f&=&format=webp&quality=lossless">
+    <title>Sunset Grotto</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
+        integrity="sha256-jckPZk66EJrEBQXnJ5QC2bD+GxWPDRVVoMGr5vrMZvM=" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFFFFF;
+            font-family: 'Arial', sans-serif;
+            transition: background 1s ease-in-out;
+        }
+
+        h1 {
+            text-shadow: -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black, 1px 1px 1px black;
+            white-space: pre-line;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            z-index: 9999;
+        }
+
+        #loading-overlay img {
+            width: 50px;
+            height: 50px;
+        }
+
+        #container {
+            text-align: center;
+            z-index: 1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            margin: 10px 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #view-map {
+            background-color: #006400;
+            color: #FFFFFF;
+        }
+
+        #join-now {
+            background-color: #FFFFFF;
+            color: #006400;
+        }
+
+        #copy-invite,
+        .small-link {
+            color: #FFFFFF;
+        }
+
+        #copy-invite {
+            background-color: #FFFFFF;
+            color: #006400;
+        }
+
+        #navbar {
+            background-color: #1a1a1a;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            border-bottom: 1px solid #006400;
+        }
+
+        #navbar img {
+            height: 30px;
+            margin-left: 20px;
+        }
+
+        #joinDiscord {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #joinDiscord:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar-button {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 26px;
+            }
+
+            p {
+                font-size: 23px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 10px 15px;
+                margin: 5px 2.5px;
+            }
+
+            #navbar img {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar">
+        <a href="/index.html" class="navbar-button">Home</a>
+        <a href="/storyline.html" class="navbar-button">Storyline</a>
+        <a href="#" class="navbar-button">Staff</a>
+        <a href="#" class="navbar-button">World Map</a>
+        <a href="https://discord.gg/fk6Vw7hJ7F" id="joinDiscord" class="navbar-button">Instagram</a>
+    </div>
+
+    <div id="loading-overlay">
+        <p>Loading, this may take up to 30 seconds ‎ ‎   ‎ </p>
+        <img src="https://cdn.discordapp.com/attachments/1056993081498554430/1192274745887031306/Rolling-1.1s-141px.gif?ex=65a87b62&is=65960662&hm=3696ccb9af7f820d4f358d5d60991fb5d267d640246adb2633cd1c989f8756b7" alt="Loading GIF">
+    </div>
+
+    <div id="container"> 
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <h1>After making your presence known in The Grotto, and the lands around it; you venture off to develop a home of your own in the vastness of biomes surrounding the world. Though, the Crystal of Harmony is always in earshot from you.
+
+            You've learned you're not the only person to stumble across Sunset Grotto. A slew of outsiders like you; all of different origins and with unique characteristics also arrived, around the same time as you. They also make their homes around the villages land- but the question begs; what brought you all here? A central force? 
+
+            Some time later a group of adventurers - who you know as Dark, who's rumored to have lived three lives; Bee-Kay, a fox fairy native to these lands; and Galaxy, a uniquely named Feline who tends a farm - all met in The Grotto at the cusp of the Riftgate. 
+
+            Rumors were told that they had corruption in their minds, forcing them to sacrifice their souls to an unknown entity that haunts The Grotto. They took an offering of diamonds with them, empowering three of the four runic generators that power the Riftgate- the fourth glowing weak but lusting for power. As a result of this, they were rewarded. The Riftgate materialized a Crystal of Corruption- an item so strong in power that it can change the attuned force of a Crystal of Power drastically. They also received the biological strain of a phantom's wing, allowing them to attach it to oneself and fly.
+
+            Their craving to power this fourth rune lead them to a crimson basement hidden in The Grotto, under the spruce woodworking house. It was riddled with guts and viscera of horrific creatures. Pig heads morphed with a humans- zombies, and intestines of unknown origin hanging from the ceiling. The sight was less than pleasant but had no effect on these adventurers' sanity; except for Dark who was seen fleeing the scene at the sight, while the other two continued on. 
+
+            In this basement, the two remaining adventurers - Bee-Kay and Galaxy, unleashed a demon of magnificent power; Soo-pur Due-pa.  Once a whisper only in their minds- now a voice booming off the caverns and ridges of The Grotto to be heard by all. 
+
+            Something was left out... Before Dark left the scene, it was reported that he sacrificed the Crystal of Corruption to the basement altar that Soo-pur Due-pa was held in. He received a chest plate forged of demonic material; netherite. What are Dark's true intentions?
+
+            Soo-pur Due-pa warned The Grotto of the oncoming Blood Moon, and just at that moment, the sky turned to a deep red- reminding all beings of this realm the horrors these three adventurers unleashed.
+        </h1>
+    </div>
+
+    <script>
+        var backgrounds = [
+            'https://media.discordapp.net/attachments/1194331153746907186/1194861636167680160/00CDEA78-91C3-4191-84E9-39FA1DC2C062.png?ex=65b1e49d&is=659f6f9d&hm=321f6b04fd9ef6622dfcbf86bd1190775943d6fdfda60e959c4840f17c8b12dc&=&format=webp&quality=lossless&width=1202&height=676',
+            'https://media.discordapp.net/attachments/1194331153746907186/1194861636620669008/A8DC273E-7DCA-4A29-B7C5-0B12A9DA3A5F.png?ex=65b1e49d&is=659f6f9d&hm=93fac2eeaee19ff92ca61a2a2f445e92522362f5e1b29f9a281cc85bf9b13872&=&format=webp&quality=lossless&width=1202&height=676',
+            'https://media.discordapp.net/attachments/1194331153746907186/1194861637157535754/AAC80B57-E04B-42CA-9314-E241A4B7A1C9.png?ex=65b1e49d&is=659f6f9d&hm=b0dd7f8defa753a89901fb002f03251d14d9502c627549c831d10d0214089346&=&format=webp&quality=lossless&width=1202&height=676',
+            'https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676',
+            'https://media.discordapp.net/attachments/1194331153746907186/1194861638105452554/5B82B1D8-B243-4226-989C-AC5078B96FDF.png?ex=65b1e49d&is=659f6f9d&hm=3f5353fa2da3ebc376e93f491edf6d2a108a11f24c5c0f27c2a6f40baf03f36b&=&format=webp&quality=lossless&width=1202&height=676'
+        ];
+
+        var currentBackgroundIndex = 0;
+
+        function preloadImages() {
+            for (var i = 0; i < backgrounds.length; i++) {
+                var img = new Image();
+                img.src = backgrounds[i];
+            }
+        }
+
+        function changeBackground() {
+            document.body.style.backgroundImage = 'url(' + backgrounds[currentBackgroundIndex] + ')';
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+        }
+
+        // Preload images when the script is loaded
+        preloadImages();
+
+        setInterval(changeBackground, 10000); // Change background every 30 seconds
+
+        // Hide loading overlay after 10 seconds
+        setTimeout(function () {
+            document.getElementById("loading-overlay").style.display = "none";
+        }, 100);
+    </script>
+
+    <script>
+        document.getElementById('copy-invite').addEventListener('click', function () {
+            var tempInput = document.createElement('input');
+            tempInput.value = 'https://realmcenter.github.io/invite.html';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Success! Go to Discord and paste the link to share.');
+        });
+    </script>
+</body>
+
+</html>
