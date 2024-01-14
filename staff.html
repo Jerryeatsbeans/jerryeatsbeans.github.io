@@ -14,55 +14,58 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
         integrity="sha256-jckPZk66EJrEBQXnJ5QC2bD+GxWPDRVVoMGr5vrMZvM=" crossorigin="anonymous">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            background: url('https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676') no-repeat center center fixed;
-            background-size: cover;
-            color: #FFFFFF;
-            font-family: 'Arial', sans-serif;
-            transition: background 1s ease-in-out;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Set minimum height to cover the viewport */
+    background: url('https://media.discordapp.net/attachments/1194331153746907186/1194861637660835941/8E66BE17-E7DD-4A88-AD60-682465F5110B.png?ex=65b1e49d&is=659f6f9d&hm=0122845c09853b771853db3cd732f82af657ea89f77fdc3765003de2da585cc2&=&format=webp&quality=lossless&width=1202&height=676') no-repeat center center fixed;
+    background-size: cover;
+    color: #FFFFFF;
+    font-family: 'Arial', sans-serif;
+    transition: background 1s ease-in-out;
+}
 
-        #navbar {
-            background-color: #1a1a1a;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            color: white;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 999;
-            border-bottom: 1px solid #006400;
-        }
+#navbar {
+    background-color: #1a1a1a;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    border-bottom: 1px solid #006400;
+}
 
-        .navbar-button {
-            padding: 10px;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+.navbar-button {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
 
-        .navbar-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
+.navbar-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
 
-        @media only screen and (max-width: 600px) {
-            #navbar {
-                flex-direction: column;
-            }
+@media only screen and (max-width: 600px) {
+    #navbar {
+        flex-direction: row; /* Change flex direction to horizontal on smaller devices */
+        flex-wrap: nowrap; /* Prevent buttons from wrapping to the next line */
+    }
 
-            .navbar-button {
-                margin-top: 5px;
-            }
-        }
+    .navbar-button {
+        margin-right: 5px; /* Add margin between buttons on smaller devices */
+        margin-top: 0;
+    }
+}
+
 
         #loading-overlay {
             position: fixed;
@@ -143,6 +146,11 @@
             padding: 20px;
             border-radius: 10px;
         }
+        @media only screen and (max-width: 600px) {
+    .navbar-button {
+        margin-top: 0; /* Adjust this value as needed */
+    }
+}
 
         #owner-gif {
             margin-top: 10px;
