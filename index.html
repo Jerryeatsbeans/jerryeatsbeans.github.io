@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio</title>
+    <title>Jerryeatsbeans</title>
     <style>
         body {
             margin: 0;
@@ -14,6 +14,7 @@
             align-items: center;
             height: 100vh;
             color: white;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
         }
 
         .container {
@@ -44,6 +45,30 @@
             height: 250px;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            color: black;
+            text-shadow: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            text-align: center;
         }
 
         /* Mobile Responsive Styles */
@@ -60,6 +85,14 @@
                 width: 120px;
                 height: 200px;
             }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -75,6 +108,14 @@
                 width: 100px;
                 height: 180px;
             }
+
+            .card-title {
+                font-size: 0.9rem;
+            }
+
+            .card-description {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -83,9 +124,18 @@
         <h1 class="title">Jerryeatsbeans</h1>
         <h2 class="subtitle" id="subtitle">Randomized text will appear here</h2>
         <div class="card-container">
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
+            <div class="card">
+                <div class="card-title">Project 1</div>
+                <div class="card-description">Description of Project 1 goes here. It's a fantastic project that does wonderful things.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Project 2</div>
+                <div class="card-description">Description of Project 2 goes here. This project solves important problems and is very innovative.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Project 3</div>
+                <div class="card-description">Description of Project 3 goes here. An amazing project that showcases great skills and creativity.</div>
+            </div>
         </div>
     </div>
     <script>
