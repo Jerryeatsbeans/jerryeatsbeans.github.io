@@ -1,73 +1,107 @@
 <!DOCTYPE html>
-<header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6eb6, #ffd56e);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-</header>
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+        }
 
+        .title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content {
+            text-align: left;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
 <body>
-    <h1>Dungeons and Dragons Club</h1>
- 
-   
-    <p>In Dungeons and Dragons club, you will find a world of adventure, mystery, and fun awaiting you! Roleplay as made up heroes and embark on daring quests run by your Dungeonmaster. You can play existing campaigns or create your own, we meet every Thursday in Mrs. Harris's room, join today!</p>
-    <div class="vertical-center"> <a href="/photos.html">
+    <div class="container">
+        <h1 class="title">About Me</h1>
+        <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
+        <h2 class="subtitle" id="subtitle">Randomized text will appear here</h2>
+        <div class="content">
+            <p>Hi, I'm Jerry! I'm a passionate software developer with a love for coding and technology. I specialize in web development, creating dynamic and responsive websites that provide an excellent user experience. When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and continually learning to improve my skills.</p>
+            <p>I graduated with a degree in Computer Science and have been working in the tech industry for over 5 years. My expertise includes HTML, CSS, JavaScript, React, Node.js, and more. I'm always excited to take on new challenges and collaborate with others on innovative projects.</p>
+            <p>Feel free to reach out to me if you'd like to connect or work together on a project!</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const subtitles = [
+                "Innovative Developer",
+                "Creative Problem Solver",
+                "Tech Enthusiast",
+                "Coding Ninja",
+                "Software Engineer Extraordinaire"
+            ];
 
-    <button class="button button2">Photos</button>
-    </a>
-    <a href="mailto:jeremiah.johnson@stu.anderson.kyschools.us">
-    <button class="button button2">Contact</button>
-</a>
-    <a href="https://www.dndbeyond.com/my-dice">
-    <button class="button button2">Dice Roller</button>
-</a>
-    <a href="https://www.fantasynamegenerators.com/">
-    <button class="button button2">Character Name picker</button>
-    </a>
-</div>
+            const randomIndex = Math.floor(Math.random() * subtitles.length);
+            document.getElementById("subtitle").innerText = subtitles[randomIndex];
+        });
+    </script>
 </body>
-
-<style>
-    .container {
-  height: 200px;
-  position: relative;
-  border: 3px solid green;
-}
-
-.vertical-center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-    .button {
-  background-color: #941212; 
-  border: none;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  text-align: center;
-}
-  .button2 {border-radius: 4px;}
-
-    h1 {
-        font-family: fantasy;
-        color: red;
-        text-align: center;
-        font-size: 50px;
-    }
-
-    p {
-        font-family: Arial, Helvetica, sans-serif;
-        color: white;
-        text-align: center;
-        font-size: 30px;
-    }
-
-    body {
-        background-color: rgb(37, 37, 37);
-    }
-</style>
+</html>
