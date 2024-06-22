@@ -3,84 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jerryeatsbeans</title>
+    <title>Developer Portfolio</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ff51b1, #ffd07e);
+            background: linear-gradient(135deg, #ff6eb6, #ffd56e);
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             color: white;
         }
+
         .container {
             text-align: center;
+            width: 90%;
+            max-width: 1200px;
         }
-        h1 {
-            margin: 0;
-            font-size: 4em;
+
+        .title {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
         }
-        p {
-            margin: 0;
-            font-size: 1.5em;
-            margin-bottom: 2em;
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1em;
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
+
         .card {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 1em;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .card button {
+            width: 150px;
+            height: 250px;
             background: rgba(255, 255, 255, 0.3);
-            border: none;
-            padding: 0.5em 1em;
-            border-radius: 5px;
-            color: white;
-            font-size: 1em;
-            margin-top: 0.5em;
-            cursor: pointer;
+            border-radius: 15px;
         }
-        .card button:hover {
-            background: rgba(255, 255, 255, 0.5);
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .card {
+                width: 120px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .card {
+                width: 100px;
+                height: 180px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Jerryeatsbeans.</h1>
-        <p>without a rhythm or a rhyme, you do not banana all de time</p>
-        <div class="grid">
-            <div class="card">
-                <img src="https://cdn.discordapp.com/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=666ded9b&is=666c9c1b&hm=d4dc44e69f417bc14aad9df2dd64b13c29f67e01c88d130581ca75852d5d2714&" alt="Image 1">
-                <button>Realmcenter.org</button>
-            </div>
-            <div class="card">
-                <img src="https://cdn.discordapp.com/attachments/1056993081498554430/1251414770867896370/2BC2FE12-6723-440B-944D-9519FA1C197A.png?ex=666e7e53&is=666d2cd3&hm=2a80327f5a33e213c8304f3422a54f88dd49d0d615972247a71f16c1efa6342b&" alt="Image 2">
-                <button>Fell Knight Boss</button>
-            </div>
-            <div class="card">
-                <img src="https://cdn.discordapp.com/attachments/1056993081498554430/1251416223791710300/77A1771C-F2B8-4DF1-8268-7F70F997A3AD.png?ex=666e7fad&is=666d2e2d&hm=8831869a44100c674e2549010fe74559f889c0564115247917a30398a4cb8266&" alt="Image 3">
-                <button>Diplomacy</button>
-            </div>
-            <div class="card">
-                <img src="image4.jpg" alt="Image 4">
-                <button>View</button>
-            </div>
+        <h1 class="title">Jerryeatsbeans</h1>
+        <h2 class="subtitle" id="subtitle">Randomized text will appear here</h2>
+        <div class="card-container">
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const subtitles = [
+                "Innovative Developer",
+                "Creative Problem Solver",
+                "Tech Enthusiast",
+                "Coding Ninja",
+                "Software Engineer Extraordinaire"
+            ];
+
+            const randomIndex = Math.floor(Math.random() * subtitles.length);
+            document.getElementById("subtitle").innerText = subtitles[randomIndex];
+        });
+    </script>
 </body>
 </html>
