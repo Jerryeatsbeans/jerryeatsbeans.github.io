@@ -54,6 +54,7 @@
             text-shadow: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
+            text-decoration: none;
         }
 
         .card:hover {
@@ -69,6 +70,14 @@
         .card-description {
             font-size: 1rem;
             text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .card img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
         }
 
         /* Mobile Responsive Styles */
@@ -93,6 +102,11 @@
             .card-description {
                 font-size: 0.9rem;
             }
+
+            .card img {
+                width: 40px;
+                height: 40px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -116,6 +130,11 @@
             .card-description {
                 font-size: 0.8rem;
             }
+
+            .card img {
+                width: 30px;
+                height: 30px;
+            }
         }
     </style>
 </head>
@@ -124,18 +143,26 @@
         <h1 class="title">Jerryeatsbeans</h1>
         <h2 class="subtitle" id="subtitle">Randomized text will appear here</h2>
         <div class="card-container">
-            <div class="card">
-                <div class="card-title">Project 1</div>
-                <div class="card-description">Description of Project 1 goes here. It's a fantastic project that does wonderful things.</div>
-            </div>
-            <div class="card">
+            <a href="https://realmcenter.org" target="_blank" class="card">
+                <img src="https://cdn.discordapp.com/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=6677d0db&is=66767f5b&hm=fe9c31d195da6dc19b796e0bf7934eaf8b951f5e205cb815f90bbbfefbf713c7&" alt="Project 1 Image">
+                <div class="card-title">Realmcenter</div>
+                <div class="card-description">A free to use website for sharing Minecraft: Bedrock Edition Realms</div>
+            </a>
+            <a href="https://www.google.com" target="_blank" class="card">
+                <img src="https://via.placeholder.com/50" alt="Project 2 Image">
                 <div class="card-title">Project 2</div>
-                <div class="card-description">Description of Project 2 goes here. This project solves important problems and is very innovative.</div>
-            </div>
-            <div class="card">
+                <div class="card-description">Description of Project 2 goes here.</div>
+            </a>
+            <a href="https://www.google.com" target="_blank" class="card">
+                <img src="https://via.placeholder.com/50" alt="Project 3 Image">
                 <div class="card-title">Project 3</div>
-                <div class="card-description">Description of Project 3 goes here. An amazing project that showcases great skills and creativity.</div>
-            </div>
+                <div class="card-description">Description of Project 3 goes here.</div>
+            </a>
+            <a href="https://www.google.com" target="_blank" class="card">
+                <img src="https://via.placeholder.com/50" alt="Project 4 Image">
+                <div class="card-title">Project 4</div>
+                <div class="card-description">Description of Project 4 goes here.</div>
+            </a>
         </div>
     </div>
     <script>
