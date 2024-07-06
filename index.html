@@ -16,12 +16,15 @@
             height: 100vh;
             color: white;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
 
         .container {
             text-align: center;
             width: 90%;
             max-width: 1200px;
+            position: relative;
+            z-index: 1;
         }
 
         .profile-pic {
@@ -90,6 +93,26 @@
             border-radius: 5px;
         }
 
+        .ball {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             .title {
@@ -146,7 +169,7 @@
                 height: 30px;
             }
         }
-        
+
     </style>
 </head>
 <body>
@@ -177,6 +200,7 @@
             </a>
         </div>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const subtitles = [
@@ -199,7 +223,25 @@
             document.getElementById("subtitle").innerText = subtitles[randomIndex];
         });
 
-    
+        function createFloatingBalls() {
+            const numberOfBalls = 20;
+            const container = document.body;
+
+            for (let i = 0; i < numberOfBalls; i++) {
+                const ball = document.createElement("div");
+                ball.classList.add("ball");
+                const size = Math.random() * 20 + 10;
+                ball.style.width = `${size}px`;
+                ball.style.height = `${size}px`;
+                ball.style.top = `${Math.random() * 100}vh`;
+                ball.style.left = `${Math.random() * 100}vw`;
+                ball.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                ball.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(ball);
+            }
+        }
+
+        createFloatingBalls();
     </script>
 </body>
 </html>
