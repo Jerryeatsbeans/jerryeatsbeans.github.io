@@ -16,7 +16,28 @@
             height: 100vh;
             color: white;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+            overflow: auto; /* Allow scrolling */
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: white;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e0e0e0;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
         }
 
         .container {
@@ -235,6 +256,7 @@
                 ball.style.height = `${size}px`;
                 ball.style.top = `${Math.random() * 100}vh`;
                 ball.style.left = `${Math.random() * 100}vw`;
+
                 ball.style.animationDuration = `${Math.random() * 5 + 5}s`;
                 ball.style.animationDelay = `${Math.random() * 2}s`;
                 container.appendChild(ball);
