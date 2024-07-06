@@ -6,7 +6,7 @@
     <title>Jerry!</title>
     <link rel="icon" href="pfp.webp" type="image/webp">
     <style>
-        body {
+     body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff6eb6, #ffd56e);
@@ -18,6 +18,17 @@
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
     overflow: auto; /* Allow scrolling */
 }
+
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 50px; /* Space between content and gallery */
+    padding-top: 20px; /* Add space at the top */
+}
+
 
 
         ::-webkit-scrollbar {
@@ -41,14 +52,7 @@
             background: transparent;
         }
 
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 1200px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 50px; /* Space between content and gallery */
-        }
+      
 
         .profile-pic {
             width: 100px;
