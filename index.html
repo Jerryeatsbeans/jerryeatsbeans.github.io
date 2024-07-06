@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #ff6eb6, #ffd56e);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             color: white;
@@ -46,6 +46,7 @@
             max-width: 1200px;
             position: relative;
             z-index: 1;
+            margin-bottom: 50px; /* Space between content and gallery */
         }
 
         .profile-pic {
@@ -190,29 +191,32 @@
                 height: 30px;
             }
         }
-.gallery {
-  --s: 150px; /* control the size */
-  display: grid;
-  grid: auto-flow var(--s) / repeat(2,var(--s));
-  gap: 10px;
-  place-items: center;
-  margin: calc(var(--s)/2);
-  transform: rotate(45deg);
-}
-.gallery > img {
-  width: 141%; /* sqrt(2)*100% */
-  aspect-ratio: 1;
-  object-fit: cover;
-  filter: grayscale(80%);
-  transform: scale(var(--_t,1)) rotate(-45deg);
-  clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-  cursor: pointer;
-  transition: .2s linear;
-}
-.gallery > img:hover {
-  filter: grayscale(0);
-  --_t: 1.15;
-}
+
+        .gallery {
+            --s: 150px; /* control the size */
+            display: grid;
+            grid: auto-flow var(--s) / repeat(2, var(--s));
+            gap: 10px;
+            place-items: center;
+            margin: calc(var(--s) / 2);
+            transform: rotate(45deg);
+        }
+
+        .gallery > img {
+            width: 141%; /* sqrt(2)*100% */
+            aspect-ratio: 1;
+            object-fit: cover;
+            filter: grayscale(80%);
+            transform: scale(var(--_t, 1)) rotate(-45deg);
+            clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+            cursor: pointer;
+            transition: .2s linear;
+        }
+
+        .gallery > img:hover {
+            filter: grayscale(0);
+            --_t: 1.15;
+        }
     </style>
 </head>
 <body>
@@ -244,13 +248,12 @@
         </div>
     </div>
 
-   <div class="gallery">
-  <img src="https://picsum.photos/id/1040/300/300" alt="a house on a mountain">
-  <img src="https://picsum.photos/id/106/300/300" alt="sime pink flowers">
-  <img src="https://picsum.photos/id/136/300/300" alt="big rocks with some trees">
-  <img src="https://picsum.photos/id/110/300/300" alt="a cool landscape">
-</div>
-
+    <div class="gallery">
+        <img src="https://picsum.photos/id/1040/300/300" alt="a house on a mountain">
+        <img src="https://picsum.photos/id/106/300/300" alt="some pink flowers">
+        <img src="https://picsum.photos/id/136/300/300" alt="big rocks with some trees">
+        <img src="https://picsum.photos/id/110/300/300" alt="a cool landscape">
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
