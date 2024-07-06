@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jerry!</title>
+    <link rel="icon" href="pfp.webp" type="image/webp">
     <style>
         body {
             margin: 0;
@@ -21,6 +22,15 @@
             text-align: center;
             width: 90%;
             max-width: 1200px;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin: 0 auto 20px;
+            background: url('pfp.webp') center/cover no-repeat;
         }
 
         .title {
@@ -140,22 +150,23 @@
 </head>
 <body>
     <div class="container">
+        <div class="profile-pic"></div>
         <h1 class="title">Jerryeatsbeans</h1>
         <h2 class="subtitle" id="subtitle">Loading</h2>
         <div class="card-container">
             <a href="https://realmcenter.org" target="_blank" class="card">
-                <img src=rc.webp alt="RC logo">
+                <img src="rc.webp" alt="RC logo">
                 <div class="card-title">Realmcenter</div>
                 <div class="card-description">A free to use website for sharing Minecraft: Bedrock Edition Realms 💫</div>
             </a>
             <a href="https://mcpedl.com/user/Jerryeatsbeans/" target="_blank" class="card">
-                <img src=fk.webp alt="Jerry pfp old">
-                <div class="card-title">Minecraft Addons</div>
-                <div class="card-description">My MCPEDL page, a collection of all my works in the addon scene 📖</div>
+                <img src="fk.webp" alt="Jerry pfp old">
+                <div class="card-title">Modding</div>
+                <div class="card-description">My MCPEDL page, a collection of all my works in the MC addon scene 📖</div>
             </a>
             <a href="https://discord.gg/EP5JJzavw4" target="_blank" class="card">
                 <img src="https://cdn.discordapp.com/icons/1202257363747213343/b17b006b391b40943d92f4d9e30a6c19.webp?size=64" alt="Project 3 Image">
-                <div class="card-title">Diplomacy Game</div>
+                <div class="card-title">Diplomacy</div>
                 <div class="card-description">A strategy game combining elements of Rust and Clash of Clans ⚔️</div>
             </a>
             <a href="https://www.instagram.com/jerryeatsbeans?igsh=MWlidm9vcGVhbXFrZg%3D%3D&utm_source=qr" target="_blank" class="card">
@@ -176,12 +187,11 @@
                 "Signed, yours truly, The Whale 🐋",
                 "Staging Music Murder 🔪",
                 "Bye, Hi, Sigh Hawaii 🛩️",
-            "Do you like how I dance? 🪩",
-            "Big bad Betty of the apocalypse 💣",
-            "I've been training like a pavlov dog 🐕",
-            "Tonight we dance around de flame 🔥",
-            "Shake de thunder from de spirit cloud 🌩️"
-                
+                "Do you like how I dance? 🪩",
+                "Big bad Betty of the apocalypse 💣",
+                "I've been training like a pavlov dog 🐕",
+                "Tonight we dance around de flame 🔥",
+                "Shake de thunder from de spirit cloud 🌩️"
             ];
 
             const randomIndex = Math.floor(Math.random() * subtitles.length);
