@@ -23,18 +23,15 @@
             min-height: 100vh; /* Ensure the gradient covers the full viewport height */
         }
 
-.container {
-    text-align: center;
-    width: 90%;
-    max-width: 1200px;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 50px; /* Space between content and gallery */
-    padding-top: 60px; /* Add more space at the top */
-}
-
-
-
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 50px; /* Space between content and gallery */
+            padding-top: 60px; /* Add more space at the top */
+        }
 
         ::-webkit-scrollbar {
             width: 10px;
@@ -57,8 +54,6 @@
             background: transparent;
         }
 
-      
-
         .profile-pic {
             width: 100px;
             height: 100px;
@@ -71,6 +66,7 @@
         .title {
             font-size: 3rem;
             margin-bottom: 0.5rem;
+            cursor: pointer;
         }
 
         .subtitle {
@@ -201,38 +197,12 @@
                 height: 30px;
             }
         }
-
-        .gallery {
-            --s: 150px; /* control the size */
-            display: grid;
-            grid: auto-flow var(--s) / repeat(2, var(--s));
-            gap: 10px;
-            place-items: center;
-            margin: calc(var(--s) / 2);
-            transform: rotate(45deg);
-        }
-
-        .gallery > img {
-            width: 141%; /* sqrt(2)*100% */
-            aspect-ratio: 1;
-            object-fit: cover;
-            filter: grayscale(80%);
-            transform: scale(var(--_t, 1)) rotate(-45deg);
-            clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-            cursor: pointer;
-            transition: .2s linear;
-        }
-
-        .gallery > img:hover {
-            filter: grayscale(0);
-            --_t: 1.15;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="profile-pic"></div>
-        <h1 class="title">Jerryeatsbeans</h1>
+        <h1 class="title" id="main-title">Jerryeatsbeans</h1>
         <h2 class="subtitle" id="subtitle">Loading</h2>
         <div class="card-container">
             <a href="https://realmcenter.org" target="_blank" class="card">
@@ -258,13 +228,6 @@
         </div>
     </div>
 
-    <div class="gallery">
-        <img src="https://cdn.discordapp.com/attachments/1056993081498554430/1259053741383090258/IMG_5527.png?ex=668a48ac&is=6688f72c&hm=09a9f269ff3ea3c38f941f74024713ed4459dbcaaf8f56ba1fe24f10383e6d49&" alt="a house on a mountain">
-        <img src="https://media.discordapp.net/attachments/1056993081498554430/1259054884158701659/IMG_3443.jpg?ex=668a49bc&is=6688f83c&hm=260d997523b1bca30d833cde86632c6ffb94348b757058170696721dfcc4a810&=&format=webp&width=377&height=670" alt="some pink flowers">
-        <img src="https://media.discordapp.net/attachments/1056993081498554430/1259054883911368704/IMG_4048.jpg?ex=668a49bc&is=6688f83c&hm=6f50f34ed23add3c6a4b6b884314989928b9a9d72a95a7f67b6ceeca7dbeacb7&=&format=webp&width=377&height=670" alt="big rocks with some trees">
-        <img src="https://cdn.discordapp.com/attachments/1056993081498554430/1259053741743542334/IMG_5528.png?ex=668a48ac&is=6688f72c&hm=72d74155ca77454eae776d9a6a29c62544187df383201777040421a319e6fb15&" alt="a cool landscape">
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const subtitles = [
@@ -285,6 +248,10 @@
 
             const randomIndex = Math.floor(Math.random() * subtitles.length);
             document.getElementById("subtitle").innerText = subtitles[randomIndex];
+
+            document.getElementById("main-title").addEventListener("click", function() {
+                window.location.href = "/map.html";
+            });
         });
 
         function createFloatingBalls() {
