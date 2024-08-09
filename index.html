@@ -20,11 +20,41 @@
             overflow: auto;
         }
 
+        .navbar {
+            position: fixed;
+            top: 20px;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: black;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff6eb6;
+        }
+
         .container {
             text-align: center;
             width: 90%;
             max-width: 1200px;
-            padding-top: 60px;
+            padding-top: 100px; /* Add padding to avoid overlap with the navbar */
             margin-bottom: 50px;
         }
 
@@ -40,7 +70,6 @@
         .title {
             font-size: 3rem;
             margin-bottom: 0.5rem;
-            cursor: pointer;
         }
 
         .subtitle {
@@ -153,9 +182,15 @@
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="#contact">Contact</a>
+        <a href="#home">Home</a>
+        <a href="#blog">Blog</a>
+    </div>
+
     <div class="container">
         <div class="profile-pic"></div>
-        <h1 class="title" id="main-title">Jerryeatsbeans</h1>
+        <h1 class="title">Jerryeatsbeans</h1>
         <h2 class="subtitle" id="subtitle"></h2>
         <div class="card-container">
             <a href="https://realmcenter.org" target="_blank" class="card">
@@ -201,10 +236,6 @@
 
             const randomIndex = Math.floor(Math.random() * subtitles.length);
             document.getElementById("subtitle").innerText = subtitles[randomIndex];
-
-            document.getElementById("main-title").addEventListener("click", function() {
-                window.location.href = "/map.html";
-            });
         });
     </script>
 </body>
