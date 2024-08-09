@@ -6,56 +6,52 @@
     <title>Jerry!</title>
     <link rel="icon" href="pfp.webp" type="image/webp">
     <style>
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #ff6eb6, #ffd56e);
             color: white;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            overflow: auto; /* Allow scrolling */
+        }
+
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow: auto;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 20px;
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .navbar a {
-            color: black;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .navbar a:hover {
-            background: rgba(255, 255, 255, 0.9);
-            color: #ff6eb6;
+            min-height: 100vh; /* Ensure the gradient covers the full viewport height */
         }
 
         .container {
             text-align: center;
             width: 90%;
             max-width: 1200px;
-            padding-top: 100px; /* Add padding to avoid overlap with the navbar */
-            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 50px; /* Space between content and gallery */
+            padding-top: 60px; /* Add more space at the top */
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: white;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e0e0e0;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
         }
 
         .profile-pic {
@@ -63,13 +59,14 @@
             height: 100px;
             border-radius: 50%;
             border: 2px solid white;
-            margin-bottom: 20px;
+            margin: 0 auto 20px;
             background: url('pfp.webp') center/cover no-repeat;
         }
 
         .title {
             font-size: 3rem;
             margin-bottom: 0.5rem;
+            cursor: default; /* Makes the text non-clickable */
         }
 
         .subtitle {
@@ -124,6 +121,57 @@
             border-radius: 5px;
         }
 
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: black;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .ball {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             .title {
                 font-size: 2.5rem;
@@ -149,6 +197,11 @@
             .card img {
                 width: 40px;
                 height: 40px;
+            }
+
+            .navbar a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
             }
         }
 
@@ -178,6 +231,11 @@
                 width: 30px;
                 height: 30px;
             }
+
+            .navbar a {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -190,13 +248,13 @@
 
     <div class="container">
         <div class="profile-pic"></div>
-        <h1 class="title">Jerryeatsbeans</h1>
-        <h2 class="subtitle" id="subtitle"></h2>
+        <h1 class="title" id="main-title">Jerryeatsbeans</h1>
+        <h2 class="subtitle" id="subtitle">Loading</h2>
         <div class="card-container">
             <a href="https://realmcenter.org" target="_blank" class="card">
                 <img src="rc.webp" alt="RC logo">
                 <div class="card-title">Realmcenter</div>
-                <div class="card-description">A free website for sharing Minecraft: Bedrock Edition Realms 💫</div>
+                <div class="card-description">A free to use website for sharing Minecraft: Bedrock Edition Realms 💫</div>
             </a>
             <a href="https://mcpedl.com/user/Jerryeatsbeans/" target="_blank" class="card">
                 <img src="fk.webp" alt="Jerry pfp old">
@@ -211,7 +269,7 @@
             <a href="https://www.instagram.com/jerryeatsbeans?igsh=MWlidm9vcGVhbXFrZg%3D%3D&utm_source=qr" target="_blank" class="card">
                 <img src="https://i1.wp.com/globalinfusion.org/wp-content/uploads/2018/01/ig-logo-email.png?resize=1024%2C1024&ssl=1" alt="Project 4 Image">
                 <div class="card-title">Instagram</div>
-                <div class="card-description">I'm a musician, gamer, poet, collector, and archer! See more here 😎</div>
+                <div class="card-description">I'm a musician, gamer, poet, collector and archer! See more here 😎</div>
             </a>
         </div>
     </div>
@@ -237,6 +295,27 @@
             const randomIndex = Math.floor(Math.random() * subtitles.length);
             document.getElementById("subtitle").innerText = subtitles[randomIndex];
         });
+
+        function createFloatingBalls() {
+            const numberOfBalls = 20;
+            const container = document.body;
+
+            for (let i = 0; i < numberOfBalls; i++) {
+                const ball = document.createElement("div");
+                ball.classList.add("ball");
+                const size = Math.random() * 20 + 2;
+                ball.style.width = `${size}px`;
+                ball.style.height = `${size}px`;
+                ball.style.top = `${Math.random() * 100}vh`;
+                ball.style.left = `${Math.random() * 100}vw`;
+
+                ball.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                ball.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(ball);
+            }
+        }
+
+        createFloatingBalls();
     </script>
 </body>
 </html>
