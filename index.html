@@ -13,14 +13,14 @@
             background: linear-gradient(135deg, #ff6eb6, #ffd56e);
             color: white;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-            overflow: auto; /* Allow scrolling */
+            overflow: auto;
         }
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh; /* Ensure the gradient covers the full viewport height */
+            min-height: 100vh;
         }
 
         .container {
@@ -29,8 +29,8 @@
             max-width: 1200px;
             position: relative;
             z-index: 1;
-            margin-bottom: 50px; /* Space between content and gallery */
-            padding-top: 60px; /* Add more space at the top */
+            margin-bottom: 50px;
+            padding-top: 60px;
         }
 
         ::-webkit-scrollbar {
@@ -66,7 +66,7 @@
         .title {
             font-size: 3rem;
             margin-bottom: 0.5rem;
-            cursor: default; /* Makes the text non-clickable */
+            pointer-events: none;
         }
 
         .subtitle {
@@ -121,36 +121,6 @@
             border-radius: 5px;
         }
 
-        .navbar {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 30px;
-            padding: 10px 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            z-index: 10;
-        }
-
-        .navbar a {
-            color: black;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .navbar a:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            color: white;
-        }
-
         .ball {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.5);
@@ -169,6 +139,47 @@
             100% {
                 transform: translateY(0) translateX(0);
             }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            transition: background 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.5);
+            color: black;
+        }
+
+        .navbar img {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
         }
 
         /* Mobile Responsive Styles */
@@ -199,9 +210,9 @@
                 height: 40px;
             }
 
-            .navbar a {
-                padding: 8px 15px;
-                font-size: 0.9rem;
+            .navbar {
+                width: 100%;
+                top: 10px;
             }
         }
 
@@ -232,18 +243,27 @@
                 height: 30px;
             }
 
-            .navbar a {
-                padding: 6px 10px;
-                font-size: 0.8rem;
+            .navbar {
+                width: 100%;
+                top: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="#contact">Contact</a>
-        <a href="#home">Home</a>
-        <a href="#blog">Blog</a>
+        <a href="#contact">
+            <img src="phone_icon.png" alt="Contact Icon">
+            Contact
+        </a>
+        <a href="#home">
+            <img src="home_icon.png" alt="Home Icon">
+            Home
+        </a>
+        <a href="#blog">
+            <img src="blog_icon.png" alt="Blog Icon">
+            Blog
+        </a>
     </div>
 
     <div class="container">
