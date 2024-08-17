@@ -13,7 +13,7 @@
             background: linear-gradient(135deg, #ff6eb6, #ffd56e);
             color: white;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-            overflow: hidden; /* Prevent scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         body {
@@ -21,6 +21,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            overflow-y: auto; /* Allow vertical scrolling */
         }
 
         .container {
@@ -29,8 +30,8 @@
             max-width: 1200px;
             position: relative;
             z-index: 1;
-            margin-bottom: 50px;
-            padding-top: 200px; 
+            padding-top: 200px;
+            padding-bottom: 50px;
         }
 
         .profile-pic {
@@ -53,51 +54,48 @@
             margin-bottom: 2rem;
         }
 
-        .card-container {
+        .blog-container {
+            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 1rem;
             flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem 0;
         }
 
-        .card {
-            width: 150px;
-            height: 250px;
+        .blog-post {
+            width: 300px;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            color: black;
-            text-shadow: none;
+            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
             text-decoration: none;
+            color: white;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .card:hover {
+        .blog-post:hover {
             transform: scale(1.05);
         }
 
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
+        .blog-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .card-description {
+        .blog-description {
             font-size: 1rem;
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .card img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 0.5rem;
-            border-radius: 5px;
         }
 
         .ball {
@@ -170,22 +168,8 @@
                 font-size: 1.2rem;
             }
 
-            .card {
-                width: 120px;
-                height: 200px;
-            }
-
-            .card-title {
-                font-size: 1rem;
-            }
-
-            .card-description {
-                font-size: 0.9rem;
-            }
-
-            .card img {
-                width: 40px;
-                height: 40px;
+            .blog-post {
+                width: 90%;
             }
 
             .navbar {
@@ -203,22 +187,8 @@
                 font-size: 1rem;
             }
 
-            .card {
-                width: 100px;
-                height: 180px;
-            }
-
-            .card-title {
-                font-size: 0.9rem;
-            }
-
-            .card-description {
-                font-size: 0.8rem;
-            }
-
-            .card img {
-                width: 30px;
-                height: 30px;
+            .blog-post {
+                width: 100%;
             }
 
             .navbar {
@@ -249,29 +219,42 @@
     </div>
 
     <div class="container">
-        <div class="profile-pic"></div>
-        <h1 class="title" id="main-title">Jerryeatsbeans</h1>
-        <h2 class="subtitle" id="subtitle">Loading</h2>
-        <div class="card-container">
-            <a href="https://realmcenter.org" target="_blank" class="card">
-                <img src="rc.webp" alt="RC logo">
-                <div class="card-title">Realmcenter</div>
-                <div class="card-description">A free to use website for sharing Minecraft: Bedrock Edition Realms 💫</div>
+        <!-- Blog Posts Section -->
+        <div class="blog-container" id="blog">
+            <a href="#" class="blog-post">
+                <img src="https://media.discordapp.net/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=66b86a5b&is=66b718db&hm=6f1304b9a04dc1f1a358c09d9a363cfd7a2f460c10413ebfffb97cff328e0443&=&format=webp&quality=lossless&width=350&height=350" alt="Blog Post Image" class="blog-img">
+                <div class="blog-content">
+                    <h3 class="blog-title">Who defeated Silas Birchtree?</h3>
+                    <p class="blog-description">...</p>
+                </div>
             </a>
-            <a href="https://mcpedl.com/user/Jerryeatsbeans/" target="_blank" class="card">
-                <img src="mcpedl.webp" alt="Jerry pfp old">
-                <div class="card-title">MCPEDL</div>
-                <div class="card-description">My "modding" page, a collection of all my works in the MC addon scene 📖</div>
+            <a href="#" class="blog-post">
+                <img src="https://media.discordapp.net/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=66b86a5b&is=66b718db&hm=6f1304b9a04dc1f1a358c09d9a363cfd7a2f460c10413ebfffb97cff328e0443&=&format=webp&quality=lossless&width=350&height=350" alt="Blog Post Image" class="blog-img">
+                <div class="blog-content">
+                    <h3 class="blog-title">Bringing a Community Together</h3>
+                    <p class="blog-description">...</p>
+                </div>
             </a>
-            <a href="https://github.com/Jerryeatsbeans" target="_blank" class="card">
-                <img src="github.webp" alt="Project 3 Image">
-                <div class="card-title">Github</div>
-                <div class="card-description">Here you can check on some of the cool projects I'm always cooking up 🍽️</div>
+            <a href="#" class="blog-post">
+                <img src="https://media.discordapp.net/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=66b86a5b&is=66b718db&hm=6f1304b9a04dc1f1a358c09d9a363cfd7a2f460c10413ebfffb97cff328e0443&=&format=webp&quality=lossless&width=350&height=350" alt="Blog Post Image" class="blog-img">
+                <div class="blog-content">
+                    <h3 class="blog-title">Hacking the Bedrock Marketplace</h3>
+                    <p class="blog-description">...</p>
+                </div>
             </a>
-            <a href="https://www.instagram.com/jerryeatsbeans?igsh=MWlidm9vcGVhbXFrZg%3D%3D&utm_source=qr" target="_blank" class="card">
-                <img src="https://i1.wp.com/globalinfusion.org/wp-content/uploads/2018/01/ig-logo-email.png?resize=1024%2C1024&ssl=1" alt="Project 4 Image">
-                <div class="card-title">Instagram</div>
-                <div class="card-description">See how my life is going, plus a few memes over on my Instagram 🎤</div>
+            <a href="#" class="blog-post">
+                <img src="https://media.discordapp.net/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=66b86a5b&is=66b718db&hm=6f1304b9a04dc1f1a358c09d9a363cfd7a2f460c10413ebfffb97cff328e0443&=&format=webp&quality=lossless&width=350&height=350" alt="Blog Post Image" class="blog-img">
+                <div class="blog-content">
+                    <h3 class="blog-title">Fallout 4 VR: A game designed to pirate</h3>
+                    <p class="blog-description">...</p>
+                </div>
+            </a>
+            <a href="#" class="blog-post">
+                <img src="https://media.discordapp.net/attachments/1120555823253434408/1125510789445464134/15BA2C72-3096-41AD-B6C1-A52199C1D862.png?ex=66b86a5b&is=66b718db&hm=6f1304b9a04dc1f1a358c09d9a363cfd7a2f460c10413ebfffb97cff328e0443&=&format=webp&quality=lossless&width=350&height=350" alt="Blog Post Image" class="blog-img">
+                <div class="blog-content">
+                    <h3 class="blog-title">MC Addon Development</h3>
+                    <p class="blog-description">...</p>
+                </div>
             </a>
         </div>
     </div>
