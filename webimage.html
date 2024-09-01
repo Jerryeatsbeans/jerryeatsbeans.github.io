@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC-WEB-IMAGE</title>
+    <style>
+        /* Define the font-face */
+        @font-face {
+            font-family: 'MinecraftRegular';
+            src: url('/MinecraftRegular-Bmg3.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Apply the font to the body */
+        body {
+            font-family: 'MinecraftRegular', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Apply styles to the h1 element */
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        #imageInput {
+            font-family: 'MinecraftRegular', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #imageInput:hover {
+            background-color: #555;
+        }
+
+        #preview {
+            display: none; /* Hidden until image is loaded */
+            margin-top: 20px;
+            image-rendering: pixelated;
+            width: 128px;
+            height: 128px;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            background-color: #111;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            margin: 20px auto; /* Centers the image */
+        }
+
+        #copyButton {
+            display: none; /* Hidden until image is processed */
+            font-family: 'MinecraftRegular', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+        }
+
+        #copyButton:hover {
+            background-color: #666;
+        }
+
+        #output {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            font-family: monospace;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>MC-WEB-IMAGE ♥</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="preview" alt="Preview of compressed image">
+    <button id="copyButton">Copy MCHEX Array</button>
+    <pre id="output"></pre>
+    <script>
+        document.getElementById('imageInput').addEventListener('change', handleImageUpload);
+        document.getElementById('copyButton').addEventListener('click', copyHexValues);
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    processImage(img);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function processImage(image) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size to 32x32
+            canvas.width = 32;
+            canvas.height = 32;
+
+            // Draw the image to canvas and scale it down to 32x32
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            // Update the preview image
+            const preview = document.getElementById('preview');
+            preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
+            preview.style.display = 'block'; // Show the preview image
+
+            // Get image data from canvas
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Convert to hex values
+            let hexArray = [];
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+                let hex = rgbToHex(r, g, b);
+                hexArray.push(hex);
+            }
+
+            displayHexValues(hexArray);
+
+            // Show the copy button
+            document.getElementById('copyButton').style.display = 'inline-block';
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function displayHexValues(hexArray) {
+            const outputElement = document.getElementById('output');
+            let formattedOutput = hexArray.join('\n');
+            outputElement.textContent = formattedOutput;
+        }
+
+        function copyHexValues() {
+            const outputElement = document.getElementById('output');
+            const textToCopy = outputElement.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy hex values: " + err);
+            });
+        }
+    </script>
+</body>
+</html>
