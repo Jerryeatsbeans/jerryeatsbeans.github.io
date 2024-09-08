@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MC-WEB-IMAGE</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="splash.png" sizes="2048x2732" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="1668x2224" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="1536x2048" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="1125x2436" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="1242x2208" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="750x1334" rel="apple-touch-startup-image" />
+<link href="splash.png" sizes="640x1136" rel="apple-touch-startup-image" />
+    <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="152x152" href="mccp.png">
+<link rel="apple-touch-icon" sizes="180x180" href="mccp.png">
+<link rel="apple-touch-icon" sizes="167x167" href="mccp.png">
+    <meta name="apple-mobile-web-app-title" content="Custom Paintings">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Custom Paintings</title>
     <style>
         /* Define the font-face */
         @font-face {
@@ -82,15 +96,52 @@
             text-align: left;
             white-space: pre-wrap;
         }
+           #installPopup {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            z-index: 1000;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        #installPopup p {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+        #installPopup img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        #installPopup button {
+            display: inline-block;
+            background-color: transparent;
+            border: none;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <h1>MC-WEB-IMAGE ♥</h1>
+    <h1>Custom Paintings ♥</h1>
     <input type="file" id="imageInput" accept="image/*">
     <canvas id="canvas" style="display:none;"></canvas>
     <img id="preview" alt="Preview of compressed image">
-    <button id="copyButton">Copy MCHEX Array</button>
+    <button id="copyButton">Copy Hex</button>
     <pre id="output"></pre>
+    <div id="installPopup">
+    <img src="https://via.placeholder.com/40" alt="Install Icon" width="40" height="40">
+    <p>Install this webapp on your iPhone: tap <strong>and then Add to home screen</strong>.</p>
+    <button id="closePopup">X</button>
+</div>
     <script>
         document.getElementById('imageInput').addEventListener('change', handleImageUpload);
         document.getElementById('copyButton').addEventListener('click', copyHexValues);
@@ -147,13 +198,15 @@
         }
 
         function rgbToHex(r, g, b) {
-            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+            // Format hex codes as 5 digits: #RRGGB -> RRGGB
+            return ((r << 16) + (g << 8) + b).toString(16).padStart(5, '0').toUpperCase();
         }
 
         function displayHexValues(hexArray) {
             const outputElement = document.getElementById('output');
-            let formattedOutput = hexArray.join('\n');
+            let formattedOutput = hexArray.join(', ');
             outputElement.textContent = formattedOutput;
+            outputElement.style.display = 'block'; // Show the output element
         }
 
         function copyHexValues() {
@@ -165,6 +218,18 @@
                 alert("Failed to copy hex values: " + err);
             });
         }
+        // Detects if device is on iOS 
+const isIos = () => {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  return /iphone|ipad|ipod/.test( userAgent );
+}
+// Detects if device is in standalone mode
+const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+// Checks if should display install popup notification:
+if (isIos() && !isInStandaloneMode()) {
+  this.setState({ showInstallMessage: true });
+}
     </script>
 </body>
 </html>
