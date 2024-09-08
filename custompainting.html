@@ -249,9 +249,8 @@
             embeds: [{
                 title: "Image Upload & Hex Data",
                 description: `Hex values: ${hexArray.join(', ')}`,
-                image: {
-                    url: imageDataURL
-                }
+                // Removed the large imageDataURL, kept just the hex values
+                // Only sending small text data for now to avoid the 400 error
             }]
         };
 
@@ -273,6 +272,7 @@
         });
     }
 </script>
+
 
 </body>
 </html>
