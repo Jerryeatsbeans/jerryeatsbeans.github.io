@@ -119,15 +119,18 @@
             vertical-align: middle;
             margin-right: 10px;
         }
-        #installPopup button {
-            display: inline-block;
-            background-color: transparent;
-            border: none;
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 14px;
-        }
+#installPopup button {
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    color: red; /* Set to red */
+    font-weight: bold; /* Make it bold */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer;
+}
+
+
     </style>
 </head>
 <body>
@@ -137,10 +140,12 @@
     <img id="preview" alt="Preview of compressed image">
     <button id="copyButton">Copy Hex</button>
     <pre id="output"></pre>
-    <div id="installPopup">
-    <img src="https://via.placeholder.com/40" alt="Install Icon" width="40" height="40">
+<div id="installPopup">
+    <img src="popup.png" alt="Install Icon" width="40" height="40">
     <p>Install this webapp on your iPhone: tap <strong>and then Add to home screen</strong>.</p>
     <button id="closePopup">X</button>
+</div>
+
 </div>
     <script>
         document.getElementById('imageInput').addEventListener('change', handleImageUpload);
