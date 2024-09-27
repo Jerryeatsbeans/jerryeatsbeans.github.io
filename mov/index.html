@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viex - Discover and Watch Movies</title>
+    <style>
+      body {
+        background: linear-gradient(to bottom, #1c1c1c, #6200ee);
+        color: #f1f1f1;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+      }
+      input,
+      button {
+        padding: 10px;
+        margin: 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      input {
+        width: 60%;
+        background-color: #333;
+        color: #f1f1f1;
+      }
+      button {
+        background-color: #6200ee;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #3700b3;
+      }
+      #searchResults,
+      #randomMovies {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 20px;
+      }
+      .movie-result,
+      .tv-result {
+        background-color: #333;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 20px;
+        width: 200px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      .movie-result:hover,
+      .tv-result:hover {
+        transform: scale(1.05);
+      }
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Viex - Discover and Watch Movies</h1>
+    <input
+      type="text"
+      id="searchQuery"
+      placeholder="Enter movie/show name..."
+    />
+    <button onclick="searchMovies()">Search</button>
+
+    <div id="searchResults"></div>
+    <h2>Recent Releases:</h2>
+    <div id="randomMovies"></div>
+    <button onclick="fetchRandomMovies()">Load More Movies</button>
+
+    <script>
+      let currentPage = 1;
+
+      async function searchMovies() {
+        const query = document.getElementById("searchQuery").value;
+        const apiKey = "7c253ffa4200b8c87cc8cb9e8a4b16bd";
+
+        // Search for movies
+        const movieResponse = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`
+        );
+        const movieData = await movieResponse.json();
+
+        // Search for TV shows
+        const tvResponse = await fetch(
+          `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${query}`
+        );
+        const tvData = await tvResponse.json();
+
+        let results = "";
+        if (movieData.results.length > 0) {
+          movieData.results.forEach((movie) => {
+            const imageUrl = movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : "https://via.placeholder.com/200x300?text=No+Image";
+            results += `
+                    <div class="movie-result" onclick="redirectToMovie('${movie.id}')">
+                        <img src="${imageUrl}" alt="${movie.title} poster">
+                        <p><strong>${movie.title}</strong> (${movie.release_date})</p>
+                        <p><em>Movie</em></p>
+                    </div>
+                `;
+          });
+        }
+
+        if (tvData.results.length > 0) {
+          tvData.results.forEach((tv) => {
+            const imageUrl = tv.poster_path
+              ? `https://image.tmdb.org/t/p/w500${tv.poster_path}`
+              : "https://via.placeholder.com/200x300?text=No+Image";
+            results += `
+                    <div class="tv-result" onclick="redirectToShow('${tv.id}')">
+                        <img src="${imageUrl}" alt="${tv.name} poster">
+                        <p><strong>${tv.name}</strong> (${tv.first_air_date})</p>
+                        <p><em>TV Series</em></p>
+                    </div>
+                `;
+          });
+        }
+
+        if (results === "") results = `<p>No results found</p>`;
+
+        document.getElementById("searchResults").innerHTML = results;
+      }
+
+      async function fetchRandomMovies() {
+        const apiKey = "7c253ffa4200b8c87cc8cb9e8a4b16bd";
+        const response = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&page=${currentPage}`
+        );
+        const data = await response.json();
+
+        let randomResults = "";
+        data.results.forEach((movie) => {
+          const imageUrl = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "https://via.placeholder.com/200x300?text=No+Image";
+          randomResults += `
+                <div class="movie-result" onclick="redirectToMovie('${movie.id}')">
+                    <img src="${imageUrl}" alt="${movie.title} poster">
+                    <p><strong>${movie.title}</strong> (${movie.release_date})</p>
+                    <p><em>Movie</em></p>
+                </div>
+            `;
+        });
+
+        document.getElementById("randomMovies").innerHTML += randomResults;
+        currentPage++;
+      }
+
+      function redirectToMovie(movieId) {
+        window.location.href = `view.html?movieId=${movieId}`;
+      }
+
+      function redirectToShow(showId) {
+        window.location.href = `episodes.html?showId=${showId}`;
+      }
+
+      window.onload = fetchRandomMovies;
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault(); // Disable right-click context menu
+      });
+
+      document.addEventListener("keydown", function (e) {
+        // Disable F12 and Ctrl+Shift+I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>
