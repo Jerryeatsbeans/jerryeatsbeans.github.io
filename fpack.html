@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPACK TOOL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FPACK TOOL</h1>
+        <input type="text" id="latinInput" placeholder="Enter Latin characters" oninput="translateToCyrillic()">
+        <textarea id="cyrillicOutput" placeholder="Cyrillic characters will appear here" readonly></textarea>
+    </div>
+    <script>
+        const translationMap = {
+            'A': 'Ё', 'D': 'Є', 'F': 'І', 'G': 'Ї', 'H': 'Ј', 'I': 'Љ',
+            'J': 'Њ', 'K': 'Ћ', 'N': 'Ў', 'O': 'Џ', 'P': 'А', 'Q': 'Б',
+            'R': 'В', 'S': 'Г', 'T': 'Д', 'U': 'Е', 'V': 'Ж', 'W': 'З',
+            'X': 'И', 'Y': 'Й', 'Z': 'К', 'a': 'С', 'b': 'Т', 'c': 'У',
+            'd': 'Ф', 'e': 'Х', 'f': 'Ц', 'g': 'Ч', 'h': 'Ш', 'i': 'Щ',
+            'j': 'Ъ', 'k': 'Ы', 'l': 'Ь', 'm': 'Э', 'n': 'Ю', 'o': 'Я',
+            'v': 'ж', 'w': 'з', 'x': 'и', 'y': 'й', 'z': 'к'
+        };
+
+        function translateToCyrillic() {
+            const input = document.getElementById('latinInput').value;
+            const output = document.getElementById('cyrillicOutput');
+
+            let translatedText = '';
+            for (let char of input) {
+                translatedText += translationMap[char] || char; // Translate or keep the character as is
+            }
+
+            output.value = translatedText;
+        }
+    </script>
+</body>
+</html>
