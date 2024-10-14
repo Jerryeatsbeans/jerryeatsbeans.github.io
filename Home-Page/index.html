@@ -13,6 +13,7 @@
         font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #ff6eb6, #ffd56e);
         background-size: cover;
+        background-attachment: fixed;
         text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
       }
 
@@ -340,20 +341,14 @@
           const ball = document.createElement("div");
           ball.classList.add("ball");
 
-          // Random size for each ball
           const size = Math.random() * 20 + 2;
           ball.style.width = `${size}px`;
           ball.style.height = `${size}px`;
 
-          // Adjust the positioning to avoid edges
-          ball.style.top = `${Math.random() * 95}vh`; // Limit to 95% of viewport height
-          ball.style.left = `${Math.random() * 95}vw`; // Limit to 95% of viewport width
-
-          // Randomize animation duration and delay for each ball
+          ball.style.top = `${Math.random() * 95}vh`;
+          ball.style.left = `${Math.random() * 95}vw`;
           ball.style.animationDuration = `${Math.random() * 5 + 5}s`;
           ball.style.animationDelay = `${Math.random() * 2}s`;
-
-          // Add the ball to the container (body)
           container.appendChild(ball);
         }
       }
