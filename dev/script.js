@@ -18,6 +18,12 @@ reloadButton.addEventListener("click", () => {
   location.reload();
 });
 
+document
+  .getElementById("dropZone")
+  .addEventListener("dragover", function (event) {
+    event.preventDefault();
+  });
+
 dropZone.addEventListener("dragover", (event) => {
   event.preventDefault();
   dropZone.classList.add("dragover");
@@ -27,18 +33,27 @@ dropZone.addEventListener("dragleave", () => {
   dropZone.classList.remove("dragover");
 });
 
-dropZone.addEventListener("drop", (event) => {
+document.getElementById("dropZone").addEventListener("drop", function (event) {
   event.preventDefault();
-  dropZone.classList.remove("dragover");
   const file = event.dataTransfer.files[0];
-  handleFileUpload(file);
+  if (file && file.type === "image/png") {
+    handleFileUpload(file);
+  } else {
+    alert("Please upload a valid PNG file.");
+  }
 });
 
 // Event listener for file input
-skinFileInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  handleFileUpload(file);
-});
+document
+  .getElementById("skinFile")
+  .addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file && file.type === "image/png") {
+      handleFileUpload(file);
+    } else {
+      alert("Please upload a valid PNG file.");
+    }
+  });
 
 // Function to handle file upload
 function handleFileUpload(file) {
