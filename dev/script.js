@@ -4,7 +4,7 @@ const editorFrame = document.getElementById("editor-frame");
 const previewButton = document.getElementById("previewButton");
 const searchInput = document.getElementById("searchInput");
 const partList = document.getElementById("partList");
-
+const skinCanvas = document.getElementById("skinCanvas");
 const downloadButton = document.getElementById("downloadButton");
 const navbar = document.getElementById("navbar");
 const partItems = document.querySelectorAll(".part-item");
@@ -16,11 +16,6 @@ const reloadButton = document.getElementById("reloadButton");
 
 reloadButton.addEventListener("click", () => {
   location.reload();
-});
-
-// Event listener for drop zone
-dropZone.addEventListener("click", () => {
-  skinFileInput.click();
 });
 
 dropZone.addEventListener("dragover", (event) => {
@@ -59,7 +54,7 @@ function handleFileUpload(file) {
       partList.classList.remove("hidden");
       previewButton.classList.remove("hidden");
       downloadButton.classList.remove("hidden");
-      skinCanvas.classList.remove("hidden");
+
       navbar.classList.remove("hidden");
 
       // Set canvas size to match skin
@@ -101,7 +96,7 @@ function downloadSkin() {
   const skinDataURL = skinCanvas.toDataURL("image/png");
   const link = document.createElement("a");
   link.href = skinDataURL;
-  link.download = "custom_minecraft_skin.png";
+  link.download = "Cosmetica-Skin.png";
   link.click();
 }
 
