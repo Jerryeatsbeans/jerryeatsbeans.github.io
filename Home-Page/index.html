@@ -46,6 +46,16 @@
                 height: 32px;
             }
         }
+        @media (max-width: 768px) {
+            #channel-name {
+                font-size: 1.8rem; /* Reduce the size on smaller screens */
+                text-shadow: 3px 3px 0px black;
+            }
+            #channel-description {
+                font-size: 0.9rem; /* Smaller font for description */
+                padding: 8px; /* Adjust padding */
+            }
+        }
     </style>
     <script>
         async function fetchYouTubeData() {
