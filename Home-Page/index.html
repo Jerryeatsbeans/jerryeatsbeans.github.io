@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jerryeatsbeans</title>
+    <title>JerryEatsBeans</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="icon" id="favicon" href="">
     <style>
+        @font-face {
+            font-family: 'KiwiSoda';
+            src: url('KiwiSoda.ttf') format('truetype');
+        }
         body {
             font-family: 'Press Start 2P', cursive;
+        }
+        #channel-name {
+            font-family: 'KiwiSoda', sans-serif;
+            font-size: 2.5rem;
+            text-shadow: 4px 4px 0px black;
+        }
+        #channel-description {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            text-shadow: 3px 3px 0px black;
+            padding: 10px;
+            border-radius: 10px;
         }
         .game-button {
             border: 4px solid black;
@@ -49,8 +65,8 @@
 <body class="bg-gradient-to-b from-pink-400 to-yellow-300 flex flex-col items-center min-h-screen text-gray-900">
     <div class="text-center mt-10 flex flex-col items-center">
         <img id="profile-pic" src="" alt="Profile Picture" class="w-24 h-24 rounded-full border-4 border-white mx-auto">
-        <h1 id="channel-name" class="text-2xl font-bold mt-2 text-white"></h1>
-        <p id="channel-description" class="text-sm text-white text-center w-10/12"></p>
+        <h1 id="channel-name" class="text-white font-bold mt-2"></h1>
+        <p id="channel-description" class="text-white text-center w-10/12"></p>
     </div>
     
     <div class="mt-6 w-11/12 max-w-md flex flex-col space-y-4">
