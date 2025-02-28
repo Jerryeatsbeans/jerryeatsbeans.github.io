@@ -31,6 +31,10 @@
             border: 4px solid black;
             border-radius: 0;
             box-shadow: 4px 4px 0px black;
+            transition: transform 0.2s ease-in-out;
+        }
+        .game-button:hover {
+            transform: scale(0.95);
         }
         @media (min-width: 768px) {
             #profile-pic {
@@ -54,6 +58,10 @@
             #channel-description {
                 font-size: 0.9rem;
                 padding: 8px;
+            }
+            .w-6.h-6 {
+                width: 28px;
+                height: 28px;
             }
         }
     </style>
@@ -80,11 +88,17 @@
     </div>
     
     <div class="mt-6 w-11/12 max-w-md flex flex-col space-y-4">
+        <a href="https://discord.com/oauth2/authorize?client_id=123456789&scope=bot&permissions=8" class="discord-embed" style="text-decoration: none;">
+            <meta property="og:title" content="SOCIALS">
+            <meta property="og:image" content="" id="discord-image">
+            <meta property="og:description" content="Join the Discord Server">
+            <meta property="og:url" content="https://discord.gg/P3ahdUzgMH">
+            <div class="bg-blue-600 py-3 game-button font-semibold text-center flex items-center justify-center">
+                <img src="discord-icon.png" alt="Discord" class="w-6 h-6 mr-2"> Join the Discord
+            </div>
+        </a>
         <a href="https://youtube.com/@jerryeatsbeans?sub_confirmation=1" class="bg-red-500 py-3 game-button font-semibold text-center flex items-center justify-center">
             <img src="youtube-icon.png" alt="YouTube" class="w-6 h-6 mr-2"> Watch on YouTube
-        </a>
-        <a href="https://discord.gg/P3ahdUzgMH" class="bg-blue-600 py-3 game-button font-semibold text-center flex items-center justify-center">
-            <img src="discord-icon.png" alt="Discord" class="w-6 h-6 mr-2"> Join the Discord
         </a>
         <a href="https://m.media-amazon.com/images/I/61yM93L5qQS._AC_UF894,1000_QL80_.jpg" class="bg-white text-black py-3 game-button font-semibold text-center flex items-center justify-center">
             <img src="member.png" alt="Member Club" class="w-6 h-6 mr-2"> Members Club
