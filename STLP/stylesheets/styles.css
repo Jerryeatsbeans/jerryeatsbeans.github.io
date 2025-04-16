@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Firlest';
-    src: url('assets/Firlest-Regular.otf') format('opentype');
+    src: url('../assets/Firlest-Regular.otf') format('opentype');
 }
 
 html {
@@ -22,7 +22,7 @@ body {
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    opacity: 0.3;
+    opacity: 0.8;
     pointer-events: none;
 }
 
