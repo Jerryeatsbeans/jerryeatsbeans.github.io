@@ -1,6 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACHS Dungeons and Dragons</title>
+  <link rel="stylesheet" href="stylesheets/styles.css">
+  <link rel="icon" type="image/png" href="../assets/achs.png">
+</head>
+<body>
   <meta charset="UTF-8">
   <title>DND Web Roller</title>
   <style>
@@ -58,7 +66,7 @@
       color: #f3f3f3;
     }
   </style>
-</head>
+
 <body>
   <div class="container">
     <h1>DND Web Roller</h1>
@@ -84,12 +92,12 @@
   </div>
 
   <script>
-    // Rolls a die with a given number of sides.
+  
     function rollDie(sides) {
       return Math.floor(Math.random() * sides) + 1;
     }
 
-    // Gets user inputs, rolls dice, and displays the result.
+
     function rollDice() {
       const count = parseInt(document.getElementById('diceCount').value) || 1;
       const sides = parseInt(document.getElementById('diceType').value);
