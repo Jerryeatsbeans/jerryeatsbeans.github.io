@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
     <title>Jerryeatsbeans</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -67,12 +70,12 @@
         #channel-name {
             font-family: 'MinecraftTen', sans-serif;
             font-size: 2.5rem;
-            
+
         }
         #channel-description {
             font-family: 'MinecraftRegular', cursive;
             font-size: 1rem;
-            
+
             padding: 10px;
             border-radius: 10px;
         }
@@ -87,7 +90,11 @@
         .game-button:hover {
             transform: scale(0.95);
         }
-        @media (min-width: 768px) {
+        .game-button:active {
+            transform: scale(0.9);
+            box-shadow: 2px 2px 0px black;
+        }
+        @media (min-width: 1024px) {
             #profile-pic {
                 width: 100px;
                 height: 100px;
@@ -100,19 +107,134 @@
                 width: 32px;
                 height: 32px;
             }
+            #music-title {
+                font-size: 0.875rem;
+            }
+
+            .scrolling-text {
+                animation: none;
+            }
+            .scrolling-text.needs-scroll {
+                animation: scroll-text var(--scroll-speed) linear infinite;
+            }
+            .music-title-container {
+                padding-left: 200px;
+            }
         }
-        @media (max-width: 768px) {
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #profile-pic {
+                width: 90px;
+                height: 90px;
+            }
+            .game-button {
+                padding: 0.875rem;
+                font-size: 1.1rem;
+            }
+            .w-6.h-6 {
+                width: 30px;
+                height: 30px;
+            }
+            #music-title {
+                font-size: 0.8rem;
+            }
+            .music-title-container {
+                padding-left: 180px;
+            }
+            .scrolling-text.needs-scroll {
+                animation: scroll-text var(--scroll-speed) linear infinite;
+            }
+        }
+        @media (max-width: 767px) {
             #channel-name {
-                font-size: 1.8rem;
-                text-shadow: 3px 3px 0px black;
+                font-size: 1.6rem;
+                text-shadow: 2px 2px 0px black;
             }
             #channel-description {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 padding: 8px;
             }
             .w-6.h-6 {
-                width: 28px;
-                height: 28px;
+                width: 24px;
+                height: 24px;
+            }
+            .game-button {
+                padding: 0.75rem;
+                font-size: 1rem;
+                border-width: 3px;
+                box-shadow: 3px 3px 0px black;
+            }
+            #music-title {
+                font-size: 0.75rem;
+            }
+            .music-title-container {
+                padding-left: 160px;
+            }
+            .scrolling-text.needs-scroll {
+                animation: scroll-text var(--scroll-speed) linear infinite;
+            }
+        }
+        @media (max-width: 480px) {
+            #channel-name {
+                font-size: 1.4rem;
+                text-shadow: 2px 2px 0px black;
+            }
+            #channel-description {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+            .w-6.h-6 {
+                width: 22px;
+                height: 22px;
+            }
+            .game-button {
+                padding: 0.625rem;
+                font-size: 0.9rem;
+                border-width: 3px;
+                box-shadow: 2px 2px 0px black;
+            }
+            #music-title {
+                font-size: 0.7rem;
+            }
+            .music-title-container {
+                padding-left: 140px;
+            }
+            .scrolling-text.needs-scroll {
+                animation: scroll-text var(--scroll-speed) linear infinite;
+            }
+        }
+
+        @media (max-width: 375px) {
+            #channel-name {
+                font-size: 1.2rem;
+            }
+            #channel-description {
+                font-size: 0.75rem;
+                padding: 5px;
+            }
+            .game-button {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            .mt-10 {
+                margin-top: 1.5rem;
+            }
+            .mt-6 {
+                margin-top: 1rem;
+            }
+            .p-6 {
+                padding: 1rem;
+            }
+            #main-box {
+                width: 95%;
+            }
+        }
+
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: min(0vmin, env(safe-area-inset-left));
+                padding-right: min(0vmin, env(safe-area-inset-right));
+                padding-top: min(0vmin, env(safe-area-inset-top));
+                padding-bottom: min(0vmin, env(safe-area-inset-bottom));
             }
         }
     </style>
@@ -129,13 +251,66 @@
             height: 100%;
             image-rendering: pixelated;
         }
+
+        @keyframes scroll-text {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-200%); }
+        }
+        :root {
+            --scroll-speed: 15s;
+        }
+        .music-title-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            height: 1.5em;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding-left: 180px; 
+        }
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            position: absolute;
+            will-change: transform;
+            padding-left: 5px;
+        }
+
+        @media (max-width: 767px) {
+            .focus\:outline-none {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 6px;
+                margin-right: 8px;
+            }
+            #channel-description {
+                width: 100%;
+            }
+            .discord-status {
+                width: 18px;
+                height: 18px;
+            }
+        }
+        @media (max-width: 480px) {
+            .focus\:outline-none {
+                min-width: 32px;
+                min-height: 32px;
+                padding: 5px;
+                margin-right: 6px;
+            }
+            #profile-pic {
+                width: 80px !important;
+                height: 80px !important;
+            }
+        }
     </style>
     <script>
         async function fetchYouTubeData() {
             const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=UC0SESRSE1RKiX7SpOLgitWA&key=AIzaSyA6ln1VePnyZVL6IxN-AMRwHt6Jv7CwRYM');
             const data = await response.json();
             const channel = data.items[0];
-            
+
             document.getElementById('profile-pic').src = channel.snippet.thumbnails.high.url;
             document.getElementById('channel-name').textContent = channel.snippet.title;
             document.getElementById('channel-description').textContent = channel.snippet.description;
@@ -149,32 +324,26 @@
             const duration = 2500; 
             const subCountElement = document.getElementById('sub-count');
             const startTime = performance.now();
-            
-        
+
             subCountElement.textContent = `Subscribers: 0`;
-            
-          
+
             function step(timestamp) {
                 const elapsed = timestamp - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                
-             
+
                 const easedProgress = progress === 0 ? 0 : Math.pow(2, 10 * (progress - 1));
                 const currentCount = Math.floor(easedProgress * end);
-                
-          
+
                 subCountElement.textContent = `Subscribers: ${currentCount.toLocaleString()}`;
-                
-          
+
                 if (progress < 1) {
                     requestAnimationFrame(step);
                 } else {
-              
+
                     subCountElement.textContent = `Subscribers: ${end.toLocaleString()}`;
                 }
             }
-            
-       
+
             requestAnimationFrame(step);
         }
 
@@ -182,27 +351,23 @@
             try {
                 const response = await fetch('https://api.lanyard.rest/v1/users/1000826721735561327');
                 const data = await response.json();
-                
+
                 if (data.success) {
                     const status = data.data.discord_status;
                     const statusElement = document.getElementById('discord-status');
                     const statusIcon = document.getElementById('status-icon');
-                    
 
                     const iconPath = `assets/icons/${status === 'online' ? 'online' : 
                                                    status === 'idle' ? 'idle' : 
                                                    status === 'dnd' ? 'dnd' : 'offline'}.png`;
                     statusIcon.src = iconPath;
-                    
 
                     const statusText = status === 'online' ? 'Online' : 
                                       status === 'idle' ? 'Idle' : 
                                       status === 'dnd' ? 'Do Not Disturb' : 'Offline';
                     statusElement.setAttribute('title', `Discord Status: ${statusText}`);
-                    
 
                     statusElement.style.display = 'inline-block';
-
 
                     setTimeout(fetchDiscordStatus, 5000);
                 }
@@ -210,7 +375,7 @@
                 console.error('Error fetching Discord status:', error);
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
                 fetchYouTubeData(),
@@ -221,46 +386,50 @@
 </head>
 <body class="animated-gradient flex flex-col items-center min-h-screen text-gray-900">
     <div id="loading-screen" class="fixed inset-0 z-50 flex items-center justify-center animated-gradient">
-        <img src="assets/videos/ring-resize.svg" alt="Loading" class="w-24 h-24" style="filter: brightness(0) invert(1);">
+        <img src="assets/videos/ring-resize.svg" alt="Loading" class="w-20 h-20 sm:w-24 sm:h-24" style="filter: brightness(0) invert(1);">
     </div>
 
     <div id="main-content" style="opacity: 0; transition: opacity 0.5s ease-in-out; display: flex; justify-content: center; width: 100%;">
     <div id="video-bg-container" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none;">
         <video id="music-video" src="assets/videos/DOGTOOTH.mp4" autoplay loop muted playsinline webkit-playsinline style="width: 100vw; height: 100vh; object-fit: cover; filter: brightness(0.4) blur(2px); position: absolute; top: 0; left: 0;"></video>
     </div>
-    <div id="main-box" class="mt-10 flex flex-col items-center p-6 bg-black bg-opacity-80 border-4 border-white shadow-lg" style="position: relative; z-index: 1; overflow: hidden; width: 30%; max-width: 1200px; margin-left: auto; margin-right: auto;">
+    <div id="main-box" class="mt-10 flex flex-col items-center p-6 bg-black bg-opacity-80 border-4 border-white shadow-lg" style="position: relative; z-index: 1; overflow: hidden; width: 90%; max-width: 600px; margin-left: auto; margin-right: auto;">
         <div id="dramatic-light-tr" class="dramatic-light dramatic-light-top-right" style="display:none;"></div>
         <div id="dramatic-light-bl" class="dramatic-light dramatic-light-bottom-left" style="display:none;"></div>
 
         <div class="w-full flex flex-col items-center mb-6">
-            <div class="flex items-center justify-center w-full bg-gray-900 bg-opacity-90 border-4 border-white px-4 py-2 shadow-md" style="font-family: 'MinecraftRegular', 'Press Start 2P', monospace;">
-                <button id="music-play" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Play" title="Play">
-                    <img src="assets/icons/play.png" alt="Play" id="play-icon" style="width:100%;height:100%;image-rendering:pixelated;">
-                </button>
-                <button id="music-pause" class="focus:outline-none mr-2 hidden" style="width:32px;height:32px;" aria-label="Pause" title="Pause">
-                    <img src="assets/icons/pause.png" alt="Pause" id="pause-icon" style="width:100%;height:100%;image-rendering:pixelated;">
-                </button>
-                <button id="music-mute" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Unmute" title="Unmute">
-                    <img src="assets/icons/mute.png" alt="Mute" id="mute-icon" style="width:100%;height:100%;image-rendering:pixelated;">
-                </button>
-                <button id="music-unmute" class="focus:outline-none mr-2 hidden" style="width:32px;height:32px;" aria-label="Mute" title="Mute">
-                    <img src="assets/icons/unmute.png" alt="Unmute" id="unmute-icon" style="width:100%;height:100%;image-rendering:pixelated;">
-                </button>
-                <button id="music-toggle-vid" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Hide Video" title="Hide Video">
-                    <img src="assets/icons/hide.png" alt="Hide Video" id="toggle-vid-icon" style="width:100%;height:100%;image-rendering:pixelated;">
-                </button>
-                <span class="text-white text-sm truncate" id="music-title">Tyler, The Creator - DOGTOOTH</span>
+            <div class="relative w-full bg-gray-900 bg-opacity-90 border-4 border-white px-3 py-2 shadow-md" style="font-family: 'MinecraftRegular', 'Press Start 2P', monospace;">
+                <div class="music-title-container w-full">
+                    <span class="text-white text-sm scrolling-text" id="music-title">Tyler, The Creator - DOGTOOTH</span>
+                </div>
+                <div class="flex items-center absolute top-0 left-0 h-full px-3 py-2 z-10" style="background: linear-gradient(to right, rgba(17, 24, 39, 0.95) 75%, rgba(17, 24, 39, 0));">
+                    <button id="music-play" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Play" title="Play">
+                        <img src="assets/icons/play.png" alt="Play" id="play-icon" style="width:100%;height:100%;image-rendering:pixelated;">
+                    </button>
+                    <button id="music-pause" class="focus:outline-none mr-2 hidden" style="width:32px;height:32px;" aria-label="Pause" title="Pause">
+                        <img src="assets/icons/pause.png" alt="Pause" id="pause-icon" style="width:100%;height:100%;image-rendering:pixelated;">
+                    </button>
+                    <button id="music-mute" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Unmute" title="Unmute">
+                        <img src="assets/icons/mute.png" alt="Mute" id="mute-icon" style="width:100%;height:100%;image-rendering:pixelated;">
+                    </button>
+                    <button id="music-unmute" class="focus:outline-none mr-2 hidden" style="width:32px;height:32px;" aria-label="Mute" title="Mute">
+                        <img src="assets/icons/unmute.png" alt="Unmute" id="unmute-icon" style="width:100%;height:100%;image-rendering:pixelated;">
+                    </button>
+                    <button id="music-toggle-vid" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Hide Video" title="Hide Video">
+                        <img src="assets/icons/hide.png" alt="Hide Video" id="toggle-vid-icon" style="width:100%;height:100%;image-rendering:pixelated;">
+                    </button>
+                </div>
             </div>
         </div>
         <div class="text-center flex flex-col items-center">
             <img id="profile-pic" src="" alt="Profile Picture" class="w-24 h-24 border-4 border-white mx-auto">
-            <div class="flex items-center justify-center">
+            <div class="flex flex-wrap items-center justify-center">
                 <h1 id="channel-name" class="text-white font-bold mt-2"></h1>
                 <span id="discord-status" class="discord-status" style="display: none;">
                     <img id="status-icon" src="" alt="Discord Status">
                 </span>
             </div>
-            <p id="channel-description" class="text-white text-center w-10/12"></p>
+            <p id="channel-description" class="text-white text-center px-2"></p>
             <div id="sub-count" class="text-white text-sm mt-2"></div>
         </div>
         <div class="mt-6 w-full flex flex-col space-y-4">
@@ -284,7 +453,7 @@
             </a>
         </div>
     </div>
-    
+
     <footer class="mt-10 text-sm opacity-80 font-MinecraftRegular"></footer>
     <script>
 
@@ -298,7 +467,6 @@
     const videoBg = document.getElementById('video-bg-container');
     const lightTR = document.getElementById('dramatic-light-tr');
     const lightBL = document.getElementById('dramatic-light-bl');
-
 
     playBtn.addEventListener('click', () => {
         video.play();
@@ -319,7 +487,6 @@
         pauseBtn.classList.remove('hidden');
     });
 
-
     muteBtn.addEventListener('click', () => {
         video.muted = false;
         muteBtn.classList.add('hidden');
@@ -330,7 +497,6 @@
         unmuteBtn.classList.add('hidden');
         muteBtn.classList.remove('hidden');
     });
-
 
     let videoVisible = true;
     function setDramaticLightDisplay(show) {
@@ -360,7 +526,6 @@
         }
     });
 
-
     if (video.muted) {
         muteBtn.classList.remove('hidden');
         unmuteBtn.classList.add('hidden');
@@ -368,7 +533,6 @@
         muteBtn.classList.add('hidden');
         unmuteBtn.classList.remove('hidden');
     }
-    
 
     videoVisible = false;
     videoBg.style.display = 'none';
@@ -376,7 +540,6 @@
     toggleVidBtn.setAttribute('aria-label', 'Show Video');
     toggleVidBtn.setAttribute('title', 'Show Video');
     setDramaticLightDisplay(false);
-
 
     </script>
     </div>
@@ -386,12 +549,72 @@
             document.getElementById('loading-screen').style.opacity = '0';
             document.getElementById('loading-screen').style.transition = 'opacity 0.5s ease-in-out';
             document.getElementById('main-content').style.opacity = '1';
-            
+
             setTimeout(function() {
                 document.getElementById('loading-screen').style.display = 'none';
             }, 500);
+
+            setTimeout(function() {
+                checkMusicTitleOverflow();
+            }, 100);
         }, 800);
     });
+
+    document.addEventListener('touchstart', function(event) {
+        if (event.target.tagName === 'BUTTON') {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    window.addEventListener('orientationchange', function() {
+
+        setTimeout(function() {
+
+            const video = document.getElementById('music-video');
+            if (video) {
+                video.style.height = window.innerHeight + 'px';
+                video.style.width = window.innerWidth + 'px';
+            }
+
+            checkMusicTitleOverflow();
+        }, 200);
+    });
+
+    window.addEventListener('resize', function() {
+        checkMusicTitleOverflow();
+    });
+
+    function checkMusicTitleOverflow() {
+        const titleElement = document.getElementById('music-title');
+        const containerElement = titleElement.parentElement;
+        const buttonAreaWidth = 180; 
+
+        const originalText = titleElement.getAttribute('data-original-text') || titleElement.textContent;
+        const currentText = titleElement.textContent;
+        titleElement.textContent = originalText;
+
+        const textWidth = titleElement.scrollWidth;
+
+        const effectiveContainerWidth = containerElement.clientWidth - buttonAreaWidth - 20; 
+
+        if (!titleElement.getAttribute('data-original-text')) {
+            titleElement.setAttribute('data-original-text', originalText);
+        }
+
+        if (textWidth > effectiveContainerWidth * 1.1) { 
+
+            titleElement.textContent = originalText;
+            titleElement.classList.add('needs-scroll');
+
+            const textToContainerRatio = textWidth / effectiveContainerWidth;
+            const scrollSpeed = Math.max(8, Math.min(20, 5 + textToContainerRatio * 3));
+            document.documentElement.style.setProperty('--scroll-speed', scrollSpeed + 's');
+        } else {
+
+            titleElement.textContent = originalText;
+            titleElement.classList.remove('needs-scroll');
+        }
+    }
     </script>
 </body>
 </html>
