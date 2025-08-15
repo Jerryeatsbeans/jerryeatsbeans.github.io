@@ -14,7 +14,7 @@
             pointer-events: none;
             filter: blur(20px);
             transition: opacity 0.4s;
-            mix-blend-mode: lighten; /* More subtle lighting effect */
+            mix-blend-mode: lighten;
         }
         .dramatic-light-top-right {
             top: 0;
@@ -139,8 +139,43 @@
             document.getElementById('profile-pic').src = channel.snippet.thumbnails.high.url;
             document.getElementById('channel-name').textContent = channel.snippet.title;
             document.getElementById('channel-description').textContent = channel.snippet.description;
-            document.getElementById('sub-count').textContent = `Subscribers: ${channel.statistics.subscriberCount}`;
+
+            const subCount = parseInt(channel.statistics.subscriberCount);
+            animateSubscriberCount(0, subCount);
             document.getElementById('favicon').href = channel.snippet.thumbnails.high.url;
+        }
+
+        function animateSubscriberCount(start, end) {
+            const duration = 2500; 
+            const subCountElement = document.getElementById('sub-count');
+            const startTime = performance.now();
+            
+        
+            subCountElement.textContent = `Subscribers: 0`;
+            
+          
+            function step(timestamp) {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+             
+                const easedProgress = progress === 0 ? 0 : Math.pow(2, 10 * (progress - 1));
+                const currentCount = Math.floor(easedProgress * end);
+                
+          
+                subCountElement.textContent = `Subscribers: ${currentCount.toLocaleString()}`;
+                
+          
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+              
+                    subCountElement.textContent = `Subscribers: ${end.toLocaleString()}`;
+                }
+            }
+            
+       
+            requestAnimationFrame(step);
         }
 
         async function fetchDiscordStatus() {
@@ -153,22 +188,22 @@
                     const statusElement = document.getElementById('discord-status');
                     const statusIcon = document.getElementById('status-icon');
                     
-                    // Set the appropriate status icon
+
                     const iconPath = `assets/icons/${status === 'online' ? 'online' : 
                                                    status === 'idle' ? 'idle' : 
                                                    status === 'dnd' ? 'dnd' : 'offline'}.png`;
                     statusIcon.src = iconPath;
                     
-                    // Set title attribute for tooltip
+
                     const statusText = status === 'online' ? 'Online' : 
                                       status === 'idle' ? 'Idle' : 
                                       status === 'dnd' ? 'Do Not Disturb' : 'Offline';
                     statusElement.setAttribute('title', `Discord Status: ${statusText}`);
                     
-                    // Make the status indicator visible
+
                     statusElement.style.display = 'inline-block';
 
-                    // Set up a refresh every 5 seconds
+
                     setTimeout(fetchDiscordStatus, 5000);
                 }
             } catch (error) {
@@ -176,21 +211,27 @@
             }
         }
         
-        window.onload = async () => {
-            fetchYouTubeData();
-            fetchDiscordStatus();
-        };
+        document.addEventListener('DOMContentLoaded', async () => {
+            await Promise.all([
+                fetchYouTubeData(),
+                fetchDiscordStatus()
+            ]);
+        });
     </script>
 </head>
 <body class="animated-gradient flex flex-col items-center min-h-screen text-gray-900">
-    <!-- Video Background Overlay -->
+    <div id="loading-screen" class="fixed inset-0 z-50 flex items-center justify-center animated-gradient">
+        <img src="assets/videos/ring-resize.svg" alt="Loading" class="w-24 h-24" style="filter: brightness(0) invert(1);">
+    </div>
+
+    <div id="main-content" style="opacity: 0; transition: opacity 0.5s ease-in-out;">
     <div id="video-bg-container" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none;">
-        <video id="music-video" src="assets/videos/DOGTOOTH.mp4" autoplay loop muted style="width: 100vw; height: 100vh; object-fit: cover; filter: brightness(0.4) blur(2px); position: absolute; top: 0; left: 0;"></video>
+        <video id="music-video" src="assets/videos/DOGTOOTH.mp4" autoplay loop muted playsinline webkit-playsinline style="width: 100vw; height: 100vh; object-fit: cover; filter: brightness(0.4) blur(2px); position: absolute; top: 0; left: 0;"></video>
     </div>
     <div id="main-box" class="mt-10 flex flex-col items-center w-11/12 max-w-xl p-6 bg-black bg-opacity-80 border-4 border-white shadow-lg" style="position: relative; z-index: 1; overflow: hidden;">
         <div id="dramatic-light-tr" class="dramatic-light dramatic-light-top-right" style="display:none;"></div>
         <div id="dramatic-light-bl" class="dramatic-light dramatic-light-bottom-left" style="display:none;"></div>
-        <!-- Pixelated Music Player Bar -->
+
         <div class="w-full flex flex-col items-center mb-6">
             <div class="flex items-center justify-center w-full bg-gray-900 bg-opacity-90 border-4 border-white px-4 py-2 shadow-md" style="font-family: 'MinecraftRegular', 'Press Start 2P', monospace;">
                 <button id="music-play" class="focus:outline-none mr-2" style="width:32px;height:32px;" aria-label="Play" title="Play">
@@ -246,7 +287,7 @@
     
     <footer class="mt-10 text-sm opacity-80 font-MinecraftRegular"></footer>
     <script>
-    // Pixelated Video Music Player Logic
+
     const playBtn = document.getElementById('music-play');
     const pauseBtn = document.getElementById('music-pause');
     const muteBtn = document.getElementById('music-mute');
@@ -258,7 +299,7 @@
     const lightTR = document.getElementById('dramatic-light-tr');
     const lightBL = document.getElementById('dramatic-light-bl');
 
-    // Play/Pause logic
+
     playBtn.addEventListener('click', () => {
         video.play();
         playBtn.classList.add('hidden');
@@ -278,7 +319,7 @@
         pauseBtn.classList.remove('hidden');
     });
 
-    // Mute/Unmute logic
+
     muteBtn.addEventListener('click', () => {
         video.muted = false;
         muteBtn.classList.add('hidden');
@@ -290,7 +331,7 @@
         muteBtn.classList.remove('hidden');
     });
 
-    // Show/Hide video logic
+
     let videoVisible = true;
     function setDramaticLightDisplay(show) {
         if (show) {
@@ -319,7 +360,7 @@
         }
     });
 
-    // Set initial state for mute/unmute
+
     if (video.muted) {
         muteBtn.classList.remove('hidden');
         unmuteBtn.classList.add('hidden');
@@ -328,7 +369,7 @@
         unmuteBtn.classList.remove('hidden');
     }
     
-    // Set video to be hidden by default
+
     videoVisible = false;
     videoBg.style.display = 'none';
     toggleVidIcon.src = 'assets/icons/show.png';
@@ -336,8 +377,21 @@
     toggleVidBtn.setAttribute('title', 'Show Video');
     setDramaticLightDisplay(false);
 
-    // Move subscriber count under description and make it white (already handled in HTML)
-    // FetchYouTubeData already sets sub-count text
+
+    </script>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loading-screen').style.opacity = '0';
+            document.getElementById('loading-screen').style.transition = 'opacity 0.5s ease-in-out';
+            document.getElementById('main-content').style.opacity = '1';
+            
+            setTimeout(function() {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 500);
+        }, 800);
+    });
     </script>
 </body>
 </html>
