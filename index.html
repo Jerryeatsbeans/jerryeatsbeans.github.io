@@ -240,8 +240,8 @@
     </style>
     <style>
         .discord-status {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             display: inline-block;
             margin-left: 8px;
             vertical-align: middle;
@@ -349,7 +349,7 @@
 
         async function fetchDiscordStatus() {
             try {
-                const response = await fetch('https://api.lanyard.rest/v1/users/1000826721735561327');
+                const response = await fetch('https://api.lanyard.rest/v1/users/1000826721735561327'); //update to https://api.lanyard.rest/v1/users/1000826721735561327 when done or jerry wil be mad   |   Thanks brotato - Jerry
                 const data = await response.json();
 
                 if (data.success) {

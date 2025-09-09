@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jerry's Colonies Wiki</title>
+  <link rel="icon" href="pack_icon.png" type="image/png">
+  <link rel="shortcut icon" href="pack_icon.png" type="image/png">
+  <style>
+    @font-face {
+      font-family: 'Minecraftia';
+      src: url('../assets/fonts/MinecraftRegular-Bmg3.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root { --topbar-h: 48px; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Minecraftia', monospace;
+      background-color: #222;
+      color: #fff;
+    }
+
+    /* prevent browsers from synthesizing bold and normalize weights */
+    body, h1, h2, h3, h4, h5, p, a, .nav-link {
+      font-weight: normal;
+      font-synthesis: none;
+    }
+
+    /* make paragraph text visually lighter (helps with single-weight bitmap-like fonts) */
+    p, .lead {
+      font-weight: 10; /* try a lighter numeric weight */
+      color: #dfe6e5;   /* slightly lighter than pure white to reduce visual heaviness */
+      -webkit-font-smoothing: antialiased;
+      text-shadow: none;
+      letter-spacing: 0.25px;
+    }
+
+    /* Top Navbar (full width) */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--topbar-h);
+      background: #0d3b2e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      z-index: 10;
+      border-bottom: 2px solid #153f35;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand .badge {
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      background: #0b2c24;
+      border: 2px solid #0a4a3b;
+      border-radius: 6px;
+    }
+    .brand .badge img { width: 22px; height: 22px; }
+  .brand span { font-size: 18px; font-weight: normal; font-synthesis: none; }
+
+    .actions { display: flex; align-items: center; gap: 8px; }
+    .icon-btn {
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      background: #0b2c24;
+      border: 2px solid #0a4a3b;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .icon-btn img { width: 20px; height: 20px; display: block; }
+
+  /* App layout below navbar */
+  .app { display: flex; margin-top: var(--topbar-h); align-items: stretch; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #0d3b2e;
+      /* allow sidebar to grow with page content, but be at least full viewport height */
+      min-height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      border-right: 2px solid #153f35;
+    }
+    .nav-link {
+      padding: 14px 16px;
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      border-bottom: 1px solid #1e5b4f;
+      transition: background 0.15s ease;
+    }
+    .nav-link:hover { background-color: #146652; }
+    .nav-link.active { background: #136250; box-shadow: inset 3px 0 0 #58bfa7; }
+
+  /* anchor offset for fixed topbar */
+  .anchor { display: block; position: relative; top: calc(-1 * var(--topbar-h)); visibility: hidden; }
+
+  /* Main content */
+  .content { flex: 1; padding: 24px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .content h1 { font-size: 40px; margin: 0 0 8px; font-weight: normal; font-synthesis: none; }
+    .content p.lead { font-size: 18px; color: #cfd6d4; margin: 0 0 16px; }
+
+    .image-placeholder {
+      width: min(540px, 90%);
+      height: 240px;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000;
+      font-size: 48px;
+      letter-spacing: 2px;
+    }
+
+    /* Small helper for responsiveness */
+    @media (max-width: 880px) {
+      .sidebar { width: 200px; }
+      .brand span { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top navbar with brand on the left and action icons on the right -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="badge">
+        <img src="pack_icon.png" alt="Logo" />
+      </div>
+      <span>Jerry's Colonies Wiki</span>
+    </div>
+    <div class="actions">
+      <a class="icon-btn" href="#" title="CurseForge">
+        <img src="https://cdn.discordapp.com/emojis/1352882181009051709.webp?size=44" alt="CurseForge" />
+      </a>
+      <a class="icon-btn" href="#" title="Discord">
+        <img src="https://cdn.discordapp.com/emojis/1402753921302270073.webp?size=44" alt="Discord" />
+      </a>
+      <a class="icon-btn" href="#" title="YouTube">
+        <img src="https://cdn.discordapp.com/emojis/1408096800568774798.webp?size=44" alt="YouTube" />
+      </a>
+    </div>
+  </div>
+
+  <div class="app">
+    <nav class="sidebar">
+      <a class="nav-link active" href="#get-started">Get Started</a>
+      <a class="nav-link" href="#mayors-table">Mayor's Table</a>
+      <a class="nav-link" href="#citizens">Citizens</a>
+      <a class="nav-link" href="#construction">Blueprints</a>
+      <a class="nav-link" href="#marauders">Marauders</a>
+      <a class="nav-link" href="#plagues">Plagues</a>
+      <a class="nav-link" href="#feeding">Feeding Citizens</a>
+      <a class="nav-link" href="#war">War & Diplomacy</a>
+      <a class="nav-link" href="#moderation">Mod Tool</a>
+    </nav>
+
+    <main class="content">
+      <div id="get-started" class="page active">
+        <span class="anchor"></span>
+        <h1>Getting Started in Jerry's Colonies</h1>
+        <p class="lead">Jerry's Colonies is a multiplayer-oriented addon for Minecraft: Bedrock Edition that adds player-managed colonies to the game. The goal is to turn Minecraft into a civilization simulator where players can manage/build cities, create lore, and simulate diplomacy.</p>
+
+        <h3>The First Step:</h3>
+        <p>You are well on your way to growing a powerful civilization, but first you need to set up the basics. Craft a flag using 6 wool and a stick. This is what will create your colony.</p>
+        <p><img src="https://media.forgecdn.net/attachments/description/null/description_d144faaa-be01-41a1-ad02-2ac50956b9cb.png" alt="Flag crafting recipe" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+
+        <p>Now you can place your flag! To do this, build a flag pole out of any vanilla fence and right click (mobile users: hold) to place the flag on the fence. If it doesn't work, your flag pole isn't tall enough, you are too far away, or you are not looking at the fence.</p>
+        <p><strong>[WARNING]</strong> Many people struggle to place the flag and get an error saying they can't; if this happens to you you're likely just not tapping the right area on your screen — stand directly in front of the flagpole and try again.</p>
+        <p><img src="https://media.forgecdn.net/attachments/description/null/description_400e079f-a574-4347-969f-cc8e9b2c5be0.png" alt="Placing a flag on a pole" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+
+        <p>After placing the flag you should be given a crown named after your colony. This crown is unique and cannot be replaced — take good care of it.</p>
+
+        <h3>Make a Mayor's Table</h3>
+        <p>To progress in the addon you will need to craft and place a Mayor's Table. It is the centralized workstation for managing all aspects of your colony. The Mayor's Table exposes menus for colony info, citizens, blueprints, diplomacy, and various settings — you may find the number of options overwhelming at first, but each menu is explained in the relevant pages of this wiki.</p>
+        <p>Below is an example of the Mayor's Table UI you'll interact with when managing your colony:</p>
+        <p><img src="https://media.forgecdn.net/attachments/description/null/description_4e1e20f2-7798-4699-851f-1c1786dd0ecf.png" alt="Mayor's Table UI" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+      </div>
+
+      <div id="mayors-table" class="page">
+        <span class="anchor"></span>
+        <h2>Mayor's Table</h2>
+        <p>The Mayor's Table is the central workstation for your colony. From it you can view colony info, change flag color, manage members, buy NPC citizens, purchase blueprints, control diplomacy, rename or delete the colony, transfer ownership, and teleport between flags.</p>
+      </div>
+
+      <div id="citizens" class="page">
+        <span class="anchor"></span>
+        <h2>Citizens</h2>
+        <p>There are two citizen types: Players and NPCs. Players are invited via the Mayor's Table. NPC citizens can be purchased (cost shown in the table, commonly 1 diamond each). Citizens perform jobs, gather resources, fight mobs, use equipment, and grant colony-wide bonuses.</p>
+
+        <h3>Feeding Citizens</h3>
+        <p>Citizens must be fed or they can die. Craft a food crate (chest + bread + planks) and fill it with food — citizens will take one food item per day from the crate.</p>
+
+        <h3>Knights</h3>
+        <p>Knights are a special citizen job. They are stronger than regular citizens and can be ordered to follow and assist you in combat.</p>
+      </div>
+
+      <div id="war" class="page">
+        <span class="anchor"></span>
+        <h2>War & Diplomacy</h2>
+        <p>Use diplomacy to record relationships with other colonies (primarily for roleplay). To declare war you must meet the requirements (for example, have enough NPC citizens). Wars last 30 minutes; victory conditions include eliminating opposing NPCs or player citizens. Winners may claim flags and territory.</p>
+      </div>
+
+      <div id="construction" class="page">
+        <span class="anchor"></span>
+        <h2>Blueprints & Construction</h2>
+        <p>Buy blueprints at the Mayor's Table to instantly place complex structures (houses, farms, castles, roads). Placing a blueprint shows a preview outline; after a short preview you can confirm and build, with an option to undo. Boats and other special builds are also available.</p>
+      </div>
+
+      <div id="marauders" class="page">
+        <span class="anchor"></span>
+        <h2>Marauders & Random Events</h2>
+        <p>Random events can affect colonies. Marauders arrive in hot-air balloons and may drop bombs (wave 1) then land and attack (wave 2). These raids are rare but dangerous.</p>
+      </div>
+
+      <div id="plagues" class="page">
+        <span class="anchor"></span>
+        <h3>Plagues</h3>
+        <p>Plagues can infect a colony, applying negative effects (for example, a temporary weakness) to citizens for a limited time.</p>
+      </div>
+
+      <div id="moderation" class="page">
+        <span class="anchor"></span>
+        <h2>Land Protection & Moderation Tool</h2>
+        <p>Each colony protects a radius (about 100 blocks) around its flag. Non-members cannot break blocks inside this area. The moderation tool (admin tag) exposes server admin options: delete/teleport to colonies, toggle modules, adjust prices, and set NPC caps or land-protection settings.</p>
+      </div>
+
+      <div class="page">
+        <p class="lead">That's the essentials — use the Mayor's Table and flags to manage and grow your civilization, and join the Discord for suggestions or support.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Tabbed navigation: show/hide .page elements and keep nav active state
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+
+    function showPage(id, pushHistory = true) {
+      pages.forEach(p => p.classList.toggle('active', p.id === id));
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      if (pushHistory) history.pushState(null, '', '#' + id);
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.getAttribute('href').slice(1);
+        showPage(target);
+      });
+    });
+
+    window.addEventListener('popstate', () => {
+      const id = location.hash.slice(1) || 'get-started';
+      showPage(id, false);
+    });
+
+    // Initialize from hash
+    const initial = location.hash.slice(1) || 'get-started';
+    showPage(initial, false);
+  </script>
+</body>
+</html>
