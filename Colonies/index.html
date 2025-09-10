@@ -23,22 +23,19 @@
       color: #fff;
     }
 
-    /* prevent browsers from synthesizing bold and normalize weights */
     body, h1, h2, h3, h4, h5, p, a, .nav-link {
       font-weight: normal;
       font-synthesis: none;
     }
 
-    /* make paragraph text visually lighter (helps with single-weight bitmap-like fonts) */
     p, .lead {
-      font-weight: 10; /* try a lighter numeric weight */
-      color: #dfe6e5;   /* slightly lighter than pure white to reduce visual heaviness */
+      font-weight: 10; 
+      color: #dfe6e5;   
       -webkit-font-smoothing: antialiased;
       text-shadow: none;
       letter-spacing: 0.25px;
     }
 
-    /* Top Navbar (full width) */
     .topbar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -57,13 +54,13 @@
       gap: 10px;
     }
     .brand .badge {
-      width: 34px; height: 34px;
+      width: 44px; height: 44px; 
       display: grid; place-items: center;
-      background: #0b2c24;
-      border: 2px solid #0a4a3b;
-      border-radius: 6px;
+      background: transparent; 
+      border: none; 
+      border-radius: 8px;
     }
-    .brand .badge img { width: 22px; height: 22px; }
+    .brand .badge img { width: 30px; height: 30px; }
   .brand span { font-size: 18px; font-weight: normal; font-synthesis: none; }
 
     .actions { display: flex; align-items: center; gap: 8px; }
@@ -77,14 +74,16 @@
     }
     .icon-btn img { width: 20px; height: 20px; display: block; }
 
-  /* App layout below navbar */
+  .hamburger { display: none; border: none; background: transparent; padding: 0; }
+  .hamburger .bars { display: grid; gap:4px; }
+  .hamburger .bars span { display:block; width:18px; height:2px; background:#58bfa7; border-radius:2px; }
+
   .app { display: flex; margin-top: var(--topbar-h); align-items: stretch; }
 
-    /* Sidebar */
     .sidebar {
       width: 240px;
       background-color: #0d3b2e;
-      /* allow sidebar to grow with page content, but be at least full viewport height */
+
       min-height: calc(100vh - var(--topbar-h));
       overflow-y: auto;
       border-right: 2px solid #153f35;
@@ -100,13 +99,28 @@
     .nav-link:hover { background-color: #146652; }
     .nav-link.active { background: #136250; box-shadow: inset 3px 0 0 #58bfa7; }
 
-  /* anchor offset for fixed topbar */
   .anchor { display: block; position: relative; top: calc(-1 * var(--topbar-h)); visibility: hidden; }
 
-  /* Main content */
   .content { flex: 1; padding: 24px; }
   .page { display: none; }
   .page.active { display: block; }
+
+    .content a {
+      color: #58bfa7;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(88,191,167,0.25);
+    }
+    .content a:hover {
+      color: #9ff3e7;
+      border-bottom-color: rgba(159,243,231,0.45);
+    }
+
+  #mayors-table .mayors-abilities { margin-top:12px; padding-left:20px; }
+  #mayors-table .mayors-abilities li { margin-bottom:14px; line-height:1.5; }
+
+  #mayors-table .mayors-abilities h2 { display:inline; font-size:18px; margin:0 6px 0 0; font-weight:normal; }
+
+  #mayors-table .mayors-abilities .paren { color: #58bfa7; }
   .content h1 { font-size: 40px; margin: 0 0 8px; font-weight: normal; font-synthesis: none; }
     .content p.lead { font-size: 18px; color: #cfd6d4; margin: 0 0 16px; }
 
@@ -122,10 +136,21 @@
       letter-spacing: 2px;
     }
 
-    /* Small helper for responsiveness */
     @media (max-width: 880px) {
       .sidebar { width: 200px; }
       .brand span { font-size: 16px; }
+
+  .hamburger { display: grid; position: fixed; right: 12px; top: calc(var(--topbar-h) + 8px); align-items:center; justify-items:center; width:40px; height:40px; background:#0b2c24; border:2px solid #0a4a3b; border-radius:8px; cursor:pointer; z-index:40;
+    opacity: 0.92; 
+    transition: opacity .18s ease, transform .18s ease; }
+  .hamburger.hidden { opacity: 0; transform: scale(.94); pointer-events: none; }
+      .sidebar { position: fixed; left: 0; top: var(--topbar-h); height: calc(100vh - var(--topbar-h)); transform: translateX(-100%); transition: transform .22s ease; z-index: 30; }
+      .sidebar.open { transform: translateX(0); }
+
+      .overlay { display: none; position: fixed; inset: var(--topbar-h) 0 0 0; background: rgba(0,0,0,0.45); z-index: 25; }
+      .overlay.show { display:block; }
+
+      .content { padding: 16px; }
     }
   </style>
 </head>
@@ -138,28 +163,38 @@
       </div>
       <span>Jerry's Colonies Wiki</span>
     </div>
+
     <div class="actions">
-      <a class="icon-btn" href="#" title="CurseForge">
+      <a class="icon-btn" href="https://www.curseforge.com/minecraft-bedrock/addons/jerrys-colonies" title="CurseForge" target="_blank" rel="noopener noreferrer">
         <img src="https://cdn.discordapp.com/emojis/1352882181009051709.webp?size=44" alt="CurseForge" />
       </a>
-      <a class="icon-btn" href="#" title="Discord">
+      <a class="icon-btn" href="https://discord.gg/P3ahdUzgMH" title="Discord" target="_blank" rel="noopener noreferrer">
         <img src="https://cdn.discordapp.com/emojis/1402753921302270073.webp?size=44" alt="Discord" />
       </a>
-      <a class="icon-btn" href="#" title="YouTube">
+      <a class="icon-btn" href="https://www.youtube.com/@Jerryeatsbeans/featured" title="YouTube" target="_blank" rel="noopener noreferrer">
         <img src="https://cdn.discordapp.com/emojis/1408096800568774798.webp?size=44" alt="YouTube" />
       </a>
     </div>
   </div>
 
+  <!-- Hamburger button fixed under the navbar for small screens -->
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
+    <div class="bars" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
   <div class="app">
     <nav class="sidebar">
       <a class="nav-link active" href="#get-started">Get Started</a>
       <a class="nav-link" href="#mayors-table">Mayor's Table</a>
-      <a class="nav-link" href="#citizens">Citizens</a>
-      <a class="nav-link" href="#construction">Blueprints</a>
-      <a class="nav-link" href="#marauders">Marauders</a>
-      <a class="nav-link" href="#plagues">Plagues</a>
       <a class="nav-link" href="#feeding">Feeding Citizens</a>
+      <a class="nav-link" href="#citizens">Citizens</a>
+      <a class="nav-link" href="#plagues">Plagues</a>
+      <a class="nav-link" href="#marauders">Marauders</a>
+      <a class="nav-link" href="#construction">Blueprints</a>
       <a class="nav-link" href="#war">War & Diplomacy</a>
       <a class="nav-link" href="#moderation">Mod Tool</a>
     </nav>
@@ -170,85 +205,265 @@
         <h1>Getting Started in Jerry's Colonies</h1>
         <p class="lead">Jerry's Colonies is a multiplayer-oriented addon for Minecraft: Bedrock Edition that adds player-managed colonies to the game. The goal is to turn Minecraft into a civilization simulator where players can manage/build cities, create lore, and simulate diplomacy.</p>
 
-        <h3>The First Step:</h3>
+        <h2>The First Step:</h2>
         <p>You are well on your way to growing a powerful civilization, but first you need to set up the basics. Craft a flag using 6 wool and a stick. This is what will create your colony.</p>
-        <p><img src="https://media.forgecdn.net/attachments/description/null/description_d144faaa-be01-41a1-ad02-2ac50956b9cb.png" alt="Flag crafting recipe" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+  <p><img src="assets/1.png" alt="Flag crafting recipe" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
 
         <p>Now you can place your flag! To do this, build a flag pole out of any vanilla fence and right click (mobile users: hold) to place the flag on the fence. If it doesn't work, your flag pole isn't tall enough, you are too far away, or you are not looking at the fence.</p>
-        <p><strong>[WARNING]</strong> Many people struggle to place the flag and get an error saying they can't; if this happens to you you're likely just not tapping the right area on your screen — stand directly in front of the flagpole and try again.</p>
-        <p><img src="https://media.forgecdn.net/attachments/description/null/description_400e079f-a574-4347-969f-cc8e9b2c5be0.png" alt="Placing a flag on a pole" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+        <h2><strong>[WARNING]</strong> Many people struggle to place the flag and get an error saying they can't; if this happens to you you're likely just not tapping the right area on your screen — stand directly in front of the flagpole and try again.</h2>
+  <p><img src="assets/2.png" alt="Placing a flag on a pole" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
 
         <p>After placing the flag you should be given a crown named after your colony. This crown is unique and cannot be replaced — take good care of it.</p>
 
-        <h3>Make a Mayor's Table</h3>
-        <p>To progress in the addon you will need to craft and place a Mayor's Table. It is the centralized workstation for managing all aspects of your colony. The Mayor's Table exposes menus for colony info, citizens, blueprints, diplomacy, and various settings — you may find the number of options overwhelming at first, but each menu is explained in the relevant pages of this wiki.</p>
-        <p>Below is an example of the Mayor's Table UI you'll interact with when managing your colony:</p>
-        <p><img src="https://media.forgecdn.net/attachments/description/null/description_4e1e20f2-7798-4699-851f-1c1786dd0ecf.png" alt="Mayor's Table UI" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" /></p>
+  <h2>Read Next: <a href="#mayors-table">The Mayor's Table</a></h2>
       </div>
 
       <div id="mayors-table" class="page">
         <span class="anchor"></span>
-        <h2>Mayor's Table</h2>
-        <p>The Mayor's Table is the central workstation for your colony. From it you can view colony info, change flag color, manage members, buy NPC citizens, purchase blueprints, control diplomacy, rename or delete the colony, transfer ownership, and teleport between flags.</p>
+        <h1>Mayor's Table</h1>
+  <p><strong>The Mayor's Table is the central workstation for your colony. Use a crafting table to make the Mayor's Table, the recipe is shown below.</p>
+  <p><img src="assets/5.png" alt="Mayor's Table crafting recipe" style="max-width:320px;border:2px solid #153f35;border-radius:6px;display:block;margin:8px 0;" /></p>
+
+  <p>The Mayor's Table has the following abilities</p>
+
+  <ul class="mayors-abilities">
+         <li><h2>View Colony Info</h2> — Sends a chat message containing info about your colony. Only you can see this.</li>
+         <li><h2>Change Flag Color</h2> — Customize the flag color, and the color of your colonies display name</li>
+         <li><h2>Manage Members</h2> — Invite players, Purchase Citizens, and Manage Population.</li>
+         <li><h2>Construction</h2> — Browse and buy prebuilt structure blueprints.</li>
+         <li><h2>Diplomacy</h2> — Set relationships with other colonies <span class="paren">(ally/neutral/hostile)</span>, or declare war on your enemies.</li>
+         <li><h2>Rename / Delete Colony</h2> — Change your colony's display name, or permanently delete a colony.</li>
+         <li><h2>Transfer Ownership</h2> — Pass the crown to another player, transfers full ownership and administrative rights to them.</li>
+         <li><h2>Teleport Between Flags</h2> — Fast-travel to any of your colony's flags <span class="paren">(Only appears if your colony has multiple flags)</span></li>
+       </ul>
+
+       <div class="mayors-contents" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+         <img src="assets/3.png" alt="Mayor's Table contents - left" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+         <img src="assets/4.png" alt="Mayor's Table contents - right" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+       </div>
+
+  <h2>Read Next: <a href="#feeding">Feeding Citizens</a></h2>
+      </div>
+
+      <div id="feeding" class="page">
+        <span class="anchor"></span>
+        <h1>Feeding Citizens</h1>
+        <p class="lead">It's important to learn how to feed your citizens before inviting citizens to your colony. Citizens need food to stay alive and productive. If a colony runs out of accessible food, citizens can become hungry and will eventually die.</p>
+
+        <h2>Crafting / Setup</h2>
+        <p>Craft a Food Crate by combining a chest with two bread and some planks at a crafting table — place the crate inside the colony territory so citizens can access it.</p>
+         <p><img src="assets/6.png" alt="Food Crate crafting recipe" style="max-width:320px;border:2px solid #153f35;border-radius:6px;display:block;margin:8px 0;" /></p>
+
+        <h2>How it works</h2>
+        <p>Citizens will automatically take one food item from any accessible Food Crate per in-game day. The crate must be within the colony's protected radius.</p>
+         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+           <img src="assets/7.png" alt="Food crate example 1" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+           <img src="assets/8.png" alt="Food crate example 2" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+         </div>
+
+        <h2>Read Next: <a href="#citizens">Citizens</a></h2>
       </div>
 
       <div id="citizens" class="page">
         <span class="anchor"></span>
-        <h2>Citizens</h2>
-        <p>There are two citizen types: Players and NPCs. Players are invited via the Mayor's Table. NPC citizens can be purchased (cost shown in the table, commonly 1 diamond each). Citizens perform jobs, gather resources, fight mobs, use equipment, and grant colony-wide bonuses.</p>
+        <h1>Citizens</h1>
+        <p class="lead">Citizens are the heart of a colony. There are two kinds:</p>
 
-        <h3>Feeding Citizens</h3>
-        <p>Citizens must be fed or they can die. Craft a food crate (chest + bread + planks) and fill it with food — citizens will take one food item per day from the crate.</p>
+        <p><h3>Players</h3> — Invite other players through the Mayor's Table to join your colony.
+        <br /><h3>NPCs</h3> — Hireable citizens purchased from the Mayor's Table. Cost shown in the Mayors Table (<span class="paren">Default 5 Emeralds Each</span>), and they can be equipped with armor by dropping it at their feet and assigned jobs.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          <img src="assets/9.png" alt="NPC example 1" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/10.png" alt="NPC example 2" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/11.png" alt="NPC example 3" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h3>Feeding</h3>
+        <p>Civilians require food to survive — see <a href="#feeding">Feeding Citizens</a> for more info. Check a citizens hunger by interacting with them.</p>
 
         <h3>Knights</h3>
-        <p>Knights are a special citizen job. They are stronger than regular citizens and can be ordered to follow and assist you in combat.</p>
+        <p>Knights are a special citizen job. They are stronger, and can be ordered to follow and assist you in combat.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          <img src="assets/12.png" alt="Knight example 1" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/13.png" alt="Knight example 2" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h3>Benefits & Mechanics</h3>
+        <ul style="margin-top:8px;padding-left:20px;">
+          <li>Colony Buffs: Every 10 citizens unlocks a status effect for colony members within colony territory (up to 50 citizens worth of effects).</li>
+          <li>Jobs: Assign jobs (botanist, miner, hunter, etc.). Citizens occasionally give items related to their job; a yellow exclamation mark appears above them when they have items to collect.</li>
+          <li>Population Limits: Server admins can set NPC caps via the moderation tool, and adjust the price; be mindful of performance and balance when hiring many NPCs.</li>
+        </ul>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          <img src="assets/14.png" alt="Benefits example 1" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/15.png" alt="Benefits example 2" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>Read Next: <a href="#plagues">Plagues</a></h2>
       </div>
 
       <div id="war" class="page">
         <span class="anchor"></span>
-        <h2>War & Diplomacy</h2>
-        <p>Use diplomacy to record relationships with other colonies (primarily for roleplay). To declare war you must meet the requirements (for example, have enough NPC citizens). Wars last 30 minutes; victory conditions include eliminating opposing NPCs or player citizens. Winners may claim flags and territory.</p>
+        <h1>War & Diplomacy</h1>
+        <p class="lead">Diplomacy is how colonies manage their relationships with one another — set allies, neutrals, or hostiles and use the Mayor's Table relations menu to interact with other colonies.</p>
+
+        <h2>Relations</h2>
+        <p>Open the Relations menu at the Mayor's Table to view other colonies, set alliances, or mark another colony as hostile.
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+          <img src="assets/27.png" alt="Relations menu with another colony" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>Declaring War</h2>
+        <p>To declare war, use the diplomacy menu and choose <em>Declare War</em> against a hostile colony (Colony must have 5 or more citizens). When a war is declared the target colony receives a notification and a war timer starts.</p>
+        <p>Wars are timed and how long is chosen by the colony that declares. Score points in a war by eliminating opposing NPCs or player citizens. Victorious colonies may claim one of the other colonies flags (if they have more than one).</p>
+        <img src="assets/26.png" alt="War declared notification" style="max-width:48%;border:2px solid #153f35;border-radius:6px;" />
+
+          <li>Be aware of server rules — some servers may impose their own rules for war.</li>
+        </ul>
+        <h2>Read Next: <a href="#moderation">Mod Tool</a></h2>
       </div>
 
       <div id="construction" class="page">
         <span class="anchor"></span>
-        <h2>Blueprints & Construction</h2>
-        <p>Buy blueprints at the Mayor's Table to instantly place complex structures (houses, farms, castles, roads). Placing a blueprint shows a preview outline; after a short preview you can confirm and build, with an option to undo. Boats and other special builds are also available.</p>
+        <h1>Blueprints & Construction</h1>
+        <p class="lead">Blueprints let you instantly place complex structures so you can quickly expand your colony with nice buildings and layouts.</p>
+
+        <h2>Purchase Menu</h2>
+        <p>Open the Mayor's Table and browse the Construction menu to view available blueprints. Prices can be set by server admins.</p>
+        <div style="margin-top:8px;">
+          <img src="assets/21.png" alt="Blueprint purchase menu" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>Placing a Blueprint</h2>
+        <p>Select a blueprint, position the preview outline in the world, and confirm to instantly build. You have a short preview window to cancel the placement. If you don't like where it is, you have one more chance to undo it</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          <img src="assets/22.png" alt="Blueprint preview 1" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/23.png" alt="Blueprint preview 2" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+          <img src="assets/24.png" alt="Blueprint preview 3" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>Example:</h2>
+        <p>Here's a city I built using several different blueprints.</p>
+        <div style="margin-top:8px;">
+          <img src="assets/25.png" alt="City created with blueprints" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>Read Next: <a href="#war">War & Diplomacy</a></h2>
       </div>
 
       <div id="marauders" class="page">
         <span class="anchor"></span>
-        <h2>Marauders & Random Events</h2>
-        <p>Random events can affect colonies. Marauders arrive in hot-air balloons and may drop bombs (wave 1) then land and attack (wave 2). These raids are rare but dangerous.</p>
+        <h1>Marauder Attacks</h1>
+        <p class="lead">Marauders are very dangerous event like plagues where hostile NPCs (Marauders) arrive by hot-air balloon and assault your colony — first from the air, then on the ground.</p>
+        <div style="margin-top:8px;">
+          <img src="assets/17.png" alt="Marauders arriving" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+        <h2>What are Marauders?</h2>
+        <p>Marauders are hostile NPC raiders that spawn above colonies in small groups (commonly 3–5). They arrive in hot-air balloons and may target your colony for a raid that comes in multiple waves.</p>
+
+        <h2>Waves</h2>
+        <p>Waves typically happen in two phases:</p>
+        <ul style="margin-top:8px;padding-left:20px;">
+          <li><strong>Wave 1 — Bombing:</strong> Marauders remain in their balloons and drop explosive bombs over the colony. Bombs damage entities but do not break blocks.
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+              <img src="assets/18.png" alt="Bombing example" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+              <img src="assets/19.png" alt="Balloon example" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+              <img src="assets/20.png" alt="Bomb impact example" style="max-width:32%;border:2px solid #153f35;border-radius:6px;" />
+            </div>
+          </li>
+          <li><strong>Wave 2 — Ground Assault:</strong> After bombing, the marauders land and continue the attack on the ground, engaging players and NPC citizens directly.</li>
+        </ul>
+
+        <h2>Tips</h2>
+        <ul style="margin-top:8px;padding-left:20px;">
+          <li>Keep citizens sheltered inside protected structures during raids to reduce civilian casualties.</li>
+          <li>Equip knights and guards with good armor and weapons — they perform well defending against the ground wave.</li>
+          <li>Use Iron Golems — They deal heavy damage to Marauders, but Marauders deal heavy damage back.</li>
+          <li>Admins can change the frequency via the moderation tool if raids are too often / too little.</li>
+        </ul>
+
+        <h2>Read Next: <a href="#construction">Blueprints</a></h2>
       </div>
 
       <div id="plagues" class="page">
         <span class="anchor"></span>
-        <h3>Plagues</h3>
-        <p>Plagues can infect a colony, applying negative effects (for example, a temporary weakness) to citizens for a limited time.</p>
+        <h1>Plagues</h1>
+        <p>Plagues can infect a colony, applying Weakness III to citizens for 20 minutes. World admins can adjust how often plagues occur</p>
+        <div style="margin-top:8px;">
+          <img src="assets/16.png" alt="Plague example" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+        </div>
+
+  <h2>Read Next: <a href="#marauders">Marauders</a></h2>
       </div>
 
       <div id="moderation" class="page">
         <span class="anchor"></span>
-        <h2>Land Protection & Moderation Tool</h2>
-        <p>Each colony protects a radius (about 100 blocks) around its flag. Non-members cannot break blocks inside this area. The moderation tool (admin tag) exposes server admin options: delete/teleport to colonies, toggle modules, adjust prices, and set NPC caps or land-protection settings.</p>
+        <h1>Server Moderation</h1>
+        <p class="lead">Each colony protects a a 100 block radius around each of its flags. Non-members cannot break blocks inside this area unless admins configure otherwise. Server admins use the Moderation Tool (an admin-only item) to manage colonies and tweak addon settings.</p>
+
+        <h2>The Mod Tool Item</h2>
+        <p>The mod tool is an item given to server admins that opens a powerful administration UI. Use it to quickly manage colonies, adjust global settings, and troubleshoot issues. To open the UI, right click or hold on any colony flag.</p>
+        <div style="margin-top:8px;">
+          <img src="assets/28.png" alt="Moderation tool item" style="max-width:40%;border:2px solid #153f35;border-radius:6px;display:block;margin-bottom:8px;" />
+        </div>
+
+        <h2>Admin Features</h2>
+        <p>KTo use the mod tool, grab it from the creative menu, and then give yourself access via the command "/tag add [username] admin"</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+          <div style="flex:1;min-width:220px;">
+            <img src="assets/29.png" alt="Teleport / Delete colony" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <img src="assets/30.png" alt="Toggle modules" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+
+          </div>
+
+          <div style="flex:1;min-width:220px;">
+            <img src="assets/32.png" alt="Land protection settings" style="max-width:100%;border:2px solid #153f35;border-radius:6px;" />
+
+          </div>
+        </div>
+
+        <ul style="margin-top:8px;padding-left:20px;">
+          <li>Tweaking addon settings</li>
+          <li>Setting prices for citizens/blueprints</li>
+          <li>Triggering events</li>
+          <li>Teleporting between colonies</li>
+          <li>Setting citizen limits</li>
+          <li>Force-Deleting Colonies</li>
+          <li>More to come...</li>
+        </ul>
       </div>
 
       <div class="page">
         <p class="lead">That's the essentials — use the Mayor's Table and flags to manage and grow your civilization, and join the Discord for suggestions or support.</p>
       </div>
+
+      <!-- Hidden 404 page (not linked in the UI) -->
+      <div id="404" class="page">
+        <span class="anchor"></span>
+        <h1>404 — Page not found</h1>
+        <p class="lead">This page does not exist. If you followed an external link that led here, try returning to the <a href="#get-started">Get Started</a> page.</p>
+      </div>
     </main>
   </div>
 
+  <!-- overlay for small-screen sidebar -->
+  <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
+
   <script>
-    // Tabbed navigation: show/hide .page elements and keep nav active state
+
     const navLinks = document.querySelectorAll('.nav-link');
     const pages = document.querySelectorAll('.page');
 
     function showPage(id, pushHistory = true) {
-      pages.forEach(p => p.classList.toggle('active', p.id === id));
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-      if (pushHistory) history.pushState(null, '', '#' + id);
+
+      const match = Array.from(pages).find(p => p.id === id);
+      const showId = match ? id : '404';
+      pages.forEach(p => p.classList.toggle('active', p.id === showId));
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + showId));
+      if (pushHistory) history.pushState(null, '', '#' + showId);
     }
 
     navLinks.forEach(link => {
@@ -264,9 +479,37 @@
       showPage(id, false);
     });
 
-    // Initialize from hash
     const initial = location.hash.slice(1) || 'get-started';
     showPage(initial, false);
+
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
+
+    function setSidebarOpen(open) {
+      if (open) {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        hamburger.setAttribute('aria-expanded', 'true');
+    if (hamburger) hamburger.classList.add('hidden');
+      } else {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        hamburger.setAttribute('aria-expanded', 'false');
+    if (hamburger) hamburger.classList.remove('hidden');
+      }
+    }
+
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = sidebar.classList.contains('open');
+        setSidebarOpen(!isOpen);
+      });
+    }
+
+    if (overlay) overlay.addEventListener('click', () => setSidebarOpen(false));
+
+    navLinks.forEach(link => link.addEventListener('click', () => setSidebarOpen(false)));
   </script>
 </body>
 </html>
