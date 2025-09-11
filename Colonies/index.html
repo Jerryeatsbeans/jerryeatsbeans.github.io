@@ -152,10 +152,294 @@
 
       .content { padding: 16px; }
     }
+
+    
+    .upload-section {
+      background: #1a1a1a;
+      border: 2px solid #153f35;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .file-upload {
+      margin-bottom: 20px;
+    }
+
+    .upload-btn, .generate-btn {
+      background: #0d3b2e;
+      border: 2px solid #153f35;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Minecraftia', monospace;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .upload-btn:hover, .generate-btn:hover:not(:disabled) {
+      background: #136250;
+      border-color: #58bfa7;
+    }
+
+   
+    .download-section {
+      background: #1a1a1a;
+      border: 2px solid #153f35;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: #0d3b2e;
+      border: 2px solid #153f35;
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Minecraftia', monospace;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+    }
+
+    .download-btn:hover {
+      background: #136250;
+      border-color: #58bfa7;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .download-info {
+      color: #aaa;
+      font-size: 12px;
+      margin: 10px 0 0 0;
+      font-style: italic;
+    }
+
+    .generate-btn:disabled {
+      background: #2a2a2a;
+      border-color: #444;
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    .file-count {
+      margin-top: 10px;
+      color: #58bfa7;
+      font-size: 14px;
+    }
+
+    .structure-list {
+      margin-top: 15px;
+    }
+
+    .structure-item {
+      background: #2a2a2a;
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .structure-file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #58bfa7;
+      font-size: 14px;
+    }
+
+    .structure-file-info .file-icon {
+      font-size: 18px;
+    }
+
+    .structure-name-input {
+      background: #1a1a1a;
+      border: 2px solid #153f35;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: 'Minecraftia', monospace;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .structure-name-input:focus {
+      border-color: #58bfa7;
+      outline: none;
+    }
+
+    .structure-name-label {
+      color: #dfe6e5;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .remove-structure {
+      background: #dc3545;
+      border: 2px solid #c82333;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Minecraftia', monospace;
+      font-size: 11px;
+      align-self: flex-end;
+      transition: all 0.2s;
+    }
+
+    .remove-structure:hover {
+      background: #c82333;
+      border-color: #bd2130;
+    }
+
+    .pack-details {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .pack-details label {
+      color: #dfe6e5;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .pack-details input, .pack-details textarea {
+      background: #2a2a2a;
+      border: 2px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Minecraftia', monospace;
+      font-size: 12px;
+    }
+
+    .pack-details input:focus, .pack-details textarea:focus {
+      border-color: #58bfa7;
+      outline: none;
+    }
+
+    .download-section {
+      background: #0a2f23;
+      border: 2px solid #58bfa7;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .download-section h3 {
+      color: #58bfa7;
+      margin-top: 0;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .download-btn {
+      background: #0d5847;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Minecraftia', monospace;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .download-btn:hover {
+      background: #15ac95;
+      transform: translateY(-2px);
+    }
+
+    .download-btn.behavior {
+      background: #4CAF50;
+    }
+
+    .download-btn.resource {
+      background: #FF9800;
+    }
+
+    .download-btn.mcaddon {
+      background: #9C27B0;
+      font-size: 16px;
+      padding: 15px 30px;
+    }
+
+    .success-notice {
+      background: #0a2f23;
+      border: 2px solid #4CAF50;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .success-notice h4 {
+      color: #4CAF50;
+      margin-top: 0;
+    }
+
+    .included-files {
+      background: #1a1a1a;
+      border: 1px solid #4CAF50;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .structure-file-item {
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin: 5px 0;
+      font-family: 'Minecraftia', monospace;
+      font-size: 11px;
+    }
+
+    .instructions {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #58bfa7;
+    }
+
+    .instructions code {
+      background: #2a2a2a;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Minecraftia', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+      .download-buttons {
+        flex-direction: column;
+      }
+      
+      .download-btn {
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Top navbar with brand on the left and action icons on the right -->
+  
   <div class="topbar">
     <div class="brand">
       <div class="badge">
@@ -197,6 +481,7 @@
       <a class="nav-link" href="#construction">Blueprints</a>
       <a class="nav-link" href="#war">War & Diplomacy</a>
       <a class="nav-link" href="#moderation">Mod Tool</a>
+      <a class="nav-link" href="#custom-builder">Custom Structure Builder</a>
     </nav>
 
     <main class="content">
@@ -434,6 +719,66 @@
           <li>Force-Deleting Colonies</li>
           <li>More to come...</li>
         </ul>
+        
+        <h2>Read Next: <a href="#custom-builder">Custom Structure Builder</a></h2>
+      </div>
+
+      <div id="custom-builder" class="page">
+        <span class="anchor"></span>
+        <h1>Custom Structure Builder</h1>
+        <p class="lead">Create your own expansion packs for Jerry's Colonies! Upload your .mcstructure files and generate a complete expansion pack that integrates seamlessly with the colony system.</p>
+
+        <h2>Step 1: Download Jerry's Structure Editor World</h2>
+        <p>To create properly sized structures (15×22×15), you <strong>must</strong> use Jerry's Structure Editor world. This is the only way to create structures that will work correctly with the colony system.</p>
+        
+        <div class="download-section">
+          <a href="../assets/Jerry's Structure Editor.mcworld" download class="download-btn">
+            ⬇️ Download Jerry's Structure Editor World
+          </a>
+          <p class="download-info">After downloading, double-click the .mcworld file to import it into Minecraft. Then create your 15×22×15 structures and export them as .mcstructure files.</p>
+        </div>
+
+        <h2>Step 2: Upload Your Structures</h2>
+        <div class="upload-section">
+          <div class="file-upload">
+            <input type="file" id="structureFiles" accept=".mcstructure" multiple style="display: none;">
+            <button onclick="document.getElementById('structureFiles').click()" class="upload-btn">
+              📁 Select .mcstructure Files
+            </button>
+            <div class="file-info">
+              <div id="fileCount" class="file-count"></div>
+              <div id="structureList" class="structure-list"></div>
+            </div>
+          </div>
+          
+          <div class="pack-details">
+            <label for="packName">Expansion Pack Name:</label>
+            <input type="text" id="packName" placeholder="Jerry's Colonies" maxlength="50">
+            
+            <label for="description">Pack Description (Optional):</label>
+            <textarea id="description" placeholder="Adds custom structures to Jerry's Colonies" rows="3" maxlength="200"></textarea>
+          </div>
+
+          <button id="generatePack" class="generate-btn" disabled>🚀 Generate Expansion Pack</button>
+        </div>
+
+        <div id="downloadSection" class="download-section" style="display: none;">
+          <h3>✅ Expansion Pack Generated Successfully!</h3>
+          <p>Your custom expansion pack is ready! Download the .mcaddon file and double-click to install:</p>
+          <div class="download-buttons">
+            <a id="downloadMcaddon" class="download-btn mcaddon">🎁 Download .mcaddon File</a>
+          </div>
+          <div class="instructions">
+            <h4>Installation Instructions:</h4>
+            <ol>
+              <li>Download the .mcaddon file above</li>
+              <li>Double-click the .mcaddon file to automatically import both packs</li>
+              <li>Open Minecraft and create/edit a world</li>
+              <li>Enable both the behavior pack and resource pack in world settings. MAKE SURE THE EXPANSION PACK IS ABOVE JERRY'S COLONIES IN THE RP/BP MENU</li>
+              <li>Your custom structures will appear in Jerry's Colonies construction menu!</li>
+            </ol>
+          </div>
+        </div>
       </div>
 
       <div class="page">
@@ -449,9 +794,12 @@
     </main>
   </div>
 
-  <!-- overlay for small-screen sidebar -->
+  
   <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
 
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  
   <script>
 
     const navLinks = document.querySelectorAll('.nav-link');
@@ -510,6 +858,446 @@
     if (overlay) overlay.addEventListener('click', () => setSidebarOpen(false));
 
     navLinks.forEach(link => link.addEventListener('click', () => setSidebarOpen(false)));
+
+    // Custom Structure Builder Functionality
+    const structureFiles = document.getElementById('structureFiles');
+    const fileCount = document.getElementById('fileCount');
+    const structureList = document.getElementById('structureList');
+    const packName = document.getElementById('packName');
+    const description = document.getElementById('description');
+    const generateBtn = document.getElementById('generatePack');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadMcaddon = document.getElementById('downloadMcaddon');
+    const structureFilesList = document.getElementById('structureFilesList');
+
+    let selectedStructures = [];
+
+    // File upload handler
+    if (structureFiles) {
+      structureFiles.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        const validFiles = files.filter(file => file.name.endsWith('.mcstructure'));
+        
+        if (validFiles.length > 0) {
+          // Add new files to selected structures
+          validFiles.forEach(file => {
+            const structureName = file.name.replace('.mcstructure', '').replace(/[^a-zA-Z0-9\s]/g, ' ').trim();
+            selectedStructures.push({
+              file: file,
+              fileName: file.name,
+              displayName: structureName,
+              id: generateId()
+            });
+          });
+          
+          updateStructureList();
+          checkGenerateButton();
+        }
+        
+        if (files.length > validFiles.length) {
+          alert('Some files were skipped because they are not .mcstructure files.');
+        }
+        
+        // Reset input to allow re-selecting same files
+        structureFiles.value = '';
+      });
+    }
+
+    // Input validation
+    if (packName) {
+      packName.addEventListener('input', checkGenerateButton);
+    }
+
+    function updateStructureList() {
+      if (!structureList || !fileCount) return;
+      
+      const count = selectedStructures.length;
+      if (count === 0) {
+        fileCount.textContent = '';
+        structureList.innerHTML = '';
+        return;
+      }
+      
+      fileCount.textContent = `📄 ${count} structure${count === 1 ? '' : 's'} selected`;
+      fileCount.style.color = '#58bfa7';
+      
+      structureList.innerHTML = selectedStructures.map(structure => `
+        <div class="structure-item" data-id="${structure.id}">
+          <div class="structure-file-info">
+            <span class="file-icon">📦</span>
+            <span>${structure.fileName}</span>
+          </div>
+          <div>
+            <div class="structure-name-label">Structure Display Name:</div>
+            <input 
+              type="text" 
+              class="structure-name-input" 
+              value="${structure.displayName}"
+              placeholder="Enter display name"
+              maxlength="30"
+              data-id="${structure.id}"
+            >
+          </div>
+          <button class="remove-structure" onclick="removeStructure('${structure.id}')">
+            🗑️ Remove
+          </button>
+        </div>
+      `).join('');
+      
+      
+      document.querySelectorAll('.structure-name-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const structureId = e.target.getAttribute('data-id');
+          const structure = selectedStructures.find(s => s.id === structureId);
+          if (structure) {
+            structure.displayName = e.target.value;
+            checkGenerateButton();
+          }
+        });
+      });
+    }
+
+    function removeStructure(id) {
+      selectedStructures = selectedStructures.filter(s => s.id !== id);
+      updateStructureList();
+      checkGenerateButton();
+    }
+
+   
+    window.removeStructure = removeStructure;
+
+    function checkGenerateButton() {
+      const hasFiles = selectedStructures.length > 0;
+      const hasPackName = packName?.value.trim();
+      const allStructuresNamed = selectedStructures.every(s => s.displayName.trim());
+      
+      const isValid = hasFiles && hasPackName && allStructuresNamed;
+      
+      if (generateBtn) {
+        generateBtn.disabled = !isValid;
+      }
+    }
+
+    function generateId() {
+      return Math.random().toString(36).substr(2, 9);
+    }
+
+    
+    async function fetchAssetAsBase64(assetPath) {
+      try {
+        const response = await fetch(assetPath);
+        const blob = await response.blob();
+        
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve(reader.result.split(',')[1]); 
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } catch (error) {
+        console.error(`Failed to fetch asset: ${assetPath}`, error);
+        throw error;
+      }
+    }
+
+    // Generate expansion pack
+    if (generateBtn) {
+      generateBtn.addEventListener('click', async () => {
+        if (selectedStructures.length === 0 || !packName.value.trim()) {
+          alert('Please select structure files and enter a pack name.');
+          return;
+        }
+
+        const unnamedStructures = selectedStructures.filter(s => !s.displayName.trim());
+        if (unnamedStructures.length > 0) {
+          alert('Please provide display names for all structures.');
+          return;
+        }
+
+        try {
+          generateBtn.textContent = '🔄 Generating...';
+          generateBtn.disabled = true;
+
+         
+          const behaviorUuid = generateUUID();
+          const behaviorDataUuid = generateUUID();
+          const behaviorScriptUuid = generateUUID();
+
+         
+          const mcaddonBlob = await createMcaddonPack(
+            packName.value.trim(),
+            description.value.trim(),
+            selectedStructures,
+            behaviorUuid,
+            behaviorDataUuid,
+            behaviorScriptUuid
+          );
+
+          
+          downloadMcaddon.href = URL.createObjectURL(mcaddonBlob);
+          downloadMcaddon.download = `${packName.value.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_')}.mcaddon`;
+
+          
+          displayIncludedFiles(selectedStructures);
+
+          downloadSection.style.display = 'block';
+          generateBtn.textContent = '✅ Pack Generated!';
+
+        } catch (error) {
+          console.error('Error generating pack:', error);
+          alert('Error generating pack. Please try again.');
+          generateBtn.textContent = '🚀 Generate Expansion Pack';
+          generateBtn.disabled = false;
+        }
+      });
+    }
+
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    async function createMcaddonPack(packName, desc, structures, behaviorUuid, dataUuid, scriptUuid) {
+      const zip = new JSZip();
+      
+      // Clean pack name for folder
+      const cleanPackName = packName.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '_');
+      
+      // Create behavior pack folder
+      const bpFolder = zip.folder(`${cleanPackName}_BP`);
+      
+      // Create behavior pack manifest
+      const bpManifest = {
+        format_version: 2,
+        header: {
+          description: desc || `${packName} - Expansion pack for Jerry's Colonies`,
+          name: packName,
+          uuid: behaviorUuid,
+          version: [1, 0, 0],
+          min_engine_version: [1, 20, 10]
+        },
+        modules: [
+          {
+            description: `${packName} Data`,
+            type: "data",
+            uuid: dataUuid,
+            version: [1, 0, 0]
+          },
+          {
+            description: `${packName} Scripts`,
+            type: "script",
+            language: "javascript",
+            uuid: scriptUuid,
+            version: [1, 0, 0],
+            entry: "scripts/main.js"
+          }
+        ],
+        dependencies: [
+          {
+            module_name: "@minecraft/server",
+            version: "1.15.0"
+          }
+        ],
+        metadata: {
+          product_type: "addon"
+        }
+      };
+      
+      bpFolder.file("manifest.json", JSON.stringify(bpManifest, null, 2));
+      
+      // Add pack icon for behavior pack (use provided asset)
+      const bpIconData = await fetchAssetAsBase64('assets/pack_icon.png');
+      bpFolder.file("pack_icon.png", bpIconData, {base64: true});
+      
+      // Create blueprint definitions for all structures
+      const blueprintDefinitions = structures.map(structure => {
+        const structureFileName = structure.fileName.replace('.mcstructure', '');
+        const blueprintId = `jerrys_colonies:blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
+        
+        return `    {
+        typeId: "${blueprintId}",
+        displayName: "${structure.displayName}", 
+        structure: "${structureFileName}",
+        size: { width: 15, height: 22, depth: 15 },
+        frontSide: "max_z"
+    }`;
+      }).join(',\n');
+      
+      // Create main.js script
+      const mainScript = `/*
+ * ${packName} for Jerry's Colonies
+ * Generated by Custom Structure Builder
+ * Contains ${structures.length} custom structure${structures.length === 1 ? '' : 's'}
+ */
+
+import { world, system } from "@minecraft/server";
+
+const PACK_NAME = "${packName}";
+
+// Define blueprints for all structures
+const customBlueprints = [
+${blueprintDefinitions}
+];
+
+// Register the expansion pack when the world starts
+system.runTimeout(() => {
+    console.log(\`Registering expansion pack: \${PACK_NAME} with \${customBlueprints.length} structure\${customBlueprints.length === 1 ? '' : 's'}\`);
+    
+    // Register each blueprint
+    customBlueprints.forEach(blueprint => {
+        system.run(() => {
+            const registrationData = {
+                packName: PACK_NAME,
+                blueprint: blueprint
+            };
+            
+            world.getDimension("overworld").runCommand(
+                \`scriptevent jerrys_colonies:register_expansion \${JSON.stringify(registrationData)}\`
+            );
+            
+            console.log(\`Registered blueprint: \${blueprint.displayName}\`);
+        });
+    });
+}, 20);
+
+console.log(\`\${PACK_NAME} loaded successfully!\`);`;
+
+      const scriptsFolder = bpFolder.folder("scripts");
+      scriptsFolder.file("main.js", mainScript);
+      
+      // Create item definitions
+      const itemsFolder = bpFolder.folder("items");
+      structures.forEach(structure => {
+        const structureFileName = structure.fileName.replace('.mcstructure', '');
+        const blueprintId = `jerrys_colonies:blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
+        const itemFileName = `${blueprintId.replace('jerrys_colonies:', '')}.json`;
+        
+        const blueprintItem = {
+          format_version: "1.20.60",
+          "minecraft:item": {
+            description: {
+              identifier: blueprintId,
+              menu_category: {
+                category: "items"
+              }
+            },
+            components: {
+              "minecraft:display_name": {
+                value: `${structure.displayName} Blueprint`
+              },
+              "minecraft:icon": blueprintId.replace('jerrys_colonies:', ''),
+              "minecraft:max_stack_size": 64,
+              "minecraft:hand_equipped": true,
+              "minecraft:stacked_by_data": false,
+              "minecraft:glint": false,
+              "minecraft:should_despawn": true,
+              "minecraft:liquid_clipped": false,
+              "minecraft:allow_off_hand": false,
+              "minecraft:fire_resistant": false
+            }
+          }
+        };
+        
+        itemsFolder.file(itemFileName, JSON.stringify(blueprintItem, null, 2));
+      });
+      
+      // Create structures folder and add the actual .mcstructure files
+      const structuresFolder = bpFolder.folder("structures");
+      
+      // Add each uploaded .mcstructure file to the structures folder
+      for (const structure of structures) {
+        const arrayBuffer = await structure.file.arrayBuffer();
+        const fileName = structure.fileName;
+        structuresFolder.file(fileName, arrayBuffer);
+      }
+      
+      // Create resource pack folder 
+      const rpFolder = zip.folder(`${cleanPackName}_RP`);
+      
+      // Create resource pack manifest
+      const resourceUuid = generateUUID();
+      const resourceDataUuid = generateUUID();
+      
+      const rpManifest = {
+        format_version: 2,
+        header: {
+          description: `${packName} - Resource Pack for Jerry's Colonies`,
+          name: `${packName} RP`,
+          uuid: resourceUuid,
+          version: [1, 0, 0],
+          min_engine_version: [1, 20, 10]
+        },
+        modules: [
+          {
+            description: `${packName} Resources`,
+            type: "resources",
+            uuid: resourceDataUuid,
+            version: [1, 0, 0]
+          }
+        ]
+      };
+      
+      rpFolder.file("manifest.json", JSON.stringify(rpManifest, null, 2));
+      
+      // Add pack icon for resource pack (use provided asset)
+      const rpIconData = await fetchAssetAsBase64('assets/pack_icon.png');
+      rpFolder.file("pack_icon.png", rpIconData, {base64: true});
+      
+      // Create textures folder structure and item_texture.json
+      const texturesFolder = rpFolder.folder("textures");
+      const itemsTexturesFolder = texturesFolder.folder("items");
+      
+      // Add the custom blueprint texture (use provided asset)
+      const customBlueprintTexture = await fetchAssetAsBase64('assets/customblueprint.png');
+      itemsTexturesFolder.file("customblueprint.png", customBlueprintTexture, {base64: true});
+      
+      const textureDefinitions = {};
+      structures.forEach(structure => {
+        const structureFileName = structure.fileName.replace('.mcstructure', '');
+        const blueprintId = `blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
+        
+        textureDefinitions[blueprintId] = {
+          textures: "textures/items/customblueprint"
+        };
+      });
+      
+      const itemTextureJson = {
+        texture_data: textureDefinitions,
+        resource_pack_name: `${cleanPackName}_rp`,
+        texture_name: "atlas.items"
+      };
+      
+      texturesFolder.file("item_texture.json", JSON.stringify(itemTextureJson, null, 2));
+      
+      // Add README for resource pack
+      rpFolder.file("README.txt", `This resource pack contains texture definitions for ${packName}.\n\nThe textures reference "customblueprint" which should already exist in your main Jerry's Colonies resource pack.\n\nIf you want to use custom textures, replace the "customblueprint" references with your own texture paths.`);
+      
+      // Generate and return the .mcaddon file
+      return await zip.generateAsync({type:"blob"});
+    }
+
+    function displayIncludedFiles(structures) {
+      const includedFiles = document.getElementById('includedFiles');
+      if (!includedFiles) return;
+      
+      includedFiles.innerHTML = `
+        <div style="margin-bottom: 10px;"><strong>📁 Behavior Pack:</strong></div>
+        ${structures.map(structure => `
+          <div class="structure-file-item">
+            ✅ ${structure.fileName} (${structure.displayName})
+          </div>
+        `).join('')}
+        <div style="margin: 10px 0;"><strong>🎨 Resource Pack:</strong></div>
+        <div class="structure-file-item">✅ Custom blueprint textures</div>
+        <div class="structure-file-item">✅ Pack icons</div>
+        <div class="structure-file-item">✅ Item texture definitions</div>
+      `;
+    }
   </script>
 </body>
 </html>
