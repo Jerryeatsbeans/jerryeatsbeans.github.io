@@ -14,6 +14,13 @@
       font-style: normal;
       font-display: swap;
     }
+    @font-face {
+      font-family: 'MinecraftTen';
+      src: url('../assets/fonts/MinecraftTen-VGORe.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
     :root { 
       --topbar-h: 48px;
       --primary-green: #58bfa7;
@@ -60,7 +67,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 10px;
-      z-index: 10;
+      z-index: 100;
       border-bottom: 2px solid #153f35;
     }
     .brand {
@@ -76,15 +83,20 @@
       border-radius: 8px;
     }
     .brand .badge img { width: 30px; height: 30px; }
-  .brand span { font-size: 18px; font-weight: normal; font-synthesis: none; }
+  .brand span { 
+    font-size: 18px; 
+    font-weight: normal; 
+    font-synthesis: none;
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
+  }
 
     .actions { display: flex; align-items: center; gap: 8px; }
     .icon-btn {
-      width: 34px; height: 34px;
+      width: 40px; height: 40px;
       display: grid; place-items: center;
       background: #0b2c24;
       border: 2px solid #0a4a3b;
-      border-radius: 6px;
+      border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -96,7 +108,7 @@
       box-shadow: 0 4px 12px rgba(88, 191, 167, 0.3);
     }
     
-    .icon-btn img { width: 20px; height: 20px; display: block; }
+    .icon-btn img { width: 28px; height: 28px; display: block; }
 
   .hamburger { display: none; border: none; background: transparent; padding: 0; }
   .hamburger .bars { display: grid; gap:4px; }
@@ -111,6 +123,8 @@
       min-height: calc(100vh - var(--topbar-h));
       overflow-y: auto;
       border-right: 2px solid #153f35;
+      position: relative;
+      z-index: 50;
     }
     .nav-link {
       padding: 14px 16px;
@@ -158,6 +172,96 @@
   }
   .page { display: none; }
   .page.active { display: block; }
+
+  /* Download page styles */
+  #download.page {
+    display: none !important;
+  }
+
+  #download.page.active {
+    background: url('assets/banner.png') center/cover no-repeat;
+    min-height: calc(100vh - var(--topbar-h));
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin: -40px -60px !important;
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: none !important;
+    z-index: 10;
+  }
+
+  #download::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+  }
+
+  #download .anchor,
+  #download .download-title,
+  #download .download-subtitle,
+  #download .download-button {
+    position: relative;
+    z-index: 1;
+  }
+
+  #download .download-title {
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
+    font-size: 72px;
+    color: #ffffff;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  #download .download-subtitle {
+    font-family: 'Minecraftia', monospace;
+    font-size: 24px;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  #download .download-button {
+    background: #00911f;
+    color: #ffffff;
+    font-family: 'Minecraftia', monospace;
+    font-size: 27px;
+    font-weight: bold;
+    width: 300px;
+    height: 80px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 0 #007419;
+    transition: all 0.1s ease;
+  }
+
+  #download .download-button:hover {
+    background: #005804;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #003500;
+  }
+
+  #download .download-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #3a9179;
+  }
 
   /* Interactive elements and hover effects */
   .content-section {
@@ -403,6 +507,7 @@
     margin: 0 0 16px; 
     font-weight: normal; 
     font-synthesis: none;
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
     color: var(--text-primary);
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
@@ -410,6 +515,7 @@
   .content h2 {
     font-size: 28px;
     margin: 30px 0 16px;
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
     color: var(--primary-green);
     border-bottom: 2px solid var(--primary-green);
     padding-bottom: 8px;
@@ -418,7 +524,12 @@
   .content h3 {
     font-size: 22px;
     margin: 24px 0 12px;
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
     color: var(--accent-gold);
+  }
+
+  .content h4 {
+    font-family: 'MinecraftTen', 'Minecraftia', monospace;
   }
 
   .content p.lead { 
@@ -496,6 +607,28 @@
 
       .content h2 {
         font-size: 24px;
+      }
+
+      /* Download page mobile styles */
+      #download.page.active {
+        padding: 20px !important;
+        margin: 0 !important;
+      }
+
+      #download .download-title {
+        font-size: 48px;
+        text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+      }
+
+      #download .download-subtitle {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+
+      #download .download-button {
+        width: 250px;
+        height: 70px;
+        font-size: 16px;
       }
     }
 
@@ -782,11 +915,214 @@
         text-align: center;
       }
     }
+
+    /* Search Bar Styles */
+    .search-container {
+      position: relative;
+      margin: 0 15px;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      background: #0b2c24;
+      border: 1px solid #ffffff;
+      border-radius: 2px;
+      color: var(--text-primary);
+      font-family: 'Minecraftia', monospace;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary-green);
+      background: #0d3b2e;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 8px;
+      background: #0d3b2e;
+      border: 2px solid var(--primary-green);
+      border-radius: 2px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .search-results.show {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid #1e5b4f;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover {
+      background: #146652;
+    }
+
+    .search-result-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--primary-green);
+      margin-bottom: 4px;
+      font-family: 'MinecraftTen', 'Minecraftia', monospace;
+    }
+
+    .search-result-text {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .search-highlight {
+      background: var(--accent-gold);
+      color: #000;
+      padding: 1px 3px;
+      border-radius: 2px;
+      font-weight: bold;
+    }
+
+    .search-no-results {
+      padding: 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .search-icon-btn {
+      display: none;
+      width: 40px; 
+      height: 40px;
+      background: #0b2c24;
+      border: 2px solid #0a4a3b;
+      border-radius: 4px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .search-icon-btn:hover {
+      background: var(--primary-green);
+      border-color: var(--primary-green);
+    }
+
+    .search-close-btn {
+      display: none;
+    }
+
+    @media (max-width: 880px) {
+      .search-container {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 100%;
+        max-width: none;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        background: #0d3b2e;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 50;
+      }
+
+      .search-container.mobile-active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .search-container.mobile-active .search-input {
+        padding-left: 12px;
+      }
+
+      .search-container.mobile-active .search-icon {
+        display: none;
+      }
+
+      .search-icon-btn {
+        display: flex;
+      }
+
+      .topbar .brand,
+      .topbar .actions {
+        transition: opacity 0.3s ease;
+      }
+
+      .topbar.search-active .brand,
+      .topbar.search-active .actions {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .search-results {
+        max-height: calc(100vh - var(--topbar-h) - 20px);
+        position: fixed;
+        top: calc(var(--topbar-h) + 8px);
+        left: 10px;
+        right: 10px;
+        width: auto;
+      }
+
+      .search-close-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-size: 24px;
+        cursor: pointer;
+        padding: 4px 8px;
+        display: none;
+        line-height: 1;
+      }
+
+      .search-container.mobile-active .search-close-btn {
+        display: block;
+      }
+    }
   </style>
 </head>
 <body>
   
-  <div class="topbar">
+  <div class="topbar" id="topbar">
     <div class="brand">
       <div class="badge">
         <img src="pack_icon.png" alt="Logo" />
@@ -794,7 +1130,15 @@
       <span>Jerry's Colonies Wiki</span>
     </div>
 
+    <div class="search-container" id="searchContainer">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search wiki..." />
+      <button class="search-close-btn" id="searchCloseBtn">✕</button>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
     <div class="actions">
+      <button class="search-icon-btn" id="searchIconBtn">🔍</button>
       <a class="icon-btn" href="https://www.curseforge.com/minecraft-bedrock/addons/jerrys-colonies" title="CurseForge" target="_blank" rel="noopener noreferrer">
         <img src="https://cdn.discordapp.com/emojis/1352882181009051709.webp?size=44" alt="CurseForge" />
       </a>
@@ -818,10 +1162,17 @@
 
   <div class="app">
     <nav class="sidebar">
+      <a class="nav-link" href="#download">Download</a>
       <a class="nav-link active" href="#get-started">Get Started</a>
       <a class="nav-link" href="#mayors-table">Mayor's Table</a>
       <a class="nav-link" href="#feeding">Feeding Citizens</a>
       <a class="nav-link" href="#citizens">Citizens</a>
+      <a class="nav-link" href="#colony-ledger">Colony Ledger</a>
+      <a class="nav-link" href="#player-ranks">Player Ranks</a>
+      <a class="nav-link" href="#crowns">Crowns</a>
+      <a class="nav-link" href="#mysterious-merchants">Mysterious Merchants</a>
+      <a class="nav-link" href="#democracy">Democracy</a>
+      <a class="nav-link" href="#marriage">Marriage</a>
       <a class="nav-link" href="#taxation">Taxation Table</a>
       <a class="nav-link" href="#mailboxes">Mailboxes</a>
       <a class="nav-link" href="#plagues">Plagues</a>
@@ -829,20 +1180,35 @@
       <a class="nav-link" href="#construction">Blueprints</a>
       <a class="nav-link" href="#war">War & Diplomacy</a>
       <a class="nav-link" href="#moderation">Mod Tool</a>
+      <a class="nav-link" href="#faq">FAQ</a>
       <a class="nav-link" href="#custom-builder">Custom Structure Builder</a>
     </nav>
 
     <main class="content">
+      <div id="download" class="page">
+        <span class="anchor"></span>
+        <div class="download-title">Jerry's Colonies</div>
+        <div class="download-subtitle">A civilization addon by @Jerryeatsbeans</div>
+        <a href="https://www.curseforge.com/minecraft-bedrock/addons/jerrys-colonies" target="_blank" class="download-button">DOWNLOAD LATEST</a>
+      </div>
+
       <div id="get-started" class="page active">
         <span class="anchor"></span>
         <h1>Getting Started in Jerry's Colonies</h1>
         <p class="lead">Jerry's Colonies is a multiplayer-oriented addon for Minecraft: Bedrock Edition that adds player-managed colonies to the game. The goal is to turn Minecraft into a civilization simulator where players can manage/build cities, create lore, and simulate diplomacy.</p>
 
+        <div class="alert alert-success">
+          <span class="alert-icon">🎉</span>
+          <div>
+            <strong>v2.8: Votes and Vows</strong> — This is the latest update for Jerry's Colonies as of updating this wiki on October 20th, 2025
+          </div>
+        </div>
+
         <div class="content-section">
           <h2>The First Step:</h2>
           <div class="content-row">
             <div class="content-column text">
-              <p>You are well on your way to growing a powerful civilization, but first you need to set up the basics. Craft a flag using 6 wool and a stick. This is what will create your colony.</p>
+              <p>You are well on your way to growing a powerful civilization, but first you need to set up the basics. Craft a flag using 6 wool and a stick. This is what will create your colony.<br>The flag is the first step of making all colonies, and later on you can place more flags to expand your colony!</p>
             </div>
             <div class="content-column image">
               <div class="image-card">
@@ -857,7 +1223,7 @@
           <h3>Placing Your Flag</h3>
           <div class="content-row">
             <div class="content-column text">
-              <p>Now you can place your flag! To do this, build a flag pole out of any vanilla fence and right click (mobile users: hold) to place the flag on the fence. If it doesn't work, your flag pole isn't tall enough, you are too far away, or you are not looking at the fence.</p>
+              <p>Now you can place your flag! To do this, build a flag pole out of any vanilla fence and right click (mobile users: hold) to place the flag on the fence. If it doesn't work, your flag pole isn't tall enough, you are too far away, or you are not looking at the fence.<br>You will be asked to enable democracy, it's recommended you read the wiki page about it before enabling it. <a href="#democracy">Learn about democracy mode here.</a></p>
               
               <div class="alert alert-warning">
                 <span class="alert-icon">⚠️</span>
@@ -867,6 +1233,13 @@
               </div>
               
               <p>After placing the flag you should be given a crown named after your colony. This crown is unique and cannot be replaced — take good care of it.</p>
+              
+              <div class="alert alert-success">
+                <span class="alert-icon">👑</span>
+                <div>
+                  <strong>Colony Crowns:</strong> Several new crowns have been added to make each colony more unique, to learn more about crowns, <a href="#crowns">read this page</a>.
+                </div>
+              </div>
             </div>
             <div class="content-column image">
               <div class="image-card">
@@ -913,8 +1286,7 @@
           <ul class="mayors-abilities">
             <li><h3>View Colony Info</h3> — Sends a chat message containing info about your colony. Only you can see this.</li>
             <li><h3>Change Flag Color</h3> — Customize the flag color, and the color of your colonies display name</li>
-            <li><h3>Manage Members</h3> — Invite players, Purchase Citizens, and Manage Population.</li>
-            <li><h3>Construction</h3> — The construction menu has been moved to its own block, the Blueprint Workbench</li>
+            <li><h3>Manage Members</h3> — Invite players, Purchase Citizens, and Manage Population. You can also use this menu to assign player permissions, and custom ranks. <a href="#player-ranks">Learn more about Player Ranks here.</a></li>
             <li><h3>Diplomacy</h3> — Set relationships with other colonies <span class="paren">(ally/neutral/hostile)</span>, or declare war on your enemies.</li>
             <li><h3>Rename / Delete Colony</h3> — Change your colony's display name, or permanently delete a colony.</li>
             <li><h3>Transfer Ownership</h3> — Pass the crown to another player, transfers full ownership and administrative rights to them.</li>
@@ -1045,18 +1417,11 @@
           <h2>Knights</h2>
           <div class="content-row">
             <div class="content-column text">
-              <p>Knights are a special citizen job. They are stronger, and can be ordered to follow and assist you in combat.</p>
+              <p>Knights are a special citizen job. They are stronger, and can be ordered to follow and assist you in combat.<br>Knights will be getting updated shortly, currently they are not very useful aside from fighting hostile mobs.</p>
             </div>
             <div class="content-column image">
               <div class="image-grid two-col">
-                <div class="image-card">
-                  <img src="assets/12.png" alt="Knight example 1" />
-                  <div class="image-caption">Knight</div>
-                </div>
-                <div class="image-card">
-                  <img src="assets/13.png" alt="Knight example 2" />
-                  <div class="image-caption">Knight following player</div>
-                </div>
+                <!-- Knight images can be added here -->
               </div>
             </div>
           </div>
@@ -1070,6 +1435,13 @@
             <li><strong>Population Limits:</strong> Server admins can set NPC caps via the moderation tool, and adjust the price; be mindful of performance and balance when hiring many NPCs.</li>
             <li><strong>Citizen Inventory Management:</strong> Crouch + Right Click / Tap and hold to manage the citizens inventory</li>
           </ul>
+
+          <div class="alert alert-success">
+            <span class="alert-icon">👶</span>
+            <div>
+              <strong>New in v2.8:</strong> Citizens can rarely have babies, and the children yearn for the mines.
+            </div>
+          </div>
 
           <div class="image-grid two-col">
             <div class="image-card">
@@ -1086,6 +1458,288 @@
         <div class="alert alert-info">
           <span class="alert-icon">📖</span>
           <div>
+            <strong>Read Next:</strong> Learn about the <a href="#colony-ledger">Colony Ledger</a> to view levels and rankings.
+          </div>
+        </div>
+      </div>
+
+      <div id="colony-ledger" class="page">
+        <span class="anchor"></span>
+        <h1>Colony Ledger</h1>
+        <p class="lead">The Colony Ledger (formerly known as Player ID) is your way to view all stats related to Jerry's Colonies. View colony rankings, player levels, and track your progress.</p>
+
+        <div class="alert alert-success">
+          <span class="alert-icon">🆕</span>
+          <div>
+            <strong>New in v2.8:</strong> Player ID has been renamed to Colony Ledger and massively enhanced.
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Colony Levels</h2>
+          <p>Colonies can now level up through three primary activities:<br>(Colony Levels will become more useful in future updates)</p>
+          
+          <ul>
+            <li><strong>Having Citizens:</strong> Grow your population to increase colony experience</li>
+            <li><strong>Winning Wars:</strong> Victory in wars grants substantial colony experience</li>
+            <li><strong>Owning Flags:</strong> Multiple flags across the world contribute to your colony's level</li>
+          </ul>
+
+          <div class="alert alert-info">
+            <span class="alert-icon">🏆</span>
+            <div>
+              <strong>Scoreboard:</strong> Use the Colony Ledger to view the complete scoreboard and see how your colony ranks against others!
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Player Levels</h2>
+          <p>Alongside colonies, individual players can now level up by killing other players during battle, but beware, dying causes you to lose personal points.</p>
+        <div class="content-section">
+          <h2>Rank Progression</h2>
+          <p>There are 10 distinct ranks spanning 50 levels. Here's the complete progression path:</p>
+          
+          <h3>🎖️ Level 1-5: Recruit</h3>
+          <p>Everyone starts here.</p>
+          
+          <h3>⚔️ Level 5-10: Soldier</h3>
+          
+          
+          <h3>🛡️ Level 10-15: Veteran</h3>
+          
+          
+          <h3>🎯 Level 15-20: Captain</h3>
+          
+          
+          <h3>⚡ Level 20-25: Warlord</h3>
+          
+          
+          <h3>👑 Level 25-30: Conqueror</h3>
+          
+          
+          <h3>🏛️ Level 30-35: Emperor</h3>
+          
+          
+          <h3>✨ Level 35-40: High Emperor</h3>
+          
+          
+          <h3>🌟 Level 40-45: Overlord</h3>
+          
+          
+          <h3>💎 Level 45-50: Titan</h3>
+          
+
+          <div class="alert alert-warning">
+            <span class="alert-icon">🏆</span>
+            <div>
+              <strong>Note:</strong> Your rank is displayed in the Colony Ledger and shows your status to all other players!
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#player-ranks">Player Ranks</a> and rank progression.
+          </div>
+        </div>
+      </div>
+
+      <div id="player-ranks" class="page">
+        <span class="anchor"></span>
+        <h1>Player Ranks</h1>
+
+
+        <div class="content-section">
+          <h2>Custom Colony Ranks</h2>
+          <p>Ranks can be assigned to members of your colony via the citizen management menu of the mayors table. You can create up to 10 different ranks with different permissions.</p>
+
+          <div class="alert alert-success">
+            <span class="alert-icon">🎨</span>
+            <div>
+              <strong>Tip:</strong> Custom Rank Names are displayed on the colony ledger for all players to see.
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#crowns">Crowns</a> and the various styles available.
+          </div>
+        </div>
+      </div>
+
+      <div id="crowns" class="page">
+        <span class="anchor"></span>
+        <h1>Crowns</h1>
+        <p class="lead">Crowns are the symbol of colony leadership in Jerry's Colonies. Each crown is unique to its colony.</p>
+
+        <div class="alert alert-success">
+          <span class="alert-icon">🆕</span>
+          <div>
+            <strong>New in v2.8:</strong> Several new crown styles have been added.
+          </div>
+        </div>
+
+        <div class="content-section">
+          <div class="image-card">
+            <img src="assets/crowns.png" alt="All crown styles available in Jerry's Colonies" />
+            <div class="image-caption">All available crown styles</div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#mysterious-merchants">Mysterious Merchants</a> and their special items.
+          </div>
+        </div>
+      </div>
+
+      <div id="mysterious-merchants" class="page">
+        <span class="anchor"></span>
+        <h1>Mysterious Merchants</h1>
+        <p class="lead">Mysterious Merchants are special NPCs that sometimes spawn, selling unique and valuable items that can't be obtained elsewhere!</p>
+
+        <div class="content-section">
+          <h2>How Merchants Work</h2>
+          <p>Mysterious Merchants spawn during the day and are slightly less common than witches. When you spot one, approach them to browse their special inventory.</p>
+
+        </div>
+
+        <div class="content-section">
+          <h2>Special Items for Sale</h2>
+          <p>Mysterious Merchants offer three exclusive items:</p>
+          
+          <h3>🎺 Trumpet</h3>
+          <p>A new musical item perfect for enhancing roleplay... or annoying people.</p>
+          
+          <h3>💍 Wedding Ring</h3>
+          <p>An essential item for the new Marriage system. Use this to propose and merge colonies with another player.</p>
+          
+          <h3>💿 New Music Disc</h3>
+          <p>A mysterious music disc that can only be obtained from Merchants. "The Arena"</p>
+          
+          <div class="image-card">
+            <img src="assets/merchant.png" alt="Mysterious Merchant and special items" />
+            <div class="image-caption">Mysterious Merchant. He may look scary, but he's really nice!</div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#democracy">Democracy</a> and voting systems.
+          </div>
+        </div>
+      </div>
+
+      <div id="democracy" class="page">
+        <span class="anchor"></span>
+        <h1>Democracy</h1>
+        <p class="lead">Democracy is enabled when you create a colony, read this page to learn all about it.</p>
+
+        <div class="content-section">
+          <h2>How Democracy Works</h2>
+          <p>When you create a colony, you have the option to enable democratic governance. In a democratic colony:</p>
+          
+          <ul>
+            <li><strong>Regular Elections:</strong> Leadership elections occur every 30 real-world days</li>
+            <li><strong>Member Voting:</strong> All colony members can vote for their preferred leader</li>
+            <li><strong>Fair Process:</strong> Votes must go through the new block, The Ballot Box</li>
+            <li><strong>No Going Back:</strong> You cannot disable Democracy</li>
+          </ul>
+
+          <div class="alert alert-warning">
+            <span class="alert-icon">⏰</span>
+            <div>
+              <strong>Real-World Time:</strong> Elections happen every 30 real-world days, not in-game time.
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>🗳️ The Ballot Box</h2>
+          <p>The Ballot Box is a new block designed for democratic colonies.</p>
+          
+          <div class="image-card">
+            <img src="assets/ballot.png" alt="Ballot Box block" />
+            <div class="image-caption">The Ballot Box block used for voting</div>
+          </div>
+          
+          <h3>Using the Ballot Box</h3>
+          <ul>
+            <li><strong>Placement:</strong> Place Ballot Boxes in accessible locations within your colony</li>
+            <li><strong>Voting Period:</strong> At any point, members can interact with the Ballot Box to cast votes for the next election</li>
+            <li><strong>Vote Counting:</strong> The system automatically tallies votes and announces the winner</li>
+            <li><strong>Security:</strong> Each member can only vote for one player, but can change their vote at any time.</li>
+          </ul>
+
+          <div class="alert alert-info">
+            <span class="alert-icon">🎯</span>
+            <div>
+              <strong>Strategy:</strong> Campaign for votes and demonstrate strong leadership to win elections!
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Democratic vs. Authoritarian</h2>
+          <p>Choose your colony's governance style when creating it:</p>
+          
+          <div class="content-row">
+            <div class="content-column">
+              <h3>Democratic Colony</h3>
+              <ul>
+                <li>Regular elections every 30 days</li>
+                <li>Members vote for leadership</li>
+                <li>Power can change hands</li>
+                <li>Promotes engagement</li>
+              </ul>
+            </div>
+            <div class="content-column">
+              <h3>Traditional Colony</h3>
+              <ul>
+                <li>Original founder remains leader</li>
+                <li>Leadership only changes via transfer</li>
+                <li>Stable long-term governance</li>
+                <li>Classic colony management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#marriage">Marriage</a> and merging colonies.
+          </div>
+        </div>
+      </div>
+
+      <div id="marriage" class="page">
+        <span class="anchor"></span>
+        <h1>Marriage</h1>
+        <p class="lead">Two players can now merge colonies through marriage.</p>
+
+        <div class="content-section">
+          <h2>How Marriage Works</h2>
+          <p>Marriage is a special system that allows two players to unite their colonies:</p>
+          
+          <ul>
+            <li><strong>Obtain a Wedding Ring:</strong> Purchase a Wedding Ring from a Mysterious Merchant</li>
+            <li><strong>Propose:</strong> Right-click another player while holding the Wedding Ring to propose</li>
+            <li><strong>Merge Colonies:</strong> When accepted, the two colonies merge into one (Highest level colony absorbs smaller colony)</li>
+            <li><strong>One Marriage:</strong> Each player can only be married to one other player at a time (Right click spouse to divorce)</li>
+          </ul>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
             <strong>Read Next:</strong> Learn about the <a href="#taxation">Taxation Table</a> to earn income from your citizens.
           </div>
         </div>
@@ -1093,7 +1747,7 @@
 
       <div id="taxation" class="page">
         <span class="anchor"></span>
-        <h1>💰 Taxation Table</h1>
+        <h1>Taxation Table</h1>
         <p class="lead">Tax your player citizens to earn income for your colony. The Taxation Table allows you to set up regular income cycles to fund your colony's growth and development.</p>
 
         <div class="content-section">
@@ -1336,7 +1990,14 @@
 
         <div class="content-section">
           <h2>Placing a Blueprint</h2>
-          <p>Select a blueprint, position the preview outline in the world, and confirm to instantly build. You have a short preview window to cancel the placement. If you don't like where it is, you have one more chance to undo it.</p>
+          <p>Select a blueprint, position the preview outline in the world, and confirm to build. You have a short preview window to cancel the placement. If you don't like where it is, you have one more chance to undo it.</p>
+          
+          <div class="alert alert-success">
+            <span class="alert-icon">🔨</span>
+            <div>
+              <strong>New in v2.8:</strong> Blueprints now build block by block, rather than all at once! Watch your structures come to life. The undo feature has also been tweaked to work more reliably.
+            </div>
+          </div>
           
           <div class="alert alert-warning">
             <span class="alert-icon">⚠️</span>
@@ -1356,7 +2017,7 @@
             </div>
             <div class="image-card">
               <img src="assets/24.png" alt="Blueprint preview step 3" />
-              <div class="image-caption">Step 3: Confirm and build instantly</div>
+              <div class="image-caption">Step 3: Confirm and watch it build!</div>
             </div>
           </div>
         </div>
@@ -1443,6 +2104,13 @@
             <li><strong>Admin Settings:</strong> Admins can change the frequency via the moderation tool if raids are too frequent or too rare</li>
           </ul>
           
+          <div class="alert alert-success">
+            <span class="alert-icon">⚔️</span>
+            <div>
+              <strong>New in v2.8:</strong> Marauders no longer drop all their armor when defeated, making them tougher but more balanced!
+            </div>
+          </div>
+          
           <div class="alert alert-warning">
             <span class="alert-icon">🛡️</span>
             <div>
@@ -1513,6 +2181,13 @@
             </div>
           </div>
 
+          <div class="alert alert-success">
+            <span class="alert-icon">✨</span>
+            <div>
+              <strong>New in v2.8:</strong> Citizens with plagues now emit particles, making it easy to identify infected citizens!
+            </div>
+          </div>
+
           <div class="image-card">
             <img src="assets/16.png" alt="Plague affecting colony" />
             <div class="image-caption">Citizens affected by plague with weakness effect</div>
@@ -1551,7 +2226,7 @@
               <div class="alert alert-warning">
                 <span class="alert-icon">🔧</span>
                 <div>
-                  <strong>Admin Setup:</strong> To use the mod tool, grab it from the creative menu, then give yourself access via the command: <code>/tag add [username] admin</code>
+                  <strong>Admin Setup:</strong> To use the mod tool, grab it from the creative menu, then give yourself access via the command: <code>/tag [username] add admin</code>
                 </div>
               </div>
             </div>
@@ -1603,6 +2278,34 @@
               <strong>Server Balance:</strong> Use these tools to maintain server balance and ensure fair gameplay for all players.
             </div>
           </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Check out the <a href="#faq">FAQ</a> for answers to common questions.
+          </div>
+        </div>
+      </div>
+
+      <div id="faq" class="page">
+        <span class="anchor"></span>
+        <h1>FAQ</h1>
+        <p class="lead">Frequently Asked Questions about Jerry's Colonies. Can't find what you're looking for? Join our <a href="https://discord.gg/sGsHNW2gD6" target="_blank">Discord</a> for help!</p>
+
+        <div class="content-section">
+          <h2>How do I give players permissions in my colony?</h2>
+          <p>Go to the mayors table, click citizen management, then click player ranks, and create a rank with the permissions you want.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>How do I access the mod tool?</h2>
+          <p>Run the command <code>/tag @s add admin</code> and then right click a colony flag.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Why can't I place a flag?</h2>
+          <p>Stand DIRECTLY in front of your flag pole, face-to-pole, and try again. If it still isn't working, join the Discord for help.</p>
         </div>
 
         <div class="alert alert-info">
@@ -1748,6 +2451,182 @@
     if (overlay) overlay.addEventListener('click', () => setSidebarOpen(false));
 
     navLinks.forEach(link => link.addEventListener('click', () => setSidebarOpen(false)));
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchContainer = document.getElementById('searchContainer');
+    const searchIconBtn = document.getElementById('searchIconBtn');
+    const searchCloseBtn = document.getElementById('searchCloseBtn');
+    const topbar = document.getElementById('topbar');
+
+    // Mobile search toggle
+    if (searchIconBtn) {
+      searchIconBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        searchContainer.classList.add('mobile-active');
+        topbar.classList.add('search-active');
+        searchInput.focus();
+      });
+    }
+
+    if (searchCloseBtn) {
+      searchCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        searchContainer.classList.remove('mobile-active');
+        topbar.classList.remove('search-active');
+        searchInput.value = '';
+        searchResults.classList.remove('show');
+      });
+    }
+
+    // Build search index from all pages
+    const searchIndex = [];
+    
+    function buildSearchIndex() {
+      pages.forEach(page => {
+        const pageId = page.id;
+        const pageTitle = page.querySelector('h1')?.textContent || pageId;
+        const textContent = page.textContent || '';
+        
+        // Get all text nodes
+        const paragraphs = page.querySelectorAll('p, li, h2, h3, .alert');
+        paragraphs.forEach(element => {
+          const text = element.textContent.trim();
+          if (text.length > 10) {
+            searchIndex.push({
+              pageId: pageId,
+              pageTitle: pageTitle,
+              text: text,
+              element: element
+            });
+          }
+        });
+      });
+    }
+
+    buildSearchIndex();
+
+    function highlightText(text, searchTerm) {
+      const regex = new RegExp(`(${searchTerm.split(' ').join('|')})`, 'gi');
+      return text.replace(regex, '<span class="search-highlight">$1</span>');
+    }
+
+    function performSearch(query) {
+      if (!query || query.length < 2) {
+        searchResults.classList.remove('show');
+        return;
+      }
+
+      const terms = query.toLowerCase().split(' ').filter(t => t.length > 1);
+      const results = [];
+      const seen = new Set();
+
+      searchIndex.forEach(item => {
+        const textLower = item.text.toLowerCase();
+        let matchCount = 0;
+        let matchPositions = [];
+
+        terms.forEach(term => {
+          if (textLower.includes(term)) {
+            matchCount++;
+            const pos = textLower.indexOf(term);
+            matchPositions.push(pos);
+          }
+        });
+
+        if (matchCount > 0) {
+          const key = `${item.pageId}-${item.text.substring(0, 50)}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            results.push({
+              ...item,
+              matchCount: matchCount,
+              firstMatchPos: Math.min(...matchPositions)
+            });
+          }
+        }
+      });
+
+      // Sort by match count and position
+      results.sort((a, b) => {
+        if (b.matchCount !== a.matchCount) {
+          return b.matchCount - a.matchCount;
+        }
+        return a.firstMatchPos - b.firstMatchPos;
+      });
+
+      displaySearchResults(results.slice(0, 10), query);
+    }
+
+    function displaySearchResults(results, query) {
+      if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-no-results">No results found</div>';
+        searchResults.classList.add('show');
+        return;
+      }
+
+      const html = results.map(result => {
+        const excerpt = result.text.substring(
+          Math.max(0, result.firstMatchPos - 40),
+          Math.min(result.text.length, result.firstMatchPos + 100)
+        );
+        
+        const highlightedExcerpt = highlightText(
+          (result.firstMatchPos > 40 ? '...' : '') + excerpt + '...',
+          query
+        );
+
+        return `
+          <div class="search-result-item" data-page="${result.pageId}">
+            <div class="search-result-title">${result.pageTitle}</div>
+            <div class="search-result-text">${highlightedExcerpt}</div>
+          </div>
+        `;
+      }).join('');
+
+      searchResults.innerHTML = html;
+      searchResults.classList.add('show');
+
+      // Add click handlers
+      document.querySelectorAll('.search-result-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const pageId = item.getAttribute('data-page');
+          showPage(pageId);
+          searchInput.value = '';
+          searchResults.classList.remove('show');
+        });
+      });
+    }
+
+    if (searchInput) {
+      let searchTimeout;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          performSearch(e.target.value);
+        }, 300);
+      });
+
+      searchInput.addEventListener('focus', (e) => {
+        if (e.target.value.length >= 2) {
+          performSearch(e.target.value);
+        }
+      });
+
+      // Close search results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchContainer.contains(e.target) && !searchIconBtn?.contains(e.target)) {
+          searchResults.classList.remove('show');
+          // Close mobile search if clicking outside
+          if (window.innerWidth <= 880) {
+            searchContainer.classList.remove('mobile-active');
+            topbar.classList.remove('search-active');
+            searchInput.value = '';
+          }
+        }
+      });
+    }
 
     // Custom Structure Builder Functionality
     const structureFiles = document.getElementById('structureFiles');
