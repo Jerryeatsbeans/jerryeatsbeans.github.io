@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jerry's Colonies Wiki</title>
+  
+  <!-- Open Graph / Discord -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Jerry's Colonies Wiki" />
+  <meta property="og:description" content="The official wiki for the Minecraft: Bedrock Edition addon Jerry's Colonies" />
+  <meta property="og:image" content="pack_icon.png" />
+  <meta property="theme-color" content="#0d3b2e" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Jerry's Colonies Wiki" />
+  <meta name="twitter:description" content="The official wiki for the Minecraft: Bedrock Edition addon Jerry's Colonies" />
+  <meta name="twitter:image" content="pack_icon.png" />
+  
   <link rel="icon" href="pack_icon.png" type="image/png">
   <link rel="shortcut icon" href="pack_icon.png" type="image/png">
   <style>
@@ -107,7 +121,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(88, 191, 167, 0.3);
     }
-    
+
     .icon-btn img { width: 28px; height: 28px; display: block; }
 
   .hamburger { display: none; border: none; background: transparent; padding: 0; }
@@ -173,7 +187,6 @@
   .page { display: none; }
   .page.active { display: block; }
 
-  /* Download page styles */
   #download.page {
     display: none !important;
   }
@@ -263,7 +276,6 @@
     box-shadow: 0 2px 0 #3a9179;
   }
 
-  /* Interactive elements and hover effects */
   .content-section {
     background: var(--bg-dark);
     border: 2px solid var(--border-color);
@@ -310,7 +322,6 @@
     transform: scale(1.02);
   }
 
-  /* Navigation improvements */
   .nav-link {
     padding: 14px 16px;
     text-decoration: none;
@@ -347,7 +358,6 @@
     border-left: 3px solid var(--primary-green);
   }
 
-  /* Button hover effects */
   .icon-btn {
     width: 34px; height: 34px;
     display: grid; place-items: center;
@@ -398,7 +408,6 @@
       border-bottom-color: rgba(159,243,231,0.45);
     }
 
-  /* Image styling */
   .image-card {
     background: var(--bg-dark);
     border: 2px solid var(--border-color);
@@ -444,8 +453,7 @@
   #mayors-table .mayors-abilities h2 { display:inline; font-size:18px; margin:0 6px 0 0; font-weight:normal; }
 
   #mayors-table .mayors-abilities .paren { color: var(--primary-green); }
-  
-  /* Alert and warning styles */
+
   .alert {
     padding: 16px 20px;
     border-radius: 8px;
@@ -511,7 +519,7 @@
     color: var(--text-primary);
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
-  
+
   .content h2 {
     font-size: 28px;
     margin: 30px 0 16px;
@@ -539,7 +547,6 @@
     font-weight: 300;
   }
 
-  /* List styling */
   .content ul {
     margin: 16px 0;
     padding-left: 24px;
@@ -550,7 +557,6 @@
     color: var(--text-secondary);
   }
 
-  /* Code styling */
   .content code {
     background: var(--bg-dark);
     color: var(--primary-green);
@@ -609,7 +615,6 @@
         font-size: 24px;
       }
 
-      /* Download page mobile styles */
       #download.page.active {
         padding: 20px !important;
         margin: 0 !important;
@@ -632,7 +637,6 @@
       }
     }
 
-    
     .upload-section {
       background: #1a1a1a;
       border: 2px solid #153f35;
@@ -662,7 +666,6 @@
       border-color: #58bfa7;
     }
 
-   
     .download-section {
       background: #1a1a1a;
       border: 2px solid #153f35;
@@ -910,13 +913,12 @@
       .download-buttons {
         flex-direction: column;
       }
-      
+
       .download-btn {
         text-align: center;
       }
     }
 
-    /* Search Bar Styles */
     .search-container {
       position: relative;
       margin: 0 15px;
@@ -1121,7 +1123,7 @@
   </style>
 </head>
 <body>
-  
+
   <div class="topbar" id="topbar">
     <div class="brand">
       <div class="badge">
@@ -1224,16 +1226,16 @@
           <div class="content-row">
             <div class="content-column text">
               <p>Now you can place your flag! To do this, build a flag pole out of any vanilla fence and right click (mobile users: hold) to place the flag on the fence. If it doesn't work, your flag pole isn't tall enough, you are too far away, or you are not looking at the fence.<br>You will be asked to enable democracy, it's recommended you read the wiki page about it before enabling it. <a href="#democracy">Learn about democracy mode here.</a></p>
-              
+
               <div class="alert alert-warning">
                 <span class="alert-icon">⚠️</span>
                 <div>
                   <strong>Important:</strong> Many people struggle to place the flag and get an error saying they can't. If this happens to you, you're likely just not tapping the right area on your screen — stand directly in front of the flagpole and try again.
                 </div>
               </div>
-              
+
               <p>After placing the flag you should be given a crown named after your colony. This crown is unique and cannot be replaced — take good care of it.</p>
-              
+
               <div class="alert alert-success">
                 <span class="alert-icon">👑</span>
                 <div>
@@ -1261,10 +1263,10 @@
       <div id="mayors-table" class="page">
         <span class="anchor"></span>
         <h1>Mayor's Table</h1>
-        
+
         <div class="content-section">
           <p class="lead">The Mayor's Table is the central workstation for your colony. Use a crafting table to make the Mayor's Table, the recipe is shown below.</p>
-          
+
           <div class="content-row">
             <div class="content-column text">
               <h3>Crafting Recipe</h3>
@@ -1339,7 +1341,7 @@
         <div class="content-section">
           <h2>How it Works</h2>
           <p>Citizens will automatically take one food item from any accessible Food Crate per in-game day. The crate must be within the colony's protected radius.</p>
-          
+
           <div class="alert alert-success">
             <span class="alert-icon">💡</span>
             <div>
@@ -1404,7 +1406,7 @@
         <div class="content-section">
           <h2>Feeding Citizens</h2>
           <p>Civilians require food to survive — see <a href="#feeding">Feeding Citizens</a> for more info. Check a citizens hunger by interacting with them.</p>
-          
+
           <div class="alert alert-warning">
             <span class="alert-icon">🍞</span>
             <div>
@@ -1478,7 +1480,7 @@
         <div class="content-section">
           <h2>Colony Levels</h2>
           <p>Colonies can now level up through three primary activities:<br>(Colony Levels will become more useful in future updates)</p>
-          
+
           <ul>
             <li><strong>Having Citizens:</strong> Grow your population to increase colony experience</li>
             <li><strong>Winning Wars:</strong> Victory in wars grants substantial colony experience</li>
@@ -1499,36 +1501,27 @@
         <div class="content-section">
           <h2>Rank Progression</h2>
           <p>There are 10 distinct ranks spanning 50 levels. Here's the complete progression path:</p>
-          
+
           <h3>🎖️ Level 1-5: Recruit</h3>
           <p>Everyone starts here.</p>
-          
+
           <h3>⚔️ Level 5-10: Soldier</h3>
-          
-          
+
           <h3>🛡️ Level 10-15: Veteran</h3>
-          
-          
+
           <h3>🎯 Level 15-20: Captain</h3>
-          
-          
+
           <h3>⚡ Level 20-25: Warlord</h3>
-          
-          
+
           <h3>👑 Level 25-30: Conqueror</h3>
-          
-          
+
           <h3>🏛️ Level 30-35: Emperor</h3>
-          
-          
+
           <h3>✨ Level 35-40: High Emperor</h3>
-          
-          
+
           <h3>🌟 Level 40-45: Overlord</h3>
-          
-          
+
           <h3>💎 Level 45-50: Titan</h3>
-          
 
           <div class="alert alert-warning">
             <span class="alert-icon">🏆</span>
@@ -1550,7 +1543,6 @@
       <div id="player-ranks" class="page">
         <span class="anchor"></span>
         <h1>Player Ranks</h1>
-
 
         <div class="content-section">
           <h2>Custom Colony Ranks</h2>
@@ -1613,16 +1605,16 @@
         <div class="content-section">
           <h2>Special Items for Sale</h2>
           <p>Mysterious Merchants offer three exclusive items:</p>
-          
+
           <h3>🎺 Trumpet</h3>
           <p>A new musical item perfect for enhancing roleplay... or annoying people.</p>
-          
+
           <h3>💍 Wedding Ring</h3>
           <p>An essential item for the new Marriage system. Use this to propose and merge colonies with another player.</p>
-          
+
           <h3>💿 New Music Disc</h3>
           <p>A mysterious music disc that can only be obtained from Merchants. "The Arena"</p>
-          
+
           <div class="image-card">
             <img src="assets/merchant.png" alt="Mysterious Merchant and special items" />
             <div class="image-caption">Mysterious Merchant. He may look scary, but he's really nice!</div>
@@ -1645,7 +1637,7 @@
         <div class="content-section">
           <h2>How Democracy Works</h2>
           <p>When you create a colony, you have the option to enable democratic governance. In a democratic colony:</p>
-          
+
           <ul>
             <li><strong>Regular Elections:</strong> Leadership elections occur every 30 real-world days</li>
             <li><strong>Member Voting:</strong> All colony members can vote for their preferred leader</li>
@@ -1664,12 +1656,12 @@
         <div class="content-section">
           <h2>🗳️ The Ballot Box</h2>
           <p>The Ballot Box is a new block designed for democratic colonies.</p>
-          
+
           <div class="image-card">
             <img src="assets/ballot.png" alt="Ballot Box block" />
             <div class="image-caption">The Ballot Box block used for voting</div>
           </div>
-          
+
           <h3>Using the Ballot Box</h3>
           <ul>
             <li><strong>Placement:</strong> Place Ballot Boxes in accessible locations within your colony</li>
@@ -1689,7 +1681,7 @@
         <div class="content-section">
           <h2>Democratic vs. Authoritarian</h2>
           <p>Choose your colony's governance style when creating it:</p>
-          
+
           <div class="content-row">
             <div class="content-column">
               <h3>Democratic Colony</h3>
@@ -1728,7 +1720,7 @@
         <div class="content-section">
           <h2>How Marriage Works</h2>
           <p>Marriage is a special system that allows two players to unite their colonies:</p>
-          
+
           <ul>
             <li><strong>Obtain a Wedding Ring:</strong> Purchase a Wedding Ring from a Mysterious Merchant</li>
             <li><strong>Propose:</strong> Right-click another player while holding the Wedding Ring to propose</li>
@@ -1753,7 +1745,7 @@
         <div class="content-section">
           <h2>How Taxation Works</h2>
           <p>The Taxation Table enables you to collect taxes from player citizens in your colony. This provides a steady income stream that can be used for colony development, purchasing citizens, and buying blueprints.</p>
-          
+
           <div class="alert alert-info">
             <span class="alert-icon">💰</span>
             <div>
@@ -1765,7 +1757,7 @@
         <div class="content-section">
           <h2>Tax Cycles</h2>
           <p>Choose from three different taxation cycles to suit your colony's needs:</p>
-          
+
           <ul>
             <li><strong>Weekly:</strong> Collect taxes every 7 real-world days - fastest income but smaller amounts</li>
             <li><strong>Bi-Weekly:</strong> Collect taxes every 14 real-world days - balanced approach</li>
@@ -1813,7 +1805,7 @@
         <div class="content-section">
           <h2>How Mailboxes Work</h2>
           <p>Mailboxes allow you to send items, letters, and messages to other mailboxes placed anywhere in the world. This creates a postal network that enables long-distance communication and trade between colonies.</p>
-          
+
           <div class="alert alert-info">
             <span class="alert-icon">📮</span>
             <div>
@@ -1825,7 +1817,7 @@
         <div class="content-section">
           <h2>Delivery System</h2>
           <p>The delivery time for your mail depends on the distance between the sending and receiving mailboxes:</p>
-          
+
           <ul>
             <li><strong>Local Delivery:</strong> Nearby mailboxes receive mail quickly</li>
             <li><strong>Regional Delivery:</strong> Medium distances have moderate delivery times</li>
@@ -1876,7 +1868,7 @@
           <div class="content-row">
             <div class="content-column text">
               <p>Open the Relations menu at the Mayor's Table to view other colonies, set alliances, or mark another colony as hostile.</p>
-              
+
               <div class="alert alert-info">
                 <span class="alert-icon">🤝</span>
                 <div>
@@ -1898,16 +1890,16 @@
           <div class="content-row">
             <div class="content-column text">
               <p>To declare war, use the diplomacy menu and choose <em>Declare War</em> against a hostile colony. The target colony must have 5 or more citizens. When a war is declared, the target colony receives a notification and a war timer starts.</p>
-              
+
               <p>Wars are timed events where the duration is chosen by the declaring colony. Score points in a war by eliminating opposing NPCs or player citizens. Victorious colonies may claim one of the other colony's flags (if they have more than one).</p>
-              
+
               <div class="alert alert-danger">
                 <span class="alert-icon">⚔️</span>
                 <div>
                   <strong>War Requirements:</strong> Target colony must have at least 5 citizens before war can be declared.
                 </div>
               </div>
-              
+
               <div class="alert alert-warning">
                 <span class="alert-icon">📋</span>
                 <div>
@@ -1952,7 +1944,7 @@
           <div class="content-row">
             <div class="content-column text">
               <p>The Blueprint Workbench is the new dedicated home for buying blueprints! This specialized workstation works exactly the same as the construction menu from the Mayor's Table, but provides a focused interface just for blueprint management.</p>
-              
+
               <div class="alert alert-success">
                 <span class="alert-icon">🆕</span>
                 <div>
@@ -1979,7 +1971,7 @@
         <div class="content-section">
           <h2>Crafting the Blueprint Workbench</h2>
           <p>Craft your own Blueprint Workbench to access the construction system independently of the Mayor's Table. This allows for more organized colony management and easier access to building tools.</p>
-          
+
           <div class="alert alert-warning">
             <span class="alert-icon">🔨</span>
             <div>
@@ -1991,14 +1983,14 @@
         <div class="content-section">
           <h2>Placing a Blueprint</h2>
           <p>Select a blueprint, position the preview outline in the world, and confirm to build. You have a short preview window to cancel the placement. If you don't like where it is, you have one more chance to undo it.</p>
-          
+
           <div class="alert alert-success">
             <span class="alert-icon">🔨</span>
             <div>
               <strong>New in v2.8:</strong> Blueprints now build block by block, rather than all at once! Watch your structures come to life. The undo feature has also been tweaked to work more reliably.
             </div>
           </div>
-          
+
           <div class="alert alert-warning">
             <span class="alert-icon">⚠️</span>
             <div>
@@ -2025,7 +2017,7 @@
         <div class="content-section">
           <h2>Example City</h2>
           <p>Here's a city built using several different blueprints to demonstrate the potential of combining multiple structures:</p>
-          
+
           <div class="image-card">
             <img src="assets/25.png" alt="City created with multiple blueprints" />
             <div class="image-caption">Complete city built using various blueprints from the construction menu</div>
@@ -2051,7 +2043,7 @@
         <span class="anchor"></span>
         <h1>Marauder Attacks</h1>
         <p class="lead">Marauders are very dangerous events where hostile NPCs arrive by hot-air balloon and assault your colony — first from the air, then on the ground.</p>
-        
+
         <div class="content-section">
           <div class="image-card">
             <img src="assets/17.png" alt="Marauders arriving by balloon" />
@@ -2060,7 +2052,7 @@
 
           <h2>What are Marauders?</h2>
           <p>Marauders are hostile NPC raiders that spawn above colonies in small groups (commonly 3–5). They arrive in hot-air balloons and may target your colony for a raid that comes in multiple waves.</p>
-          
+
           <div class="alert alert-danger">
             <span class="alert-icon">⚔️</span>
             <div>
@@ -2072,10 +2064,10 @@
         <div class="content-section">
           <h2>Attack Waves</h2>
           <p>Marauder attacks typically happen in two distinct phases:</p>
-          
+
           <h3>Wave 1 — Aerial Bombing</h3>
           <p>Marauders remain in their balloons and drop explosive bombs over the colony. Bombs damage entities but do not break blocks.</p>
-          
+
           <div class="image-grid three-col">
             <div class="image-card">
               <img src="assets/18.png" alt="Bombing phase" />
@@ -2103,14 +2095,14 @@
             <li><strong>Iron Golems:</strong> Use Iron Golems for defense — they deal heavy damage to Marauders, but Marauders deal heavy damage back</li>
             <li><strong>Admin Settings:</strong> Admins can change the frequency via the moderation tool if raids are too frequent or too rare</li>
           </ul>
-          
+
           <div class="alert alert-success">
             <span class="alert-icon">⚔️</span>
             <div>
               <strong>New in v2.8:</strong> Marauders no longer drop all their armor when defeated, making them tougher but more balanced!
             </div>
           </div>
-          
+
           <div class="alert alert-warning">
             <span class="alert-icon">🛡️</span>
             <div>
@@ -2122,12 +2114,12 @@
         <div class="content-section">
           <h2>🚩 Totem of Peace</h2>
           <p>The Totem of Peace is a powerful new defensive item that can provide temporary protection from marauder attacks.</p>
-          
+
           <div class="content-row">
             <div class="content-column text">
               <h3>How to Obtain</h3>
               <p>Totems of Peace are dropped by defeated marauders during attacks. Successfully defending your colony against a marauder raid may reward you with this valuable protection item.</p>
-              
+
               <h3>Protection Effect</h3>
               <p>When activated, the Totem of Peace prevents marauder attacks on your colony for <strong>3 real-world days</strong>. This gives you time to rebuild, restock supplies, and strengthen your defenses.</p>
             </div>
@@ -2138,7 +2130,7 @@
                   <strong>Ultimate Defense:</strong> 3 full days of guaranteed protection from marauder attacks.
                 </div>
               </div>
-              
+
               <div class="alert alert-warning">
                 <span class="alert-icon">⏰</span>
                 <div>
@@ -2169,11 +2161,11 @@
         <span class="anchor"></span>
         <h1>Plagues</h1>
         <p class="lead">Plagues can infect a colony, applying Weakness III to citizens for 20 minutes. World admins can adjust how often plagues occur.</p>
-        
+
         <div class="content-section">
           <h2>What are Plagues?</h2>
           <p>Plagues are random events that can strike your colony, weakening all citizens for a duration. They represent disease outbreaks that can impact your colony's citizens.</p>
-          
+
           <div class="alert alert-danger">
             <span class="alert-icon">🦠</span>
             <div>
@@ -2222,7 +2214,7 @@
           <div class="content-row">
             <div class="content-column text">
               <p>The mod tool is an item given to server admins that opens a powerful administration UI. Use it to quickly manage colonies, adjust global settings, and troubleshoot issues. To open the UI, right click or hold on any colony flag.</p>
-              
+
               <div class="alert alert-warning">
                 <span class="alert-icon">🔧</span>
                 <div>
@@ -2242,7 +2234,7 @@
         <div class="content-section">
           <h2>Admin Interface</h2>
           <p>The moderation tool provides access to comprehensive colony management features:</p>
-          
+
           <div class="image-grid three-col">
             <div class="image-card">
               <img src="assets/29.png" alt="Colony management options" />
@@ -2271,7 +2263,7 @@
             <li><strong>Protection Settings:</strong> Configuring land protection and build permissions</li>
             <li><strong>Module Control:</strong> Enabling/disabling specific addon features</li>
           </ul>
-          
+
           <div class="alert alert-info">
             <span class="alert-icon">⚙️</span>
             <div>
@@ -2323,7 +2315,7 @@
 
         <h2>Step 1: Download Jerry's Structure Editor World</h2>
         <p>To create properly sized structures (15×22×15), you <strong>must</strong> use Jerry's Structure Editor world. This is the only way to create structures that will work correctly with the colony system.</p>
-        
+
         <div class="download-section">
           <a href="../assets/Jerry's Structure Editor.mcworld" download class="download-btn">
             ⬇️ Download Jerry's Structure Editor World
@@ -2343,11 +2335,11 @@
               <div id="structureList" class="structure-list"></div>
             </div>
           </div>
-          
+
           <div class="pack-details">
             <label for="packName">Expansion Pack Name:</label>
             <input type="text" id="packName" placeholder="Jerry's Colonies" maxlength="50">
-            
+
             <label for="description">Pack Description (Optional):</label>
             <textarea id="description" placeholder="Adds custom structures to Jerry's Colonies" rows="3" maxlength="200"></textarea>
           </div>
@@ -2387,12 +2379,10 @@
     </main>
   </div>
 
-  
   <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
 
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  
+
   <script>
 
     const navLinks = document.querySelectorAll('.nav-link');
@@ -2452,7 +2442,6 @@
 
     navLinks.forEach(link => link.addEventListener('click', () => setSidebarOpen(false)));
 
-    // Search Functionality
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const searchContainer = document.getElementById('searchContainer');
@@ -2460,7 +2449,6 @@
     const searchCloseBtn = document.getElementById('searchCloseBtn');
     const topbar = document.getElementById('topbar');
 
-    // Mobile search toggle
     if (searchIconBtn) {
       searchIconBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -2480,16 +2468,14 @@
       });
     }
 
-    // Build search index from all pages
     const searchIndex = [];
-    
+
     function buildSearchIndex() {
       pages.forEach(page => {
         const pageId = page.id;
         const pageTitle = page.querySelector('h1')?.textContent || pageId;
         const textContent = page.textContent || '';
-        
-        // Get all text nodes
+
         const paragraphs = page.querySelectorAll('p, li, h2, h3, .alert');
         paragraphs.forEach(element => {
           const text = element.textContent.trim();
@@ -2548,7 +2534,6 @@
         }
       });
 
-      // Sort by match count and position
       results.sort((a, b) => {
         if (b.matchCount !== a.matchCount) {
           return b.matchCount - a.matchCount;
@@ -2571,7 +2556,7 @@
           Math.max(0, result.firstMatchPos - 40),
           Math.min(result.text.length, result.firstMatchPos + 100)
         );
-        
+
         const highlightedExcerpt = highlightText(
           (result.firstMatchPos > 40 ? '...' : '') + excerpt + '...',
           query
@@ -2588,7 +2573,6 @@
       searchResults.innerHTML = html;
       searchResults.classList.add('show');
 
-      // Add click handlers
       document.querySelectorAll('.search-result-item').forEach(item => {
         item.addEventListener('click', () => {
           const pageId = item.getAttribute('data-page');
@@ -2614,11 +2598,10 @@
         }
       });
 
-      // Close search results when clicking outside
       document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target) && !searchIconBtn?.contains(e.target)) {
           searchResults.classList.remove('show');
-          // Close mobile search if clicking outside
+
           if (window.innerWidth <= 880) {
             searchContainer.classList.remove('mobile-active');
             topbar.classList.remove('search-active');
@@ -2628,7 +2611,6 @@
       });
     }
 
-    // Custom Structure Builder Functionality
     const structureFiles = document.getElementById('structureFiles');
     const fileCount = document.getElementById('fileCount');
     const structureList = document.getElementById('structureList');
@@ -2641,14 +2623,13 @@
 
     let selectedStructures = [];
 
-    // File upload handler
     if (structureFiles) {
       structureFiles.addEventListener('change', (e) => {
         const files = Array.from(e.target.files);
         const validFiles = files.filter(file => file.name.endsWith('.mcstructure'));
-        
+
         if (validFiles.length > 0) {
-          // Add new files to selected structures
+
           validFiles.forEach(file => {
             const structureName = file.name.replace('.mcstructure', '').replace(/[^a-zA-Z0-9\s]/g, ' ').trim();
             selectedStructures.push({
@@ -2658,38 +2639,36 @@
               id: generateId()
             });
           });
-          
+
           updateStructureList();
           checkGenerateButton();
         }
-        
+
         if (files.length > validFiles.length) {
           alert('Some files were skipped because they are not .mcstructure files.');
         }
-        
-        // Reset input to allow re-selecting same files
+
         structureFiles.value = '';
       });
     }
 
-    // Input validation
     if (packName) {
       packName.addEventListener('input', checkGenerateButton);
     }
 
     function updateStructureList() {
       if (!structureList || !fileCount) return;
-      
+
       const count = selectedStructures.length;
       if (count === 0) {
         fileCount.textContent = '';
         structureList.innerHTML = '';
         return;
       }
-      
+
       fileCount.textContent = `📄 ${count} structure${count === 1 ? '' : 's'} selected`;
       fileCount.style.color = '#58bfa7';
-      
+
       structureList.innerHTML = selectedStructures.map(structure => `
         <div class="structure-item" data-id="${structure.id}">
           <div class="structure-file-info">
@@ -2712,8 +2691,7 @@
           </button>
         </div>
       `).join('');
-      
-      
+
       document.querySelectorAll('.structure-name-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const structureId = e.target.getAttribute('data-id');
@@ -2732,16 +2710,15 @@
       checkGenerateButton();
     }
 
-   
     window.removeStructure = removeStructure;
 
     function checkGenerateButton() {
       const hasFiles = selectedStructures.length > 0;
       const hasPackName = packName?.value.trim();
       const allStructuresNamed = selectedStructures.every(s => s.displayName.trim());
-      
+
       const isValid = hasFiles && hasPackName && allStructuresNamed;
-      
+
       if (generateBtn) {
         generateBtn.disabled = !isValid;
       }
@@ -2751,12 +2728,11 @@
       return Math.random().toString(36).substr(2, 9);
     }
 
-    
     async function fetchAssetAsBase64(assetPath) {
       try {
         const response = await fetch(assetPath);
         const blob = await response.blob();
-        
+
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => {
@@ -2771,7 +2747,6 @@
       }
     }
 
-    // Generate expansion pack
     if (generateBtn) {
       generateBtn.addEventListener('click', async () => {
         if (selectedStructures.length === 0 || !packName.value.trim()) {
@@ -2789,12 +2764,10 @@
           generateBtn.textContent = '🔄 Generating...';
           generateBtn.disabled = true;
 
-         
           const behaviorUuid = generateUUID();
           const behaviorDataUuid = generateUUID();
           const behaviorScriptUuid = generateUUID();
 
-         
           const mcaddonBlob = await createMcaddonPack(
             packName.value.trim(),
             description.value.trim(),
@@ -2804,11 +2777,9 @@
             behaviorScriptUuid
           );
 
-          
           downloadMcaddon.href = URL.createObjectURL(mcaddonBlob);
           downloadMcaddon.download = `${packName.value.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_')}.mcaddon`;
 
-          
           displayIncludedFiles(selectedStructures);
 
           downloadSection.style.display = 'block';
@@ -2833,14 +2804,11 @@
 
     async function createMcaddonPack(packName, desc, structures, behaviorUuid, dataUuid, scriptUuid) {
       const zip = new JSZip();
-      
-      // Clean pack name for folder
+
       const cleanPackName = packName.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '_');
-      
-      // Create behavior pack folder
+
       const bpFolder = zip.folder(`${cleanPackName}_BP`);
-      
-      // Create behavior pack manifest
+
       const bpManifest = {
         format_version: 2,
         header: {
@@ -2876,18 +2844,16 @@
           product_type: "addon"
         }
       };
-      
+
       bpFolder.file("manifest.json", JSON.stringify(bpManifest, null, 2));
-      
-      // Add pack icon for behavior pack (use provided asset)
+
       const bpIconData = await fetchAssetAsBase64('assets/pack_icon.png');
       bpFolder.file("pack_icon.png", bpIconData, {base64: true});
-      
-      // Create blueprint definitions for all structures
+
       const blueprintDefinitions = structures.map(structure => {
         const structureFileName = structure.fileName.replace('.mcstructure', '');
         const blueprintId = `jerrys_colonies:blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
-        
+
         return `    {
         typeId: "${blueprintId}",
         displayName: "${structure.displayName}", 
@@ -2896,39 +2862,31 @@
         frontSide: "max_z"
     }`;
       }).join(',\n');
-      
-      // Create main.js script
-      const mainScript = `/*
- * ${packName} for Jerry's Colonies
- * Generated by Custom Structure Builder
- * Contains ${structures.length} custom structure${structures.length === 1 ? '' : 's'}
- */
+
+      const mainScript = `
 
 import { world, system } from "@minecraft/server";
 
 const PACK_NAME = "${packName}";
 
-// Define blueprints for all structures
 const customBlueprints = [
 ${blueprintDefinitions}
 ];
 
-// Register the expansion pack when the world starts
 system.runTimeout(() => {
     console.log(\`Registering expansion pack: \${PACK_NAME} with \${customBlueprints.length} structure\${customBlueprints.length === 1 ? '' : 's'}\`);
-    
-    // Register each blueprint
+
     customBlueprints.forEach(blueprint => {
         system.run(() => {
             const registrationData = {
                 packName: PACK_NAME,
                 blueprint: blueprint
             };
-            
+
             world.getDimension("overworld").runCommand(
                 \`scriptevent jerrys_colonies:register_expansion \${JSON.stringify(registrationData)}\`
             );
-            
+
             console.log(\`Registered blueprint: \${blueprint.displayName}\`);
         });
     });
@@ -2938,14 +2896,13 @@ console.log(\`\${PACK_NAME} loaded successfully!\`);`;
 
       const scriptsFolder = bpFolder.folder("scripts");
       scriptsFolder.file("main.js", mainScript);
-      
-      // Create item definitions
+
       const itemsFolder = bpFolder.folder("items");
       structures.forEach(structure => {
         const structureFileName = structure.fileName.replace('.mcstructure', '');
         const blueprintId = `jerrys_colonies:blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
         const itemFileName = `${blueprintId.replace('jerrys_colonies:', '')}.json`;
-        
+
         const blueprintItem = {
           format_version: "1.20.60",
           "minecraft:item": {
@@ -2971,27 +2928,23 @@ console.log(\`\${PACK_NAME} loaded successfully!\`);`;
             }
           }
         };
-        
+
         itemsFolder.file(itemFileName, JSON.stringify(blueprintItem, null, 2));
       });
-      
-      // Create structures folder and add the actual .mcstructure files
+
       const structuresFolder = bpFolder.folder("structures");
-      
-      // Add each uploaded .mcstructure file to the structures folder
+
       for (const structure of structures) {
         const arrayBuffer = await structure.file.arrayBuffer();
         const fileName = structure.fileName;
         structuresFolder.file(fileName, arrayBuffer);
       }
-      
-      // Create resource pack folder 
+
       const rpFolder = zip.folder(`${cleanPackName}_RP`);
-      
-      // Create resource pack manifest
+
       const resourceUuid = generateUUID();
       const resourceDataUuid = generateUUID();
-      
+
       const rpManifest = {
         format_version: 2,
         header: {
@@ -3010,50 +2963,45 @@ console.log(\`\${PACK_NAME} loaded successfully!\`);`;
           }
         ]
       };
-      
+
       rpFolder.file("manifest.json", JSON.stringify(rpManifest, null, 2));
-      
-      // Add pack icon for resource pack (use provided asset)
+
       const rpIconData = await fetchAssetAsBase64('assets/pack_icon.png');
       rpFolder.file("pack_icon.png", rpIconData, {base64: true});
-      
-      // Create textures folder structure and item_texture.json
+
       const texturesFolder = rpFolder.folder("textures");
       const itemsTexturesFolder = texturesFolder.folder("items");
-      
-      // Add the custom blueprint texture (use provided asset)
+
       const customBlueprintTexture = await fetchAssetAsBase64('assets/customblueprint.png');
       itemsTexturesFolder.file("customblueprint.png", customBlueprintTexture, {base64: true});
-      
+
       const textureDefinitions = {};
       structures.forEach(structure => {
         const structureFileName = structure.fileName.replace('.mcstructure', '');
         const blueprintId = `blueprint_${structureFileName.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
-        
+
         textureDefinitions[blueprintId] = {
           textures: "textures/items/customblueprint"
         };
       });
-      
+
       const itemTextureJson = {
         texture_data: textureDefinitions,
         resource_pack_name: `${cleanPackName}_rp`,
         texture_name: "atlas.items"
       };
-      
+
       texturesFolder.file("item_texture.json", JSON.stringify(itemTextureJson, null, 2));
-      
-      // Add README for resource pack
+
       rpFolder.file("README.txt", `This resource pack contains texture definitions for ${packName}.\n\nThe textures reference "customblueprint" which should already exist in your main Jerry's Colonies resource pack.\n\nIf you want to use custom textures, replace the "customblueprint" references with your own texture paths.`);
-      
-      // Generate and return the .mcaddon file
+
       return await zip.generateAsync({type:"blob"});
     }
 
     function displayIncludedFiles(structures) {
       const includedFiles = document.getElementById('includedFiles');
       if (!includedFiles) return;
-      
+
       includedFiles.innerHTML = `
         <div style="margin-bottom: 10px;"><strong>📁 Behavior Pack:</strong></div>
         ${structures.map(structure => `
