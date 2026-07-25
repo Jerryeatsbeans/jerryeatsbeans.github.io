@@ -163,6 +163,467 @@ class RedDotMarker {
 
 }
 
+class TerritoryDrawer {
+
+    static #storageKey = 'territoryDrawings';
+    static #defaultColor = '#e6194b';
+    static #defaultScale = 16;
+
+    #map = undefined;
+    #dataProjection = undefined;
+    #viewProjection = undefined;
+    #source = undefined;
+    #layer = undefined;
+    #draw = undefined;
+    #currentColor = TerritoryDrawer.#defaultColor;
+    #currentScale = TerritoryDrawer.#defaultScale;
+    #mode = null;
+
+    #panel = undefined;
+    #drawButton = undefined;
+    #textButton = undefined;
+    #scaleValueLabel = undefined;
+    #snapshotOverlay = undefined;
+    #snapshotImage = undefined;
+
+    constructor(map, mapElement, dataProjection, viewProjection) {
+        this.#map = map;
+        this.#dataProjection = dataProjection;
+        this.#viewProjection = viewProjection;
+
+        this.#source = new ol.source.Vector({ features: [] });
+        this.#layer = new ol.layer.Vector({
+            source: this.#source,
+            zIndex: 50,
+            style: (feature) => this.#styleForFeature(feature)
+        });
+        this.#map.addLayer(this.#layer);
+
+        this.#loadTerritories();
+        this.#createPanel(mapElement);
+        this.#createSnapshotModal(mapElement);
+    }
+
+    #styleForFeature(feature) {
+        const color = feature.get('color') || this.#currentColor;
+
+        if (feature.getGeometry().getType() === 'Point') {
+            const scale = feature.get('scale') || this.#currentScale;
+            return new ol.style.Style({
+                text: new ol.style.Text({
+                    text: feature.get('text') || '',
+                    font: `${scale}px 'MinecraftRegular', monospace`,
+                    fill: new ol.style.Fill({ color: color }),
+                    stroke: new ol.style.Stroke({ color: '#000000', width: Math.max(2, Math.round(scale / 6)) }),
+                    overflow: true
+                })
+            });
+        }
+
+        return new ol.style.Style({
+            fill: new ol.style.Fill({ color: TerritoryDrawer.#hexToRgba(color, 0.35) }),
+            stroke: new ol.style.Stroke({ color: color, width: 2 })
+        });
+    }
+
+    static #hexToRgba(hex, alpha) {
+        const h = (hex || TerritoryDrawer.#defaultColor).replace('#', '');
+        const r = parseInt(h.substring(0, 2), 16);
+        const g = parseInt(h.substring(2, 4), 16);
+        const b = parseInt(h.substring(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    #createPanel(mapElement) {
+        const panel = document.createElement('div');
+        panel.className = 'territory-panel';
+
+        const toolsRow = document.createElement('div');
+        toolsRow.className = 'territory-row';
+
+        const drawButton = document.createElement('button');
+        drawButton.type = 'button';
+        drawButton.className = 'territory-btn';
+        drawButton.title = 'Draw territory';
+        drawButton.textContent = 'Draw';
+        drawButton.addEventListener('click', () => this.#setMode(this.#mode === 'draw' ? null : 'draw'));
+
+        const textButton = document.createElement('button');
+        textButton.type = 'button';
+        textButton.className = 'territory-btn';
+        textButton.title = 'Add text label';
+        textButton.textContent = 'Text';
+        textButton.addEventListener('click', () => this.#setMode(this.#mode === 'text' ? null : 'text'));
+
+        const undoButton = document.createElement('button');
+        undoButton.type = 'button';
+        undoButton.className = 'territory-btn';
+        undoButton.title = 'Undo last item';
+        undoButton.textContent = 'Undo';
+        undoButton.addEventListener('click', () => this.#undoLast());
+
+        const clearButton = document.createElement('button');
+        clearButton.type = 'button';
+        clearButton.className = 'territory-btn';
+        clearButton.title = 'Clear everything';
+        clearButton.textContent = 'Clear';
+        clearButton.addEventListener('click', () => this.#clearAll());
+
+        toolsRow.appendChild(drawButton);
+        toolsRow.appendChild(textButton);
+        toolsRow.appendChild(undoButton);
+        toolsRow.appendChild(clearButton);
+
+        const fileRow = document.createElement('div');
+        fileRow.className = 'territory-row';
+
+        const saveButton = document.createElement('button');
+        saveButton.type = 'button';
+        saveButton.className = 'territory-btn';
+        saveButton.title = 'Save map config to a file';
+        saveButton.textContent = 'Save';
+        saveButton.addEventListener('click', () => this.#exportConfig());
+
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json,application/json';
+        fileInput.className = 'territory-file-input';
+        fileInput.addEventListener('change', (evt) => this.#importConfig(evt));
+
+        const loadButton = document.createElement('button');
+        loadButton.type = 'button';
+        loadButton.className = 'territory-btn';
+        loadButton.title = 'Load map config from a file';
+        loadButton.textContent = 'Load';
+        loadButton.addEventListener('click', () => fileInput.click());
+
+        const snapshotButton = document.createElement('button');
+        snapshotButton.type = 'button';
+        snapshotButton.className = 'territory-btn';
+        snapshotButton.title = 'Preview a screenshot of the current view';
+        snapshotButton.textContent = 'SS';
+        snapshotButton.addEventListener('click', () => this.#takeSnapshot());
+
+        fileRow.appendChild(saveButton);
+        fileRow.appendChild(loadButton);
+        fileRow.appendChild(snapshotButton);
+        fileRow.appendChild(fileInput);
+
+        const optionsRow = document.createElement('div');
+        optionsRow.className = 'territory-row';
+
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.className = 'territory-color';
+        colorInput.value = this.#currentColor;
+        colorInput.title = 'Color';
+        colorInput.addEventListener('input', () => {
+            this.#currentColor = colorInput.value;
+        });
+
+        const scaleLabel = document.createElement('span');
+        scaleLabel.className = 'territory-label';
+        scaleLabel.textContent = 'Size';
+
+        const scaleInput = document.createElement('input');
+        scaleInput.type = 'range';
+        scaleInput.className = 'territory-scale';
+        scaleInput.min = '8';
+        scaleInput.max = '48';
+        scaleInput.step = '1';
+        scaleInput.value = String(this.#currentScale);
+        scaleInput.title = 'Text size';
+
+        const scaleValueLabel = document.createElement('span');
+        scaleValueLabel.className = 'territory-label territory-scale-value';
+        scaleValueLabel.textContent = String(this.#currentScale);
+
+        scaleInput.addEventListener('input', () => {
+            this.#currentScale = parseInt(scaleInput.value, 10);
+            scaleValueLabel.textContent = scaleInput.value;
+        });
+
+        optionsRow.appendChild(colorInput);
+        optionsRow.appendChild(scaleLabel);
+        optionsRow.appendChild(scaleInput);
+        optionsRow.appendChild(scaleValueLabel);
+
+        panel.appendChild(toolsRow);
+        panel.appendChild(fileRow);
+        panel.appendChild(optionsRow);
+
+        mapElement.appendChild(panel);
+
+        this.#panel = panel;
+        this.#drawButton = drawButton;
+        this.#textButton = textButton;
+        this.#scaleValueLabel = scaleValueLabel;
+    }
+
+    #setMode(mode) {
+        this.#mode = mode;
+
+        if (this.#draw) {
+            this.#map.removeInteraction(this.#draw);
+            this.#draw = undefined;
+        }
+
+        this.#drawButton.classList.toggle('territory-btn-active', mode === 'draw');
+        this.#textButton.classList.toggle('territory-btn-active', mode === 'text');
+
+        if (mode === 'draw') {
+            this.#draw = new ol.interaction.Draw({
+                source: this.#source,
+                type: 'Polygon'
+            });
+            this.#draw.on('drawend', (evt) => {
+                evt.feature.set('color', this.#currentColor);
+                this.#saveTerritories();
+            });
+            this.#map.addInteraction(this.#draw);
+        } else if (mode === 'text') {
+            this.#draw = new ol.interaction.Draw({
+                source: this.#source,
+                type: 'Point'
+            });
+            this.#draw.on('drawend', (evt) => {
+                const feature = evt.feature;
+                const text = window.prompt('Label text:', '');
+                if (!text) {
+                    setTimeout(() => this.#source.removeFeature(feature), 0);
+                    return;
+                }
+                feature.set('text', text);
+                feature.set('color', this.#currentColor);
+                feature.set('scale', this.#currentScale);
+                this.#saveTerritories();
+            });
+            this.#map.addInteraction(this.#draw);
+        }
+    }
+
+    #undoLast() {
+        const features = this.#source.getFeatures();
+        const last = features[features.length - 1];
+        if (last) {
+            this.#source.removeFeature(last);
+            this.#saveTerritories();
+        }
+    }
+
+    #clearAll() {
+        if (this.#source.getFeatures().length === 0) return;
+        if (!window.confirm('Clear all drawn territories and labels?')) return;
+        this.#source.clear();
+        this.#saveTerritories();
+    }
+
+    #saveTerritories() {
+        try {
+            const format = new ol.format.GeoJSON();
+            const geojson = format.writeFeaturesObject(this.#source.getFeatures(), {
+                dataProjection: this.#dataProjection,
+                featureProjection: this.#viewProjection
+            });
+            localStorage.setItem(TerritoryDrawer.#storageKey, JSON.stringify(geojson));
+        } catch (e) {
+            console.error('Failed to save territories', e);
+        }
+    }
+
+    #loadTerritories() {
+        try {
+            const s = localStorage.getItem(TerritoryDrawer.#storageKey);
+            if (!s) return;
+            const geojson = JSON.parse(s);
+            const format = new ol.format.GeoJSON();
+            const features = format.readFeatures(geojson, {
+                dataProjection: this.#dataProjection,
+                featureProjection: this.#viewProjection
+            });
+            this.#source.addFeatures(features);
+        } catch (e) {
+            console.error('Failed to load territories', e);
+        }
+    }
+
+    #downloadBlob(blob, fileName) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    }
+
+    #exportConfig() {
+        try {
+            const format = new ol.format.GeoJSON();
+            const territories = format.writeFeaturesObject(this.#source.getFeatures(), {
+                dataProjection: this.#dataProjection,
+                featureProjection: this.#viewProjection
+            });
+
+            const view = this.#map.getView();
+            const center = ol.proj.transform(view.getCenter(), this.#viewProjection, this.#dataProjection);
+
+            const config = {
+                type: 'jcservermap-config',
+                version: 1,
+                territories: territories,
+                view: {
+                    centerX: Math.round(center[0]),
+                    centerZ: Math.round(center[1]),
+                    zoom: view.getZoom()
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+            this.#downloadBlob(blob, `map-config-${Date.now()}.json`);
+            Unmined.toast('Map config saved');
+        } catch (e) {
+            console.error('Failed to save map config', e);
+            Unmined.toast('Failed to save map config');
+        }
+    }
+
+    #importConfig(evt) {
+        const file = evt.target.files && evt.target.files[0];
+        evt.target.value = '';
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            try {
+                const config = JSON.parse(reader.result);
+                const territoriesGeojson = config.territories ?? config;
+
+                const format = new ol.format.GeoJSON();
+                const features = format.readFeatures(territoriesGeojson, {
+                    dataProjection: this.#dataProjection,
+                    featureProjection: this.#viewProjection
+                });
+
+                this.#source.clear();
+                this.#source.addFeatures(features);
+                this.#saveTerritories();
+
+                if (config.view) {
+                    const view = this.#map.getView();
+                    const center = ol.proj.transform(
+                        [config.view.centerX, config.view.centerZ],
+                        this.#dataProjection,
+                        this.#viewProjection
+                    );
+                    view.setCenter(center);
+                    if (typeof config.view.zoom === 'number') view.setZoom(config.view.zoom);
+                }
+
+                Unmined.toast('Map config loaded');
+            } catch (e) {
+                console.error('Failed to load map config', e);
+                Unmined.toast('Invalid map config file');
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    #takeSnapshot() {
+        const map = this.#map;
+        map.once('rendercomplete', () => {
+            try {
+                const mapCanvas = document.createElement('canvas');
+                const size = map.getSize();
+                mapCanvas.width = size[0];
+                mapCanvas.height = size[1];
+                const mapContext = mapCanvas.getContext('2d');
+
+                map.getViewport().querySelectorAll('.ol-layer canvas, canvas').forEach((canvas) => {
+                    if (canvas.width <= 0) return;
+
+                    const opacity = canvas.parentNode.style.opacity || canvas.style.opacity;
+                    mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+
+                    const transform = canvas.style.transform;
+                    const matrix = transform
+                        ? transform.match(/^matrix\(([^\(]*)\)$/)[1].split(',').map(Number)
+                        : [1, 0, 0, 1, 0, 0];
+
+                    mapContext.setTransform(...matrix);
+                    mapContext.drawImage(canvas, 0, 0);
+                });
+
+                mapContext.globalAlpha = 1;
+                mapContext.setTransform(1, 0, 0, 1, 0, 0);
+
+                this.#showSnapshotModal(mapCanvas.toDataURL('image/png'));
+            } catch (e) {
+                console.error('Failed to capture screenshot', e);
+                Unmined.toast('Failed to capture screenshot');
+            }
+        });
+        map.renderSync();
+    }
+
+    #createSnapshotModal(mapElement) {
+        const overlay = document.createElement('div');
+        overlay.className = 'territory-modal-overlay';
+        overlay.addEventListener('click', (evt) => {
+            if (evt.target === overlay) this.#hideSnapshotModal();
+        });
+
+        const modal = document.createElement('div');
+        modal.className = 'territory-modal';
+
+        const header = document.createElement('div');
+        header.className = 'territory-modal-header';
+
+        const title = document.createElement('span');
+        title.textContent = 'Screenshot';
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'territory-btn';
+        closeButton.title = 'Close';
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => this.#hideSnapshotModal());
+
+        header.appendChild(title);
+        header.appendChild(closeButton);
+
+        const hint = document.createElement('div');
+        hint.className = 'territory-label territory-modal-hint';
+        hint.textContent = 'Right-click (or press and hold) the image and choose "Save image as..." to save it.';
+
+        const img = document.createElement('img');
+        img.className = 'territory-modal-image';
+        img.alt = 'Map screenshot';
+
+        modal.appendChild(header);
+        modal.appendChild(hint);
+        modal.appendChild(img);
+        overlay.appendChild(modal);
+
+        mapElement.appendChild(overlay);
+
+        this.#snapshotOverlay = overlay;
+        this.#snapshotImage = img;
+    }
+
+    #showSnapshotModal(dataUrl) {
+        this.#snapshotImage.src = dataUrl;
+        this.#snapshotOverlay.classList.add('territory-modal-visible');
+    }
+
+    #hideSnapshotModal() {
+        this.#snapshotOverlay.classList.remove('territory-modal-visible');
+        this.#snapshotImage.src = '';
+    }
+
+}
+
 class Unmined {
 
     olMap = null;
@@ -327,6 +788,7 @@ class Unmined {
         this.olMap.addControl(this.createContextMenu());
 
         this.redDotMarker = new RedDotMarker(this.olMap, this.dataProjection, this.viewProjection);
+        this.territoryDrawer = new TerritoryDrawer(this.olMap, mapElement, this.dataProjection, this.viewProjection);
 
         this.centerOnRedDotMarker();
     }

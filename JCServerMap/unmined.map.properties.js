@@ -8,7 +8,7 @@ var UnminedMapProperties = {
     minRegionZ: -20,
     maxRegionX: 19,
     maxRegionZ: 19,
-    worldName: "New World",
+    worldName: "Frontier",
     background: "#423fff",
     markers: new Array(),
     enableGrid: true,
