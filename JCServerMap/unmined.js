@@ -166,30 +166,64 @@ class RedDotMarker {
 class TerritoryDrawer {
 
     static #storageKey = 'territoryDrawings';
+    static #collapsedKey = 'territoryPanelCollapsed';
+    static #configsMetaKey = 'territoryConfigsMeta';
+    static #tutorialSeenKey = 'territoryTutorialSeen';
+    // Shared with flagbuilder.js - both pages are same-origin, so localStorage bridges them.
+    static #stickerLibraryKey = 'jcServerMapFlagStickers';
     static #defaultColor = '#e6194b';
     static #defaultScale = 16;
+
+    // Named text tiers, ordered from largest/broadest to smallest/most specific.
+    // minZoom is the lowest map zoom level (see UnminedMapProperties.minZoom/maxZoom)
+    // at which labels of that tier start to appear, similar to place labels on Google Maps.
+    static #textTiers = [
+        { key: 'continent', label: 'Continent', fontSize: 48, minZoom: -6 },
+        { key: 'region', label: 'Region', fontSize: 36, minZoom: -4 },
+        { key: 'nation', label: 'Nation', fontSize: 28, minZoom: -2 },
+        { key: 'town', label: 'Town', fontSize: 20, minZoom: 0 },
+        { key: 'landmark', label: 'Landmark', fontSize: 14, minZoom: 1 }
+    ];
 
     #map = undefined;
     #dataProjection = undefined;
     #viewProjection = undefined;
+    #worldZoomOffset = 0;
     #source = undefined;
     #layer = undefined;
     #draw = undefined;
     #currentColor = TerritoryDrawer.#defaultColor;
-    #currentScale = TerritoryDrawer.#defaultScale;
     #mode = null;
+    #configs = [];
 
     #panel = undefined;
+    #selectButton = undefined;
+    #selectOverlay = undefined;
+    #selectClickHandler = undefined;
+    #selectedFeature = null;
     #drawButton = undefined;
+    #freehandButton = undefined;
     #textButton = undefined;
-    #scaleValueLabel = undefined;
+    #stickerButton = undefined;
+    #stickerBadge = undefined;
+    #stickers = [];
+    #pendingSticker = null;
+    #manageBadge = undefined;
     #snapshotOverlay = undefined;
     #snapshotImage = undefined;
+    #tierModalOverlay = undefined;
+    #tierModalResolve = undefined;
+    #manageModalOverlay = undefined;
+    #manageModalList = undefined;
+    #stickerModalOverlay = undefined;
+    #stickerModalGrid = undefined;
+    #tutorialModalOverlay = undefined;
 
-    constructor(map, mapElement, dataProjection, viewProjection) {
+    constructor(map, mapElement, dataProjection, viewProjection, worldZoomOffset) {
         this.#map = map;
         this.#dataProjection = dataProjection;
         this.#viewProjection = viewProjection;
+        this.#worldZoomOffset = worldZoomOffset ?? 0;
 
         this.#source = new ol.source.Vector({ features: [] });
         this.#layer = new ol.layer.Vector({
@@ -200,21 +234,65 @@ class TerritoryDrawer {
         this.#map.addLayer(this.#layer);
 
         this.#loadTerritories();
+        this.#loadConfigsMeta();
         this.#createPanel(mapElement);
         this.#createSnapshotModal(mapElement);
+        this.#createTierModal(mapElement);
+        this.#createManageModal(mapElement);
+        this.#createStickerModal(mapElement);
+        this.#createSelectOverlay(mapElement);
+        this.#loadStickerLibrary();
+        this.#renderConfigList();
+
+        this.#createTutorialModal(mapElement);
+        if (localStorage.getItem(TerritoryDrawer.#tutorialSeenKey) !== 'true') {
+            this.#showTutorialModal();
+        }
     }
 
     #styleForFeature(feature) {
         const color = feature.get('color') || this.#currentColor;
 
         if (feature.getGeometry().getType() === 'Point') {
-            const scale = feature.get('scale') || this.#currentScale;
+            const tierIndex = TerritoryDrawer.#textTiers.findIndex(t => t.key === feature.get('tier'));
+            const tier = tierIndex >= 0 ? TerritoryDrawer.#textTiers[tierIndex] : undefined;
+
+            if (feature.get('type') === 'sticker') {
+                if (tier) {
+                    const zoom = (this.#map.getView().getZoom() ?? 0) + this.#worldZoomOffset;
+                    const nextTier = TerritoryDrawer.#textTiers[tierIndex + 1];
+                    const maxZoom = nextTier ? nextTier.minZoom : Infinity;
+                    if (zoom < tier.minZoom || zoom >= maxZoom) return null;
+                }
+                return new ol.style.Style({
+                    image: new ol.style.Icon({
+                        src: feature.get('stickerImage'),
+                        width: 60,
+                        height: 42
+                    })
+                });
+            }
+
+            let fontSize;
+            if (tier) {
+                // Each tier is only visible within its own zoom band, up to the next tier's minZoom.
+                // The OL view zoom is 0-based; convert it to the world zoom scale tier.minZoom uses.
+                const zoom = (this.#map.getView().getZoom() ?? 0) + this.#worldZoomOffset;
+                const nextTier = TerritoryDrawer.#textTiers[tierIndex + 1];
+                const maxZoom = nextTier ? nextTier.minZoom : Infinity;
+                if (zoom < tier.minZoom || zoom >= maxZoom) return null;
+                fontSize = tier.fontSize;
+            } else {
+                // Backward compatibility with labels created before named tiers existed.
+                fontSize = feature.get('scale') || TerritoryDrawer.#defaultScale;
+            }
+
             return new ol.style.Style({
                 text: new ol.style.Text({
                     text: feature.get('text') || '',
-                    font: `${scale}px 'MinecraftRegular', monospace`,
+                    font: `${fontSize}px 'MinecraftRegular', monospace`,
                     fill: new ol.style.Fill({ color: color }),
-                    stroke: new ol.style.Stroke({ color: '#000000', width: Math.max(2, Math.round(scale / 6)) }),
+                    stroke: new ol.style.Stroke({ color: '#000000', width: Math.max(2, Math.round(fontSize / 6)) }),
                     overflow: true
                 })
             });
@@ -234,83 +312,59 @@ class TerritoryDrawer {
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
+    #iconButton(iconFile, label, title) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'territory-btn';
+        button.title = title;
+        button.setAttribute('aria-label', title);
+
+        const icon = document.createElement('img');
+        icon.className = 'territory-btn-icon';
+        icon.src = `icons/${iconFile}`;
+        icon.alt = '';
+
+        const text = document.createElement('span');
+        text.className = 'territory-btn-label';
+        text.textContent = label;
+
+        button.appendChild(icon);
+        button.appendChild(text);
+        return button;
+    }
+
+    #divider() {
+        const divider = document.createElement('span');
+        divider.className = 'territory-divider';
+        return divider;
+    }
+
     #createPanel(mapElement) {
         const panel = document.createElement('div');
         panel.className = 'territory-panel';
 
+        const header = document.createElement('div');
+        header.className = 'territory-header';
+
+        const title = document.createElement('span');
+        title.className = 'territory-title';
+        title.textContent = 'Territory Tools';
+
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'territory-toggle-btn';
+        toggleButton.title = 'Show/hide the toolbar';
+        toggleButton.setAttribute('aria-label', 'Show/hide the toolbar');
+        toggleButton.textContent = '▾';
+
+        header.appendChild(title);
+        header.appendChild(toggleButton);
+
+        const body = document.createElement('div');
+        body.className = 'territory-body';
+
         const toolsRow = document.createElement('div');
         toolsRow.className = 'territory-row';
-
-        const drawButton = document.createElement('button');
-        drawButton.type = 'button';
-        drawButton.className = 'territory-btn';
-        drawButton.title = 'Draw territory';
-        drawButton.textContent = 'Draw';
-        drawButton.addEventListener('click', () => this.#setMode(this.#mode === 'draw' ? null : 'draw'));
-
-        const textButton = document.createElement('button');
-        textButton.type = 'button';
-        textButton.className = 'territory-btn';
-        textButton.title = 'Add text label';
-        textButton.textContent = 'Text';
-        textButton.addEventListener('click', () => this.#setMode(this.#mode === 'text' ? null : 'text'));
-
-        const undoButton = document.createElement('button');
-        undoButton.type = 'button';
-        undoButton.className = 'territory-btn';
-        undoButton.title = 'Undo last item';
-        undoButton.textContent = 'Undo';
-        undoButton.addEventListener('click', () => this.#undoLast());
-
-        const clearButton = document.createElement('button');
-        clearButton.type = 'button';
-        clearButton.className = 'territory-btn';
-        clearButton.title = 'Clear everything';
-        clearButton.textContent = 'Clear';
-        clearButton.addEventListener('click', () => this.#clearAll());
-
-        toolsRow.appendChild(drawButton);
-        toolsRow.appendChild(textButton);
-        toolsRow.appendChild(undoButton);
-        toolsRow.appendChild(clearButton);
-
-        const fileRow = document.createElement('div');
-        fileRow.className = 'territory-row';
-
-        const saveButton = document.createElement('button');
-        saveButton.type = 'button';
-        saveButton.className = 'territory-btn';
-        saveButton.title = 'Save map config to a file';
-        saveButton.textContent = 'Save';
-        saveButton.addEventListener('click', () => this.#exportConfig());
-
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.json,application/json';
-        fileInput.className = 'territory-file-input';
-        fileInput.addEventListener('change', (evt) => this.#importConfig(evt));
-
-        const loadButton = document.createElement('button');
-        loadButton.type = 'button';
-        loadButton.className = 'territory-btn';
-        loadButton.title = 'Load map config from a file';
-        loadButton.textContent = 'Load';
-        loadButton.addEventListener('click', () => fileInput.click());
-
-        const snapshotButton = document.createElement('button');
-        snapshotButton.type = 'button';
-        snapshotButton.className = 'territory-btn';
-        snapshotButton.title = 'Preview a screenshot of the current view';
-        snapshotButton.textContent = 'SS';
-        snapshotButton.addEventListener('click', () => this.#takeSnapshot());
-
-        fileRow.appendChild(saveButton);
-        fileRow.appendChild(loadButton);
-        fileRow.appendChild(snapshotButton);
-        fileRow.appendChild(fileInput);
-
-        const optionsRow = document.createElement('div');
-        optionsRow.className = 'territory-row';
 
         const colorInput = document.createElement('input');
         colorInput.type = 'color';
@@ -321,43 +375,586 @@ class TerritoryDrawer {
             this.#currentColor = colorInput.value;
         });
 
-        const scaleLabel = document.createElement('span');
-        scaleLabel.className = 'territory-label';
-        scaleLabel.textContent = 'Size';
+        const selectButton = this.#iconButton('select.png', 'Select', 'Select an item to delete it');
+        selectButton.addEventListener('click', () => this.#setMode(this.#mode === 'select' ? null : 'select'));
 
-        const scaleInput = document.createElement('input');
-        scaleInput.type = 'range';
-        scaleInput.className = 'territory-scale';
-        scaleInput.min = '8';
-        scaleInput.max = '48';
-        scaleInput.step = '1';
-        scaleInput.value = String(this.#currentScale);
-        scaleInput.title = 'Text size';
+        const drawButton = this.#iconButton('linedraw.png', 'Draw', 'Draw territory (click to place points)');
+        drawButton.addEventListener('click', () => this.#setMode(this.#mode === 'draw' ? null : 'draw'));
 
-        const scaleValueLabel = document.createElement('span');
-        scaleValueLabel.className = 'territory-label territory-scale-value';
-        scaleValueLabel.textContent = String(this.#currentScale);
+        const freehandButton = this.#iconButton('freedraw.png', 'Free Draw', 'Free draw territory (click and drag)');
+        freehandButton.addEventListener('click', () => this.#setMode(this.#mode === 'freehand' ? null : 'freehand'));
 
-        scaleInput.addEventListener('input', () => {
-            this.#currentScale = parseInt(scaleInput.value, 10);
-            scaleValueLabel.textContent = scaleInput.value;
+        const textButton = this.#iconButton('text.png', 'Text', 'Add text label');
+        textButton.addEventListener('click', () => this.#setMode(this.#mode === 'text' ? null : 'text'));
+
+        const stickerButton = this.#iconButton('sticker.png', 'Stickers', 'Place a saved flag sticker (visible on the nation layer)');
+        const stickerBadge = document.createElement('span');
+        stickerBadge.className = 'territory-badge territory-badge-hidden';
+        stickerBadge.textContent = '0';
+        stickerButton.appendChild(stickerBadge);
+        stickerButton.addEventListener('click', () => {
+            if (this.#mode === 'sticker') {
+                this.#setMode(null);
+            } else {
+                this.#showStickerModal();
+            }
         });
 
-        optionsRow.appendChild(colorInput);
-        optionsRow.appendChild(scaleLabel);
-        optionsRow.appendChild(scaleInput);
-        optionsRow.appendChild(scaleValueLabel);
+        const undoButton = this.#iconButton('undo.png', 'Undo', 'Undo last item');
+        undoButton.addEventListener('click', () => this.#undoLast());
 
-        panel.appendChild(toolsRow);
-        panel.appendChild(fileRow);
-        panel.appendChild(optionsRow);
+        const clearButton = this.#iconButton('clear.png', 'Clear', 'Clear everything');
+        clearButton.addEventListener('click', () => this.#clearAll());
+
+        toolsRow.appendChild(colorInput);
+        toolsRow.appendChild(selectButton);
+        toolsRow.appendChild(drawButton);
+        toolsRow.appendChild(freehandButton);
+        toolsRow.appendChild(textButton);
+        toolsRow.appendChild(stickerButton);
+        toolsRow.appendChild(undoButton);
+        toolsRow.appendChild(clearButton);
+        toolsRow.appendChild(this.#divider());
+
+        const saveButton = this.#iconButton('download.png', 'Save', 'Save map config to a file');
+        saveButton.addEventListener('click', () => this.#exportConfig());
+
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json,application/json';
+        fileInput.className = 'territory-file-input';
+        fileInput.addEventListener('change', (evt) => this.#importConfig(evt));
+
+        const loadButton = this.#iconButton('upload.png', 'Load', 'Load map config from a file');
+        loadButton.addEventListener('click', () => fileInput.click());
+
+        const manageButton = this.#iconButton('configs.png', 'Configs', 'Manage loaded configs');
+        manageButton.classList.add('territory-manage-btn');
+
+        const manageBadge = document.createElement('span');
+        manageBadge.className = 'territory-badge territory-badge-hidden';
+        manageBadge.textContent = '0';
+
+        manageButton.appendChild(manageBadge);
+        manageButton.addEventListener('click', () => this.#showManageModal());
+
+        const snapshotButton = this.#iconButton('screenshot.png', 'Screenshot', 'Preview a screenshot of the current view');
+        snapshotButton.addEventListener('click', () => this.#takeSnapshot());
+
+        const helpButton = this.#iconButton('help.png', 'Help', 'Show the tutorial');
+        helpButton.addEventListener('click', () => this.#showTutorialModal());
+
+        toolsRow.appendChild(saveButton);
+        toolsRow.appendChild(loadButton);
+        toolsRow.appendChild(manageButton);
+        toolsRow.appendChild(snapshotButton);
+        toolsRow.appendChild(helpButton);
+        toolsRow.appendChild(fileInput);
+
+        body.appendChild(toolsRow);
+
+        panel.appendChild(header);
+        panel.appendChild(body);
+
+        const collapsed = localStorage.getItem(TerritoryDrawer.#collapsedKey) === 'true';
+        const setCollapsed = (value) => {
+            panel.classList.toggle('territory-panel-collapsed', value);
+            toggleButton.textContent = value ? '▸' : '▾';
+            localStorage.setItem(TerritoryDrawer.#collapsedKey, String(value));
+        };
+        toggleButton.addEventListener('click', () => setCollapsed(!panel.classList.contains('territory-panel-collapsed')));
+        setCollapsed(collapsed);
 
         mapElement.appendChild(panel);
 
         this.#panel = panel;
+        this.#selectButton = selectButton;
         this.#drawButton = drawButton;
+        this.#freehandButton = freehandButton;
         this.#textButton = textButton;
-        this.#scaleValueLabel = scaleValueLabel;
+        this.#stickerButton = stickerButton;
+        this.#stickerBadge = stickerBadge;
+        this.#manageBadge = manageBadge;
+    }
+
+    #createSelectOverlay(mapElement) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'territory-select-overlay';
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'territory-select-delete';
+        deleteButton.title = 'Delete this item';
+        deleteButton.setAttribute('aria-label', 'Delete this item');
+        deleteButton.textContent = 'X';
+        deleteButton.addEventListener('click', () => {
+            if (this.#selectedFeature) {
+                this.#source.removeFeature(this.#selectedFeature);
+                this.#saveTerritories();
+                this.#renderConfigList();
+            }
+            this.#clearSelection();
+        });
+
+        wrapper.appendChild(deleteButton);
+
+        const overlay = new ol.Overlay({
+            element: wrapper,
+            positioning: 'center-center',
+            stopEvent: true,
+            offset: [0, -6]
+        });
+        overlay.setPosition(undefined);
+        this.#map.addOverlay(overlay);
+
+        this.#selectOverlay = overlay;
+    }
+
+    #clearSelection() {
+        this.#selectedFeature = null;
+        if (this.#selectOverlay) this.#selectOverlay.setPosition(undefined);
+    }
+
+    #createTierModal(mapElement) {
+        const overlay = document.createElement('div');
+        overlay.className = 'territory-modal-overlay';
+        overlay.addEventListener('click', (evt) => {
+            if (evt.target === overlay) this.#resolveTierModal(null);
+        });
+
+        const modal = document.createElement('div');
+        modal.className = 'territory-modal';
+
+        const header = document.createElement('div');
+        header.className = 'territory-modal-header';
+
+        const title = document.createElement('span');
+        title.textContent = 'Choose a Label Tier';
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'territory-btn';
+        closeButton.title = 'Cancel';
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => this.#resolveTierModal(null));
+
+        header.appendChild(title);
+        header.appendChild(closeButton);
+
+        const hint = document.createElement('div');
+        hint.className = 'territory-label territory-modal-hint';
+        hint.textContent = 'Pick the zoom tier this label should appear at.';
+
+        const optionsRow = document.createElement('div');
+        optionsRow.className = 'territory-tier-modal-options';
+
+        TerritoryDrawer.#textTiers.forEach(tier => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'territory-btn territory-tier-modal-option';
+            option.textContent = tier.label;
+            option.addEventListener('click', () => this.#resolveTierModal(tier.key));
+            optionsRow.appendChild(option);
+        });
+
+        modal.appendChild(header);
+        modal.appendChild(hint);
+        modal.appendChild(optionsRow);
+        overlay.appendChild(modal);
+
+        mapElement.appendChild(overlay);
+
+        this.#tierModalOverlay = overlay;
+    }
+
+    #promptForTier() {
+        this.#tierModalOverlay.classList.add('territory-modal-visible');
+        return new Promise(resolve => {
+            this.#tierModalResolve = resolve;
+        });
+    }
+
+    #resolveTierModal(tierKey) {
+        this.#tierModalOverlay.classList.remove('territory-modal-visible');
+        const resolve = this.#tierModalResolve;
+        this.#tierModalResolve = undefined;
+        if (resolve) resolve(tierKey ?? null);
+    }
+
+    #createManageModal(mapElement) {
+        const overlay = document.createElement('div');
+        overlay.className = 'territory-modal-overlay';
+        overlay.addEventListener('click', (evt) => {
+            if (evt.target === overlay) this.#hideManageModal();
+        });
+
+        const modal = document.createElement('div');
+        modal.className = 'territory-modal territory-manage-modal';
+
+        const header = document.createElement('div');
+        header.className = 'territory-modal-header';
+
+        const title = document.createElement('span');
+        title.textContent = 'Loaded Configs';
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'territory-btn';
+        closeButton.title = 'Close';
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => this.#hideManageModal());
+
+        header.appendChild(title);
+        header.appendChild(closeButton);
+
+        const hint = document.createElement('div');
+        hint.className = 'territory-label territory-modal-hint';
+        hint.textContent = 'Each file you load is tracked here. Remove one without touching the others, or hit Save to merge everything into a single file.';
+
+        const list = document.createElement('div');
+        list.className = 'territory-config-list';
+
+        modal.appendChild(header);
+        modal.appendChild(hint);
+        modal.appendChild(list);
+        overlay.appendChild(modal);
+
+        mapElement.appendChild(overlay);
+
+        this.#manageModalOverlay = overlay;
+        this.#manageModalList = list;
+    }
+
+    #renderConfigList() {
+        if (this.#manageBadge) {
+            this.#manageBadge.textContent = String(this.#configs.length);
+            this.#manageBadge.classList.toggle('territory-badge-hidden', this.#configs.length === 0);
+        }
+
+        if (!this.#manageModalList) return;
+        this.#manageModalList.innerHTML = '';
+
+        if (this.#configs.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'territory-label territory-config-empty';
+            empty.textContent = 'No configs loaded yet.';
+            this.#manageModalList.appendChild(empty);
+            return;
+        }
+
+        const features = this.#source.getFeatures();
+        this.#configs.forEach(config => {
+            const count = features.filter(f => f.get('configId') === config.id).length;
+
+            const row = document.createElement('div');
+            row.className = 'territory-config-row';
+
+            const info = document.createElement('span');
+            info.className = 'territory-config-name';
+            info.textContent = `${config.name} (${count})`;
+            info.title = config.name;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'territory-btn territory-config-delete';
+            deleteButton.title = `Remove "${config.name}"`;
+            deleteButton.textContent = 'X';
+            deleteButton.addEventListener('click', () => this.#deleteConfig(config.id));
+
+            row.appendChild(info);
+            row.appendChild(deleteButton);
+            this.#manageModalList.appendChild(row);
+        });
+    }
+
+    #showManageModal() {
+        this.#renderConfigList();
+        this.#manageModalOverlay.classList.add('territory-modal-visible');
+    }
+
+    #hideManageModal() {
+        this.#manageModalOverlay.classList.remove('territory-modal-visible');
+    }
+
+    #deleteConfig(id) {
+        const config = this.#configs.find(c => c.id === id);
+        if (!config) return;
+        if (!window.confirm(`Remove "${config.name}" and everything it added?`)) return;
+
+        this.#source.getFeatures()
+            .filter(f => f.get('configId') === id)
+            .forEach(f => this.#source.removeFeature(f));
+
+        this.#configs = this.#configs.filter(c => c.id !== id);
+        this.#saveConfigsMeta();
+        this.#saveTerritories();
+        this.#renderConfigList();
+        this.#clearSelection();
+        Unmined.toast(`Removed "${config.name}"`);
+    }
+
+    #loadConfigsMeta() {
+        try {
+            const s = localStorage.getItem(TerritoryDrawer.#configsMetaKey);
+            this.#configs = s ? JSON.parse(s) : [];
+        } catch (e) {
+            console.error('Failed to load config list', e);
+            this.#configs = [];
+        }
+    }
+
+    #saveConfigsMeta() {
+        try {
+            localStorage.setItem(TerritoryDrawer.#configsMetaKey, JSON.stringify(this.#configs));
+        } catch (e) {
+            console.error('Failed to save config list', e);
+        }
+    }
+
+    #loadStickerLibrary() {
+        try {
+            const s = localStorage.getItem(TerritoryDrawer.#stickerLibraryKey);
+            this.#stickers = s ? JSON.parse(s) : [];
+        } catch (e) {
+            console.error('Failed to load sticker library', e);
+            this.#stickers = [];
+        }
+        if (this.#stickerBadge) {
+            this.#stickerBadge.textContent = String(this.#stickers.length);
+            this.#stickerBadge.classList.toggle('territory-badge-hidden', this.#stickers.length === 0);
+        }
+    }
+
+    #createStickerModal(mapElement) {
+        const overlay = document.createElement('div');
+        overlay.className = 'territory-modal-overlay';
+        overlay.addEventListener('click', (evt) => {
+            if (evt.target === overlay) this.#hideStickerModal();
+        });
+
+        const modal = document.createElement('div');
+        modal.className = 'territory-modal territory-manage-modal';
+
+        const header = document.createElement('div');
+        header.className = 'territory-modal-header';
+
+        const title = document.createElement('span');
+        title.textContent = 'Place a Flag Sticker';
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'territory-btn';
+        closeButton.title = 'Cancel';
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => this.#hideStickerModal());
+
+        header.appendChild(title);
+        header.appendChild(closeButton);
+
+        const hint = document.createElement('div');
+        hint.className = 'territory-label territory-modal-hint';
+        hint.textContent = 'Pick a flag saved from the Flag Builder, then click the map to place it. It will only show up on the nation layer.';
+
+        const grid = document.createElement('div');
+        grid.className = 'territory-sticker-grid';
+
+        modal.appendChild(header);
+        modal.appendChild(hint);
+        modal.appendChild(grid);
+        overlay.appendChild(modal);
+
+        mapElement.appendChild(overlay);
+
+        this.#stickerModalOverlay = overlay;
+        this.#stickerModalGrid = grid;
+    }
+
+    #renderStickerGrid() {
+        this.#stickerModalGrid.innerHTML = '';
+
+        if (this.#stickers.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'territory-label territory-config-empty';
+            empty.textContent = 'No saved flags yet. Save one from the Flag Builder first.';
+            this.#stickerModalGrid.appendChild(empty);
+            return;
+        }
+
+        this.#stickers.forEach(sticker => {
+            const item = document.createElement('div');
+            item.className = 'territory-sticker-item';
+            item.title = `Place "${sticker.name}"`;
+
+            const img = document.createElement('img');
+            img.className = 'territory-sticker-thumb';
+            img.src = sticker.dataUrl;
+            img.alt = sticker.name;
+            item.appendChild(img);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'territory-sticker-delete';
+            deleteButton.title = `Remove "${sticker.name}" from the library`;
+            deleteButton.textContent = 'X';
+            deleteButton.addEventListener('click', (evt) => {
+                evt.stopPropagation();
+                this.#deleteSticker(sticker.id);
+            });
+            item.appendChild(deleteButton);
+
+            item.addEventListener('click', () => this.#pickSticker(sticker));
+            this.#stickerModalGrid.appendChild(item);
+        });
+    }
+
+    #deleteSticker(id) {
+        this.#stickers = this.#stickers.filter(s => s.id !== id);
+        try {
+            localStorage.setItem(TerritoryDrawer.#stickerLibraryKey, JSON.stringify(this.#stickers));
+        } catch (e) {
+            console.error('Failed to update sticker library', e);
+        }
+        if (this.#stickerBadge) {
+            this.#stickerBadge.textContent = String(this.#stickers.length);
+            this.#stickerBadge.classList.toggle('territory-badge-hidden', this.#stickers.length === 0);
+        }
+        this.#renderStickerGrid();
+    }
+
+    #pickSticker(sticker) {
+        this.#pendingSticker = sticker;
+        this.#hideStickerModal();
+        this.#setMode('sticker');
+        Unmined.toast(`Click the map to place "${sticker.name}"`);
+    }
+
+    #showStickerModal() {
+        this.#loadStickerLibrary();
+        this.#renderStickerGrid();
+        this.#stickerModalOverlay.classList.add('territory-modal-visible');
+    }
+
+    #hideStickerModal() {
+        this.#stickerModalOverlay.classList.remove('territory-modal-visible');
+    }
+
+    static #tutorialSections = [
+        {
+            title: 'Getting Around',
+            body: 'Scroll to zoom, drag to pan, and use the +/- buttons in the corner. Labels and stickers fade in and out as you zoom, just like place names on a real map.'
+        },
+        {
+            title: 'Color',
+            body: 'Pick the color used for the next territory outline or text label you create.'
+        },
+        {
+            title: 'Select',
+            body: 'Click any territory, label, or sticker to select it, then tap the red X that appears over it to delete just that item.'
+        },
+        {
+            title: 'Draw',
+            body: 'Click to place points for a territory outline, then double-click (or click the last point) to finish the shape.'
+        },
+        {
+            title: 'Free Draw',
+            body: 'Click and drag to sketch a territory outline freehand instead of placing points one by one.'
+        },
+        {
+            title: 'Text',
+            body: 'Click the map to add a text label. You will be asked for the label text and a zoom tier (Continent, Region, Nation, Town, or Landmark) that controls how far you need to zoom in before it appears.'
+        },
+        {
+            title: 'Stickers',
+            body: 'Place a flag you saved from the Flag Builder page as a sticker on the map. Flag stickers always appear on the Nation zoom tier.'
+        },
+        {
+            title: 'Undo / Clear',
+            body: 'Undo removes the last thing you added. Clear wipes everything you have drawn on this map.'
+        },
+        {
+            title: 'Save / Load / Configs',
+            body: 'Save downloads everything you have drawn as a JSON file. Load adds a JSON file back onto the map. Configs lets you see every file you have loaded and remove one without affecting the others.'
+        },
+        {
+            title: 'Screenshot',
+            body: 'Capture a snapshot of the current map view that you can save as an image.'
+        }
+    ];
+
+    #createTutorialModal(mapElement) {
+        const overlay = document.createElement('div');
+        overlay.className = 'territory-modal-overlay';
+        overlay.addEventListener('click', (evt) => {
+            if (evt.target === overlay) this.#hideTutorialModal();
+        });
+
+        const modal = document.createElement('div');
+        modal.className = 'territory-modal territory-manage-modal';
+
+        const header = document.createElement('div');
+        header.className = 'territory-modal-header';
+
+        const title = document.createElement('span');
+        title.textContent = 'Welcome to Territory Tools';
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'territory-btn';
+        closeButton.title = 'Close';
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => this.#hideTutorialModal());
+
+        header.appendChild(title);
+        header.appendChild(closeButton);
+
+        const hint = document.createElement('div');
+        hint.className = 'territory-label territory-modal-hint';
+        hint.textContent = 'Here is what every tool on this map does. You can reopen this any time with the Help button.';
+
+        const list = document.createElement('div');
+        list.className = 'territory-tutorial-list';
+
+        TerritoryDrawer.#tutorialSections.forEach(section => {
+            const item = document.createElement('div');
+            item.className = 'territory-tutorial-item';
+
+            const itemTitle = document.createElement('div');
+            itemTitle.className = 'territory-tutorial-item-title';
+            itemTitle.textContent = section.title;
+
+            const itemBody = document.createElement('div');
+            itemBody.className = 'territory-tutorial-item-body';
+            itemBody.textContent = section.body;
+
+            item.appendChild(itemTitle);
+            item.appendChild(itemBody);
+            list.appendChild(item);
+        });
+
+        const gotItButton = document.createElement('button');
+        gotItButton.type = 'button';
+        gotItButton.className = 'territory-btn territory-btn-active territory-tutorial-close';
+        gotItButton.textContent = "Got it!";
+        gotItButton.addEventListener('click', () => this.#hideTutorialModal());
+
+        modal.appendChild(header);
+        modal.appendChild(hint);
+        modal.appendChild(list);
+        modal.appendChild(gotItButton);
+        overlay.appendChild(modal);
+
+        mapElement.appendChild(overlay);
+
+        this.#tutorialModalOverlay = overlay;
+    }
+
+    #showTutorialModal() {
+        this.#tutorialModalOverlay.classList.add('territory-modal-visible');
+    }
+
+    #hideTutorialModal() {
+        this.#tutorialModalOverlay.classList.remove('territory-modal-visible');
+        localStorage.setItem(TerritoryDrawer.#tutorialSeenKey, 'true');
     }
 
     #setMode(mode) {
@@ -368,13 +965,51 @@ class TerritoryDrawer {
             this.#draw = undefined;
         }
 
-        this.#drawButton.classList.toggle('territory-btn-active', mode === 'draw');
-        this.#textButton.classList.toggle('territory-btn-active', mode === 'text');
+        if (this.#selectClickHandler) {
+            this.#map.un('click', this.#selectClickHandler);
+            this.#selectClickHandler = undefined;
+        }
+        this.#clearSelection();
 
-        if (mode === 'draw') {
+        this.#selectButton.classList.toggle('territory-btn-active', mode === 'select');
+        this.#drawButton.classList.toggle('territory-btn-active', mode === 'draw');
+        this.#freehandButton.classList.toggle('territory-btn-active', mode === 'freehand');
+        this.#textButton.classList.toggle('territory-btn-active', mode === 'text');
+        this.#stickerButton.classList.toggle('territory-btn-active', mode === 'sticker');
+        if (mode !== 'sticker') this.#pendingSticker = null;
+
+        if (mode === 'select') {
+            const clickHandler = (evt) => {
+                const feature = this.#map.forEachFeatureAtPixel(evt.pixel, (f) => f, {
+                    layerFilter: (l) => l === this.#layer,
+                    hitTolerance: 6
+                });
+                if (feature) {
+                    this.#selectedFeature = feature;
+                    const geometry = feature.getGeometry();
+                    const coordinate = geometry.getType() === 'Point' ? geometry.getFirstCoordinate() : evt.coordinate;
+                    this.#selectOverlay.setPosition(coordinate);
+                } else {
+                    this.#clearSelection();
+                }
+            };
+            this.#map.on('click', clickHandler);
+            this.#selectClickHandler = clickHandler;
+        } else if (mode === 'draw') {
             this.#draw = new ol.interaction.Draw({
                 source: this.#source,
                 type: 'Polygon'
+            });
+            this.#draw.on('drawend', (evt) => {
+                evt.feature.set('color', this.#currentColor);
+                this.#saveTerritories();
+            });
+            this.#map.addInteraction(this.#draw);
+        } else if (mode === 'freehand') {
+            this.#draw = new ol.interaction.Draw({
+                source: this.#source,
+                type: 'Polygon',
+                freehand: true
             });
             this.#draw.on('drawend', (evt) => {
                 evt.feature.set('color', this.#currentColor);
@@ -386,17 +1021,46 @@ class TerritoryDrawer {
                 source: this.#source,
                 type: 'Point'
             });
-            this.#draw.on('drawend', (evt) => {
+            this.#draw.on('drawend', async (evt) => {
                 const feature = evt.feature;
                 const text = window.prompt('Label text:', '');
                 if (!text) {
                     setTimeout(() => this.#source.removeFeature(feature), 0);
                     return;
                 }
+                const tier = await this.#promptForTier();
+                if (!tier) {
+                    setTimeout(() => this.#source.removeFeature(feature), 0);
+                    return;
+                }
                 feature.set('text', text);
                 feature.set('color', this.#currentColor);
-                feature.set('scale', this.#currentScale);
+                feature.set('tier', tier);
                 this.#saveTerritories();
+            });
+            this.#map.addInteraction(this.#draw);
+        } else if (mode === 'sticker') {
+            this.#draw = new ol.interaction.Draw({
+                source: this.#source,
+                type: 'Point'
+            });
+            this.#draw.on('drawend', (evt) => {
+                const sticker = this.#pendingSticker;
+                const feature = evt.feature;
+                // OL fires drawend before adding the feature to the source, so defer until it lands.
+                setTimeout(() => {
+                    if (!sticker) {
+                        this.#source.removeFeature(feature);
+                        return;
+                    }
+                    feature.set('type', 'sticker');
+                    feature.set('stickerId', sticker.id);
+                    feature.set('stickerImage', sticker.dataUrl);
+                    feature.set('stickerName', sticker.name);
+                    feature.set('tier', 'nation');
+                    this.#saveTerritories();
+                    this.#layer.changed();
+                }, 0);
             });
             this.#map.addInteraction(this.#draw);
         }
@@ -408,6 +1072,8 @@ class TerritoryDrawer {
         if (last) {
             this.#source.removeFeature(last);
             this.#saveTerritories();
+            this.#renderConfigList();
+            this.#clearSelection();
         }
     }
 
@@ -415,7 +1081,11 @@ class TerritoryDrawer {
         if (this.#source.getFeatures().length === 0) return;
         if (!window.confirm('Clear all drawn territories and labels?')) return;
         this.#source.clear();
+        this.#configs = [];
+        this.#saveConfigsMeta();
         this.#saveTerritories();
+        this.#renderConfigList();
+        this.#clearSelection();
     }
 
     #saveTerritories() {
@@ -506,9 +1176,15 @@ class TerritoryDrawer {
                     featureProjection: this.#viewProjection
                 });
 
-                this.#source.clear();
+                const id = crypto.randomUUID ? crypto.randomUUID() : `cfg-${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+                const name = file.name.replace(/\.[^/.]+$/, '') || `Config ${this.#configs.length + 1}`;
+                features.forEach(f => f.set('configId', id));
+
                 this.#source.addFeatures(features);
+                this.#configs.push({ id, name });
+                this.#saveConfigsMeta();
                 this.#saveTerritories();
+                this.#renderConfigList();
 
                 if (config.view) {
                     const view = this.#map.getView();
@@ -521,7 +1197,7 @@ class TerritoryDrawer {
                     if (typeof config.view.zoom === 'number') view.setZoom(config.view.zoom);
                 }
 
-                Unmined.toast('Map config loaded');
+                Unmined.toast(`Loaded "${name}"`);
             } catch (e) {
                 console.error('Failed to load map config', e);
                 Unmined.toast('Invalid map config file');
@@ -788,7 +1464,7 @@ class Unmined {
         this.olMap.addControl(this.createContextMenu());
 
         this.redDotMarker = new RedDotMarker(this.olMap, this.dataProjection, this.viewProjection);
-        this.territoryDrawer = new TerritoryDrawer(this.olMap, mapElement, this.dataProjection, this.viewProjection);
+        this.territoryDrawer = new TerritoryDrawer(this.olMap, mapElement, this.dataProjection, this.viewProjection, this.#options.minZoom);
 
         this.centerOnRedDotMarker();
     }
