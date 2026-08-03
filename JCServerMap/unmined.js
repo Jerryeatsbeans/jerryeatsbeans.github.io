@@ -169,6 +169,9 @@ class TerritoryDrawer {
     static #collapsedKey = 'territoryPanelCollapsed';
     static #configsMetaKey = 'territoryConfigsMeta';
     static #tutorialSeenKey = 'territoryTutorialSeen';
+    static #defaultConfigLoadedKey = 'territoryDefaultConfigLoaded';
+    static #defaultConfigUrl = 'default-continents.json';
+    static #defaultConfigName = 'Continents';
     // Shared with flagbuilder.js - both pages are same-origin, so localStorage bridges them.
     static #stickerLibraryKey = 'jcServerMapFlagStickers';
     static #defaultColor = '#e6194b';
@@ -201,6 +204,11 @@ class TerritoryDrawer {
     #selectOverlay = undefined;
     #selectClickHandler = undefined;
     #selectedFeature = null;
+    #selectFeatures = undefined;
+    #translateInteraction = undefined;
+    #selectSizeRow = undefined;
+    #selectSizeInput = undefined;
+    #selectSizeValue = undefined;
     #drawButton = undefined;
     #freehandButton = undefined;
     #textButton = undefined;
@@ -233,6 +241,12 @@ class TerritoryDrawer {
         });
         this.#map.addLayer(this.#layer);
 
+        this.#selectFeatures = new ol.Collection();
+        this.#translateInteraction = new ol.interaction.Translate({ features: this.#selectFeatures });
+        this.#translateInteraction.on('translating', (evt) => this.#onSelectedFeatureMoved(evt));
+        this.#translateInteraction.on('translateend', () => this.#saveTerritories());
+        this.#map.addInteraction(this.#translateInteraction);
+
         this.#loadTerritories();
         this.#loadConfigsMeta();
         this.#createPanel(mapElement);
@@ -243,10 +257,26 @@ class TerritoryDrawer {
         this.#createSelectOverlay(mapElement);
         this.#loadStickerLibrary();
         this.#renderConfigList();
+        this.#loadDefaultConfig();
 
         this.#createTutorialModal(mapElement);
         if (localStorage.getItem(TerritoryDrawer.#tutorialSeenKey) !== 'true') {
             this.#showTutorialModal();
+        }
+    }
+
+    // Seeds the map with the bundled continents config the first time a visitor loads the page.
+    async #loadDefaultConfig() {
+        if (localStorage.getItem(TerritoryDrawer.#defaultConfigLoadedKey) === 'true') return;
+        localStorage.setItem(TerritoryDrawer.#defaultConfigLoadedKey, 'true');
+
+        try {
+            const response = await fetch(TerritoryDrawer.#defaultConfigUrl);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const config = await response.json();
+            this.#applyConfig(config, TerritoryDrawer.#defaultConfigName);
+        } catch (e) {
+            console.error('Failed to load default map config', e);
         }
     }
 
@@ -281,7 +311,8 @@ class TerritoryDrawer {
                 const nextTier = TerritoryDrawer.#textTiers[tierIndex + 1];
                 const maxZoom = nextTier ? nextTier.minZoom : Infinity;
                 if (zoom < tier.minZoom || zoom >= maxZoom) return null;
-                fontSize = tier.fontSize;
+                // A manually adjusted size (via the select tool) overrides the tier default.
+                fontSize = feature.get('scale') || tier.fontSize;
             } else {
                 // Backward compatibility with labels created before named tiers existed.
                 fontSize = feature.get('scale') || TerritoryDrawer.#defaultScale;
@@ -481,6 +512,31 @@ class TerritoryDrawer {
         const wrapper = document.createElement('div');
         wrapper.className = 'territory-select-overlay';
 
+        const sizeRow = document.createElement('div');
+        sizeRow.className = 'territory-select-size territory-row';
+
+        const sizeInput = document.createElement('input');
+        sizeInput.type = 'range';
+        sizeInput.className = 'territory-scale';
+        sizeInput.min = '8';
+        sizeInput.max = '72';
+        sizeInput.step = '1';
+        sizeInput.title = 'Text size';
+        sizeInput.setAttribute('aria-label', 'Text size');
+
+        const sizeValue = document.createElement('span');
+        sizeValue.className = 'territory-scale-value territory-label';
+
+        sizeInput.addEventListener('input', () => {
+            if (!this.#selectedFeature) return;
+            this.#selectedFeature.set('scale', Number(sizeInput.value));
+            sizeValue.textContent = sizeInput.value;
+        });
+        sizeInput.addEventListener('change', () => this.#saveTerritories());
+
+        sizeRow.appendChild(sizeInput);
+        sizeRow.appendChild(sizeValue);
+
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.className = 'territory-select-delete';
@@ -496,6 +552,7 @@ class TerritoryDrawer {
             this.#clearSelection();
         });
 
+        wrapper.appendChild(sizeRow);
         wrapper.appendChild(deleteButton);
 
         const overlay = new ol.Overlay({
@@ -508,11 +565,41 @@ class TerritoryDrawer {
         this.#map.addOverlay(overlay);
 
         this.#selectOverlay = overlay;
+        this.#selectSizeRow = sizeRow;
+        this.#selectSizeInput = sizeInput;
+        this.#selectSizeValue = sizeValue;
+    }
+
+    // Drag handle for the selected feature - keeps the delete/size overlay following the geometry as it's moved.
+    #onSelectedFeatureMoved(evt) {
+        const feature = evt.features.item(0);
+        if (!feature) return;
+        const geometry = feature.getGeometry();
+        const coordinate = geometry.getType() === 'Point' ? geometry.getFirstCoordinate() : evt.coordinate;
+        this.#selectOverlay.setPosition(coordinate);
+    }
+
+    #selectFeature(feature, coordinate) {
+        this.#selectedFeature = feature;
+        this.#selectFeatures.clear();
+        this.#selectFeatures.push(feature);
+        this.#selectOverlay.setPosition(coordinate);
+
+        const isText = feature.get('text') !== undefined && feature.get('type') !== 'sticker';
+        this.#selectSizeRow.style.display = isText ? '' : 'none';
+        if (isText) {
+            const tier = TerritoryDrawer.#textTiers.find(t => t.key === feature.get('tier'));
+            const size = feature.get('scale') || tier?.fontSize || TerritoryDrawer.#defaultScale;
+            this.#selectSizeInput.value = size;
+            this.#selectSizeValue.textContent = size;
+        }
     }
 
     #clearSelection() {
         this.#selectedFeature = null;
+        if (this.#selectFeatures) this.#selectFeatures.clear();
         if (this.#selectOverlay) this.#selectOverlay.setPosition(undefined);
+        if (this.#selectSizeRow) this.#selectSizeRow.style.display = 'none';
     }
 
     #createTierModal(mapElement) {
@@ -985,10 +1072,9 @@ class TerritoryDrawer {
                     hitTolerance: 6
                 });
                 if (feature) {
-                    this.#selectedFeature = feature;
                     const geometry = feature.getGeometry();
                     const coordinate = geometry.getType() === 'Point' ? geometry.getFirstCoordinate() : evt.coordinate;
-                    this.#selectOverlay.setPosition(coordinate);
+                    this.#selectFeature(feature, coordinate);
                 } else {
                     this.#clearSelection();
                 }
@@ -1159,6 +1245,39 @@ class TerritoryDrawer {
         }
     }
 
+    // Adds a config's territories/view to the map, tagging features with a configId so they can be managed/deleted together.
+    #applyConfig(config, name) {
+        const territoriesGeojson = config.territories ?? config;
+
+        const format = new ol.format.GeoJSON();
+        const features = format.readFeatures(territoriesGeojson, {
+            dataProjection: this.#dataProjection,
+            featureProjection: this.#viewProjection
+        });
+
+        const id = crypto.randomUUID ? crypto.randomUUID() : `cfg-${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+        features.forEach(f => f.set('configId', id));
+
+        this.#source.addFeatures(features);
+        this.#configs.push({ id, name });
+        this.#saveConfigsMeta();
+        this.#saveTerritories();
+        this.#renderConfigList();
+
+        if (config.view) {
+            const view = this.#map.getView();
+            const center = ol.proj.transform(
+                [config.view.centerX, config.view.centerZ],
+                this.#dataProjection,
+                this.#viewProjection
+            );
+            view.setCenter(center);
+            if (typeof config.view.zoom === 'number') view.setZoom(config.view.zoom);
+        }
+
+        return id;
+    }
+
     #importConfig(evt) {
         const file = evt.target.files && evt.target.files[0];
         evt.target.value = '';
@@ -1168,35 +1287,8 @@ class TerritoryDrawer {
         reader.onload = () => {
             try {
                 const config = JSON.parse(reader.result);
-                const territoriesGeojson = config.territories ?? config;
-
-                const format = new ol.format.GeoJSON();
-                const features = format.readFeatures(territoriesGeojson, {
-                    dataProjection: this.#dataProjection,
-                    featureProjection: this.#viewProjection
-                });
-
-                const id = crypto.randomUUID ? crypto.randomUUID() : `cfg-${Date.now()}-${Math.round(Math.random() * 1e6)}`;
                 const name = file.name.replace(/\.[^/.]+$/, '') || `Config ${this.#configs.length + 1}`;
-                features.forEach(f => f.set('configId', id));
-
-                this.#source.addFeatures(features);
-                this.#configs.push({ id, name });
-                this.#saveConfigsMeta();
-                this.#saveTerritories();
-                this.#renderConfigList();
-
-                if (config.view) {
-                    const view = this.#map.getView();
-                    const center = ol.proj.transform(
-                        [config.view.centerX, config.view.centerZ],
-                        this.#dataProjection,
-                        this.#viewProjection
-                    );
-                    view.setCenter(center);
-                    if (typeof config.view.zoom === 'number') view.setZoom(config.view.zoom);
-                }
-
+                this.#applyConfig(config, name);
                 Unmined.toast(`Loaded "${name}"`);
             } catch (e) {
                 console.error('Failed to load map config', e);

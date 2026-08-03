@@ -236,7 +236,21 @@ html, body {
 }
 
 .territory-select-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
     pointer-events: auto;
+}
+
+.territory-select-size {
+    background: linear-gradient(#4a4a4a, #313131);
+    border: 2px solid #1a1a1a;
+    border-radius: 6px;
+    box-shadow:
+        inset 0 0 0 1px #6e6e6e,
+        0 3px 6px rgba(0, 0, 0, 0.45);
+    padding: 4px 8px;
 }
 
 .territory-select-delete {
@@ -288,12 +302,12 @@ html, body {
     }
 
     .territory-btn {
-        min-width: 40px;
-        padding: 6px;
+        min-width: 48px;
+        padding: 5px 4px;
     }
 
     .territory-btn-label {
-        display: none;
+        font-size: 7px;
     }
 
     .territory-divider {
@@ -524,6 +538,18 @@ div.ol-mouse-position {
     padding: 6px;
     border-radius: 3px;
     box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Default OL position (top-right) sits behind the server map/flag builder
+   tab bar on narrow screens, hiding the coordinates. Move it out from under it. */
+@media (max-width: 480px) {
+    div.ol-mouse-position {
+        top: auto;
+        right: 8px;
+        bottom: 8px;
+        font-size: 12px;
+        padding: 4px 6px;
+    }
 }
 
 .ol-ctx-menu-container {
