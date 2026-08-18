@@ -1169,6 +1169,10 @@
       <a class="nav-link" href="#mayors-table">Mayor's Table</a>
       <a class="nav-link" href="#feeding">Feeding Citizens</a>
       <a class="nav-link" href="#citizens">Citizens</a>
+      <a class="nav-link" href="#workstations">Workstations</a>
+      <a class="nav-link" href="#research">Research & Knowledge Tree</a>
+      <a class="nav-link" href="#marketplace">Marketplace</a>
+      <a class="nav-link" href="#mood">Mood</a>
       <a class="nav-link" href="#knights">Knights</a>
       <a class="nav-link" href="#archers">Archers</a>
       <a class="nav-link" href="#arena">The Arena</a>
@@ -1293,14 +1297,33 @@
           <p>The Mayor's Table provides access to all colony management functions:</p>
 
           <ul class="mayors-abilities">
+            <li><h3>Home</h3> — View your citizens' mood, and your colony's current stage and level.</li>
             <li><h3>View Colony Info</h3> — Sends a chat message containing info about your colony. Only you can see this.</li>
             <li><h3>Change Flag Color</h3> — Customize the flag color, and the color of your colonies display name</li>
             <li><h3>Manage Members</h3> — Invite players, Purchase Citizens, and Manage Population. You can also use this menu to assign player permissions, and custom ranks. <a href="#player-ranks">Learn more about Player Ranks here.</a></li>
-            <li><h3>Diplomacy</h3> — Set relationships with other colonies <span class="paren">(ally/neutral/hostile)</span>, or declare war on your enemies.</li>
+            <li><h3>View Flags</h3> — Rename any of your colony's cities, turn one into your Capital, or teleport to another flag <span class="paren">(also appears as a standalone option if your colony has multiple flags)</span>.</li>
+            <li><h3>Diplomacy</h3> — Set relationships with other colonies <span class="paren">(ally/neutral/non-aggression pact/enemy)</span>, or declare war on your enemies.</li>
             <li><h3>Rename / Delete Colony</h3> — Change your colony's display name, or permanently delete a colony.</li>
             <li><h3>Transfer Ownership</h3> — Pass the crown to another player, transfers full ownership and administrative rights to them.</li>
-            <li><h3>Teleport Between Flags</h3> — Fast-travel to any of your colony's flags <span class="paren">(Only appears if your colony has multiple flags)</span></li>
+            <li><h3>Banquets</h3> — Organize feasts to raise your citizens' mood. See the <a href="#mood">Mood page</a> for details.</li>
           </ul>
+
+          <div class="content-row">
+            <div class="content-column text">
+              <div class="alert alert-info">
+                <span class="alert-icon">🎨</span>
+                <div>
+                  <strong>Flag Customization:</strong> Beyond color, you can customize your flag with a unique emblem, background, and border from the Mayor's Table.
+                </div>
+              </div>
+            </div>
+            <div class="content-column image">
+              <div class="image-card">
+                <img src="https://media.forgecdn.net/attachments/description/1312132/description_4599b493-fdfe-4df8-97d8-52179da77392.jpg" alt="Flag customization options" />
+                <div class="image-caption">Flag with custom emblem, background and border</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="content-section">
@@ -1390,7 +1413,7 @@
             </div>
             <div class="content-column">
               <h3>NPCs</h3>
-              <p>Hireable citizens purchased from the Mayor's Table. Cost shown in the Mayors Table <span class="paren">(Default 5 Emeralds Each)</span>, and they can be equipped with armor by dropping it at their feet and assigned jobs.</p>
+              <p>Hireable citizens purchased from the Mayor's Table. Cost shown in the Mayors Table <span class="paren">(Default 10 Emeralds Each)</span>, and they can be equipped with armor by dropping it at their feet and assigned jobs. You can also find loose citizens wandering the world.</p>
             </div>
           </div>
 
@@ -1485,10 +1508,216 @@
           </div>
         </div>
 
+        <div class="content-section">
+          <h2>Heredity and Growing</h2>
+          <p>Citizens can rarely have a child. The child inherits from its parents (statistics and family name), and goes through 4 growing stages: baby, child, teen, and adult.</p>
+
+          <div class="alert alert-success">
+            <span class="alert-icon">👶</span>
+            <div>
+              <strong>Family Names:</strong> Children carry on their parents' family name and inherited stats, letting bloodlines develop over time.
+            </div>
+          </div>
+        </div>
+
         <div class="alert alert-info">
           <span class="alert-icon">📖</span>
           <div>
-            <strong>Read Next:</strong> Learn about <a href="#knights">Knights</a> and the new combat system.
+            <strong>Read Next:</strong> Learn about <a href="#workstations">Workstations</a> and how to put your citizens to work.
+          </div>
+        </div>
+      </div>
+
+      <div id="workstations" class="page">
+        <span class="anchor"></span>
+        <h1>Workstations</h1>
+        <p class="lead">NPC citizens can be assigned jobs at Workstations. Each citizen has personal statistics that influence their production speed — manage them across the 9 available Workstations.</p>
+
+        <div class="content-section">
+          <h2>Production Stations</h2>
+          <div class="content-row">
+            <div class="content-column text">
+              <p>Only the <strong>Logger Station</strong>, <strong>Miner Station</strong>, <strong>Farmer Station</strong>, and <strong>Breeder Station</strong> can produce resources. To produce, you'll need to supply tools, assign workers, or manage a working area (Farmer and Breeder).</p>
+
+              <div class="alert alert-info">
+                <span class="alert-icon">🛠️</span>
+                <div>
+                  <strong>Stats Matter:</strong> A citizen's personal statistics directly influence how fast they produce at their station.
+                </div>
+              </div>
+            </div>
+            <div class="content-column image">
+              <div class="image-card">
+                <img src="https://media.forgecdn.net/attachments/description/1312132/description_4cbaa454-97d4-4bb6-aff2-c96c6748af2b.jpg" alt="The 9 Workstations" />
+                <div class="image-caption">The 9 Workstations</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Storage Linker</h2>
+          <p>The Storage Linker lets you choose any chest and link it to a workstation — all produced resources will automatically transfer to that chest. You can also sort items to decide which types go into which chest. Both features must be unlocked in the Research Station first.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Advanced Stations</h2>
+          <p>Once unlocked from the Research Station, you gain access to:</p>
+          <ul>
+            <li><strong>Craft Station:</strong> Automatically brings tools to other workstations.</li>
+            <li><strong>Cook Station:</strong> Automatically supplies nearby food crates.</li>
+          </ul>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about the <a href="#research">Research & Knowledge Tree</a> to unlock new systems and buffs.
+          </div>
+        </div>
+      </div>
+
+      <div id="research" class="page">
+        <span class="anchor"></span>
+        <h1>Research & Knowledge Tree</h1>
+        <p class="lead">The Research Station lets you unlock new systems and buffs for your colony by spending Knowledge Points earned from your Searcher.</p>
+
+        <div class="content-section">
+          <h2>Researching</h2>
+          <p>Assign a citizen as a Searcher to start knowledge production. A Searcher's <strong>Intelligence</strong> stat is the most important for producing knowledge faster.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Knowledge Tree Nodes</h2>
+          <div class="content-row">
+            <div class="content-column text">
+              <p>Each node costs Knowledge Points, and some nodes have prerequisites, so choose your research path carefully. Nodes can unlock advanced systems like the Storage Linker and Craft Station, army buffs, and even upgrades to your Flag's protection radius.</p>
+
+              <div class="alert alert-warning">
+                <span class="alert-icon">🌳</span>
+                <div>
+                  <strong>Four Branches:</strong> The tree is split into Military, Production, Logistic, and Defense sections. Powerful Military buffs exist, but you can't have all of them active at the same time.
+                </div>
+              </div>
+
+              <div class="alert alert-success">
+                <span class="alert-icon">💡</span>
+                <div>
+                  <strong>Tip:</strong> Start with Defense to upgrade your Capital's territory early on.
+                </div>
+              </div>
+            </div>
+            <div class="content-column image">
+              <div class="image-card">
+                <img src="https://media.forgecdn.net/attachments/description/1312132/description_7646bab3-e46e-4b07-9b81-e80cdbdeb658.jpg" alt="Knowledge Tree interface" />
+                <div class="image-caption">Knowledge Tree interface</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about the <a href="#marketplace">Marketplace</a> to start trading with other colonies.
+          </div>
+        </div>
+      </div>
+
+      <div id="marketplace" class="page">
+        <span class="anchor"></span>
+        <h1>Marketplace</h1>
+        <p class="lead">Once your colony reaches the City stage (level 11), you gain access to the Marketplace, where any colony can buy and sell items for emeralds.</p>
+
+        <div class="content-section">
+          <h2>How it Works</h2>
+          <div class="content-row">
+            <div class="content-column text">
+              <p>Craft the Marketplace Board using planks and one emerald to access the Marketplace. You can set taxes on trades to make enemy colonies pay more than others — claim the extra emeralds earned from these taxes at the Mayor's Table.</p>
+
+              <div class="alert alert-info">
+                <span class="alert-icon">💰</span>
+                <div>
+                  <strong>Trade Taxes:</strong> Set higher trade taxes for hostile colonies to both profit and discourage rivals from trading with you.
+                </div>
+              </div>
+            </div>
+            <div class="content-column image">
+              <div class="image-card">
+                <img src="https://media.forgecdn.net/attachments/description/1312132/description_4c61a746-19b4-4706-94db-cd77090d0f54.jpg" alt="Marketplace Board" />
+                <div class="image-caption">Marketplace Board</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#mood">Mood</a> and how it affects your colony's production.
+          </div>
+        </div>
+      </div>
+
+      <div id="mood" class="page">
+        <span class="anchor"></span>
+        <h1>Mood</h1>
+        <p class="lead">Mood reflects whether your citizens are satisfied with life in your colony. It's a gauge of 100 points, viewable at the Mayor's Table, and it directly influences work and health.</p>
+
+        <div class="content-section">
+          <h2>Mood Tiers</h2>
+          <ul>
+            <li><strong>Golden Age:</strong> -15% production time, positive effects</li>
+            <li><strong>Satisfied:</strong> -5% production time</li>
+            <li><strong>Neutral:</strong> No bonus or penalties</li>
+            <li><strong>Discontent:</strong> +50% food consumption, Weakness I</li>
+            <li><strong>Revolt:</strong> Production stops, Weakness II</li>
+          </ul>
+        </div>
+
+        <div class="content-section">
+          <h2>Points Gains & Losses</h2>
+          <div class="content-row">
+            <div class="content-column">
+              <h3>Gains</h3>
+              <ul>
+                <li>War/Assault victory</li>
+                <li>Banquet/Festival</li>
+                <li>New building</li>
+                <li>Birth</li>
+                <li>Food satisfaction</li>
+              </ul>
+            </div>
+            <div class="content-column">
+              <h3>Losses</h3>
+              <ul>
+                <li>War declaration</li>
+                <li>Plague</li>
+                <li>Assault defeat</li>
+                <li>Death of a citizen</li>
+                <li>Marauder nearby</li>
+                <li>Insufficient food</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Banquets</h2>
+          <p>Organize a banquet or festival from the Mayor's Table to boost mood. Banquets cost food and emeralds, and production will be slightly reduced for a few days afterward (Hangover).</p>
+
+          <div class="alert alert-warning">
+            <span class="alert-icon">💰</span>
+            <div>
+              <strong>Trade-off:</strong> Banquets raise mood immediately but come with a temporary production penalty (Hangover) once the celebration ends.
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📖</span>
+          <div>
+            <strong>Read Next:</strong> Learn about <a href="#knights">Knights</a> and the combat system.
           </div>
         </div>
       </div>
@@ -1714,14 +1943,15 @@
           <ul>
             <li><strong>Set Bounties:</strong> Place a bounty on any player in the world</li>
             <li><strong>Choose Rewards:</strong> Decide what reward the bounty hunter will receive</li>
-            <li><strong>Claim Bounties:</strong> Kill players with bounties to earn their rewards</li>
+            <li><strong>Claim Bounties:</strong> Kill players with bounties to earn their rewards, plus the target's skull</li>
             <li><strong>Public System:</strong> All players can see active bounties</li>
+            <li><strong>Anonymous Setter:</strong> The target can't know who placed the bounty on them</li>
           </ul>
 
           <div class="alert alert-warning">
             <span class="alert-icon">⚔️</span>
             <div>
-              <strong>Bounty Hunting:</strong> Killing players with a bounty will reward you whatever the bounty setter chose!
+              <strong>Bounty Hunting:</strong> Killing a player with a bounty rewards you with whatever the bounty setter chose — plus their skull as a trophy!
             </div>
           </div>
         </div>
@@ -1749,13 +1979,33 @@
         </div>
 
         <div class="content-section">
-          <h2>Colony Levels</h2>
-          <p>Colonies can now level up through three primary activities:<br>(Colony Levels will become more useful in future updates)</p>
+          <h2>Colony Stages & Leveling</h2>
+          <p>Every colony earns Experience Points (XP) by completing actions, and progresses through 3 major stages as it levels up. XP requirements grow by 15% per level, and your colony can never lose levels or XP.</p>
 
           <ul>
-            <li><strong>Having Citizens:</strong> Grow your population to increase colony experience</li>
-            <li><strong>Winning Wars:</strong> Victory in wars grants substantial colony experience</li>
-            <li><strong>Owning Flags:</strong> Multiple flags across the world contribute to your colony's level</li>
+            <li><strong>Colony</strong> — Levels 1-10: Basic housing and functions.</li>
+            <li><strong>City</strong> — Levels 11-20: Unlocks the <a href="#marketplace">Marketplace</a> and the ability to expand your colony with extra flags.</li>
+            <li><strong>Kingdom</strong> — Levels 21-30: Unlocks Wars and every remaining feature.</li>
+          </ul>
+
+          <div class="alert alert-warning">
+            <span class="alert-icon">🏆</span>
+            <div>
+              <strong>Max Level:</strong> Level 30 is the highest a colony can reach.
+            </div>
+          </div>
+
+          <h3>Gaining XP</h3>
+          <p>Ways to earn colony XP include:</p>
+          <ul>
+            <li>Feeding a citizen</li>
+            <li>Claiming a citizen</li>
+            <li>Recruiting a knight</li>
+            <li>Placing a flag</li>
+            <li>Completing a trade (Marketplace)</li>
+            <li>Constructing a Blueprint</li>
+            <li>Winning a war or assault</li>
+            <li>Winning an Arena tournament</li>
           </ul>
 
           <div class="alert alert-info">
@@ -2079,7 +2329,7 @@
           <div class="alert alert-info">
             <span class="alert-icon">💰</span>
             <div>
-              <strong>Income Source:</strong> Only player citizens can be taxed - NPC citizens do not generate tax revenue.
+              <strong>Income Source:</strong> Player citizens can always be taxed. NPC citizens can also be taxed once the relevant node is unlocked in the <a href="#research">Research Station</a> — but keep amounts reasonable, since taxing NPCs too heavily lowers their <a href="#mood">mood</a>.
             </div>
           </div>
         </div>
@@ -2191,20 +2441,20 @@
       <div id="war" class="page">
         <span class="anchor"></span>
         <h1>War & Diplomacy</h1>
-        <p class="lead">Diplomacy is how colonies manage their relationships with one another — set allies, neutrals, or hostiles and use the Mayor's Table relations menu to interact with other colonies.</p>
+        <p class="lead">Diplomacy is how colonies manage their relationships with one another — set allies, neutrals, non-aggression pacts, or enemies and use the Mayor's Table relations menu to interact with other colonies.</p>
 
         <div class="content-section">
           <h2>Relations</h2>
           <div class="content-row">
             <div class="content-column text">
-              <p>Open the Relations menu at the Mayor's Table to view other colonies, set alliances, or mark another colony as hostile.</p>
+              <p>Open the Relations menu at the Mayor's Table to view other colonies and manage how you interact with them.</p>
 
-              <div class="alert alert-info">
-                <span class="alert-icon">🤝</span>
-                <div>
-                  <strong>Diplomacy Options:</strong> Set relationships as Ally, Neutral, or Hostile to manage inter-colony relations.
-                </div>
-              </div>
+              <ul>
+                <li><strong>Ally:</strong> Both colonies are in agreement — you can edit your ally's permissions inside your colony.</li>
+                <li><strong>Neutral:</strong> Colonies aren't in good or bad relations.</li>
+                <li><strong>Non-Aggression Pact:</strong> Both colonies commit not to attack each other.</li>
+                <li><strong>Enemy:</strong> Your knights will attack any enemy player they see in your territory. If relations sour enough, you can try to reconcile — or declare war.</li>
+              </ul>
             </div>
             <div class="content-column image">
               <div class="image-card">
@@ -2221,7 +2471,14 @@
             <div class="content-column text">
               <p>To declare war, use the diplomacy menu and choose <em>Declare War</em> against a hostile colony. When a war is declared, the target colony receives a notification and a war timer starts.</p>
 
-              <p>Wars are timed events where the duration is chosen by the declaring colony. Score points in a war by eliminating opposing NPCs or player citizens. Victorious colonies may claim one of the other colony's flags (if they have more than one).</p>
+              <p>Wars are timed events where the duration is chosen by the declaring colony. Fight and win <strong>assaults</strong> against the enemy — you can choose the assault's duration.</p>
+
+              <div class="alert alert-info">
+                <span class="alert-icon">🔓</span>
+                <div>
+                  <strong>Level Requirement:</strong> You can declare wars once your colony reaches level 15.
+                </div>
+              </div>
 
               <div class="alert alert-success">
                 <span class="alert-icon">🆕</span>
@@ -2249,9 +2506,10 @@
         <div class="content-section">
           <h2>War Mechanics</h2>
           <ul>
-            <li><strong>Timer System:</strong> Wars have a set duration chosen by the declaring colony</li>
-            <li><strong>Scoring:</strong> Gain points by eliminating enemy NPCs and player citizens</li>
-            <li><strong>Victory Rewards:</strong> Winners can claim flags from defeated colonies (if they have multiple flags)</li>
+            <li><strong>Timer System:</strong> Wars — and each individual assault within them — have a duration chosen by the declaring colony</li>
+            <li><strong>Prestige:</strong> Each assault you win grants <strong>5 Prestige</strong></li>
+            <li><strong>Taking Cities:</strong> You need <strong>10 Prestige</strong> to take possession of one of the enemy's cities (external flags)</li>
+            <li><strong>Total Victory:</strong> If only the enemy's Capital (main flag) remains, you can defeat them completely</li>
             <li><strong>Level-Based:</strong> War declaration requirements based on colony level</li>
           </ul>
 
@@ -2261,6 +2519,35 @@
               <strong>New in v2.9:</strong> Knights now fight each other during wars, adding a new strategic layer to colony conflicts!
             </div>
           </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Alliances</h2>
+          <div class="content-row">
+            <div class="content-column text">
+              <p>If you want to organize a group of allies, you can form an Alliance. Alliances let you unify your strength with other colonies, and even set a shared HQ. Unity is strength!</p>
+            </div>
+            <div class="content-column image">
+              <div class="image-card">
+                <img src="https://media.forgecdn.net/attachments/description/1312132/description_12898a09-528a-4ded-b8db-a990d5b66bdf.jpg" alt="Diplomacy relations screen" />
+                <div class="image-caption">Setting relations between colonies</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h2>Ending a War</h2>
+          <p>Once you've defeated an enemy, you can choose their fate:</p>
+          <ul>
+            <li><strong>Destroy:</strong> Wipe out the enemy colony entirely.</li>
+            <li><strong>Vassalize:</strong> Turn the enemy into your vassal — they keep existing but must pay you a tax to remain standing.</li>
+          </ul>
+          <p>You can also end a war before total victory by offering:</p>
+          <ul>
+            <li><strong>Peace Treaty:</strong> All conquered cities are returned to their original owners.</li>
+            <li><strong>Armistice:</strong> Both sides stop fighting, but you keep any cities already conquered.</li>
+          </ul>
         </div>
 
         <div class="alert alert-info">
@@ -2397,124 +2684,6 @@
           <span class="alert-icon">📖</span>
           <div>
             <strong>Read Next:</strong> Learn about <a href="#war">War & Diplomacy</a> and managing relationships with other colonies.
-          </div>
-        </div>
-      </div>
-
-      <div id="marauders" class="page">
-        <span class="anchor"></span>
-        <h1>Marauder Attacks</h1>
-        <p class="lead">Marauders are very dangerous events where hostile NPCs arrive by hot-air balloon and assault your colony — first from the air, then on the ground.</p>
-
-        <div class="content-section">
-          <div class="image-card">
-            <img src="assets/17.png" alt="Marauders arriving by balloon" />
-            <div class="image-caption">Marauders Attack Starting</div>
-          </div>
-
-          <h2>What are Marauders?</h2>
-          <p>Marauders are hostile NPC raiders that spawn above colonies in small groups (commonly 3–5). They arrive in hot-air balloons and may target your colony for a raid that comes in multiple waves.</p>
-
-          <div class="alert alert-danger">
-            <span class="alert-icon">⚔️</span>
-            <div>
-              <strong>Danger:</strong> Marauder attacks can cause significant damage to your citizens.
-            </div>
-          </div>
-        </div>
-
-        <div class="content-section">
-          <h2>Attack Waves</h2>
-          <p>Marauder attacks typically happen in two distinct phases:</p>
-
-          <h3>Wave 1 — Aerial Bombing</h3>
-          <p>Marauders remain in their balloons and drop explosive bombs over the colony. Bombs damage entities but do not break blocks.</p>
-
-          <div class="image-grid three-col">
-            <div class="image-card">
-              <img src="assets/18.png" alt="Bombing phase" />
-              <div class="image-caption">Marauder Balloons</div>
-            </div>
-            <div class="image-card">
-              <img src="assets/19.png" alt="Hot air balloon" />
-              <div class="image-caption">Marauder Bomb</div>
-            </div>
-            <div class="image-card">
-              <img src="assets/20.png" alt="Bomb explosion" />
-              <div class="image-caption">Marauder Entity</div>
-            </div>
-          </div>
-
-          <h3>Wave 2 — Ground Assault</h3>
-          <p>After bombing, the marauders land and continue the attack on the ground, engaging players and NPC citizens directly in melee combat.</p>
-        </div>
-
-        <div class="content-section">
-          <h2>Defense Strategies</h2>
-          <ul>
-            <li><strong>Shelter Citizens:</strong> Keep citizens sheltered inside protected structures during raids to reduce civilian casualties</li>
-            <li><strong>Equip Knights:</strong> Equip knights and guards with good armor and weapons — they perform well defending against the ground wave</li>
-            <li><strong>Iron Golems:</strong> Use Iron Golems for defense — they deal heavy damage to Marauders, but Marauders deal heavy damage back</li>
-            <li><strong>Admin Settings:</strong> Admins can change the frequency via the moderation tool if raids are too frequent or too rare</li>
-          </ul>
-
-          <div class="alert alert-success">
-            <span class="alert-icon">⚔️</span>
-            <div>
-              <strong>New in v2.8:</strong> Marauders no longer drop all their armor when defeated, making them tougher but more balanced!
-            </div>
-          </div>
-
-          <div class="alert alert-warning">
-            <span class="alert-icon">🛡️</span>
-            <div>
-              <strong>Pro Tip:</strong> Build defensive structures and keep your citizens well-equipped to survive marauder attacks.
-            </div>
-          </div>
-        </div>
-
-        <div class="content-section">
-          <h2>🚩 Totem of Peace</h2>
-          <p>The Totem of Peace is a powerful new defensive item that can provide temporary protection from marauder attacks.</p>
-
-          <div class="content-row">
-            <div class="content-column text">
-              <h3>How to Obtain</h3>
-              <p>Totems of Peace are dropped by defeated marauders during attacks. Successfully defending your colony against a marauder raid may reward you with this valuable protection item.</p>
-
-              <h3>Protection Effect</h3>
-              <p>When activated, the Totem of Peace prevents marauder attacks on your colony for <strong>3 real-world days</strong>. This gives you time to rebuild, restock supplies, and strengthen your defenses.</p>
-            </div>
-            <div class="content-column">
-              <div class="alert alert-success">
-                <span class="alert-icon">🛡️</span>
-                <div>
-                  <strong>Ultimate Defense:</strong> 3 full days of guaranteed protection from marauder attacks.
-                </div>
-              </div>
-
-              <div class="alert alert-warning">
-                <span class="alert-icon">⏰</span>
-                <div>
-                  <strong>Real-World Time:</strong> Protection lasts for 3 real-world days, not in-game time.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h3>Strategic Usage</h3>
-          <ul>
-            <li><strong>Post-Attack Recovery:</strong> Use after a devastating attack to rebuild safely</li>
-            <li><strong>Planned Expansion:</strong> Activate before major construction projects</li>
-            <li><strong>Resource Collection:</strong> Ensure safe gathering of materials outside colony walls</li>
-            <li><strong>Diplomatic Events:</strong> Secure peace during important negotiations with other colonies</li>
-          </ul>
-        </div>
-
-        <div class="alert alert-info">
-          <span class="alert-icon">📖</span>
-          <div>
-            <strong>Read Next:</strong> Learn about <a href="#construction">Blueprints</a> to build defensive structures.
           </div>
         </div>
       </div>
@@ -2715,7 +2884,7 @@
               <p>Totems of Peace are dropped by defeated marauders during attacks. Successfully defending your colony against a marauder raid may reward you with this valuable protection item.</p>
 
               <h3>Protection Effect</h3>
-              <p>When activated, the Totem of Peace prevents marauder attacks on your colony for <strong>3 real-world days</strong>. This gives you time to rebuild, restock supplies, and strengthen your defenses.</p>
+              <p>When activated, the Totem of Peace prevents marauder attacks on your colony for <strong>3 in-game days</strong>. This gives you time to rebuild, restock supplies, and strengthen your defenses.</p>
             </div>
             <div class="content-column">
               <div class="alert alert-success">
@@ -2728,7 +2897,7 @@
               <div class="alert alert-warning">
                 <span class="alert-icon">⏰</span>
                 <div>
-                  <strong>Real-World Time:</strong> Protection lasts for 3 real-world days, not in-game time.
+                  <strong>In-Game Time:</strong> Protection lasts for 3 in-game days, not real-world time.
                 </div>
               </div>
             </div>
